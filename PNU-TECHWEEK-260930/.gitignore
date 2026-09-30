@@ -1,0 +1,6 @@
+.venv_cv/
+.DS_Store
+__pycache__/
+*.bak
+controllers/tb3_sar/sar.log
+controllers/tb3_sar/*.jpg

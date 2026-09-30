@@ -1,0 +1,4015 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/Pavement.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/PorcelainChevronTiles.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/CementTiles.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/cabinet/protos/CabinetHandle.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/PaintedWood.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/fridge/protos/Fridge.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/components/protos/Sink.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/oven/protos/Oven.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/components/protos/HotPlate.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/stairs/protos/StraightStairs.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/CarpetFibers.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/stairs/protos/StraightStairsRail.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/breakfast/protos/CerealBox.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/breakfast/protos/HoneyJar.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/breakfast/protos/JamJar.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/WallPlug.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/Laptop.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/factory/containers/protos/CardboardBox.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/factory/pipes/protos/PipeSection.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/garden/protos/Barbecue.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/toys/protos/RubberDuck.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/school_furniture/protos/Book.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/bedroom/protos/Bed.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/BlanketFabric.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/chairs/protos/WoodenChair.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/tables/protos/RoundTable.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Cookware.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Lid.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/Radiator.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/DesktopComputer.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/Keyboard.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/Monitor.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/ComputerMouse.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/lights/protos/FloorLight.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Carafe.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Plate.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Knife.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Glass.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/drinks/protos/WaterBottle.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Fork.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Wineglass.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/fruits/protos/FruitBowl.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/fruits/protos/Apple.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/fruits/protos/Orange.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/drinks/protos/BeerBottle.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/drinks/protos/Can.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/living_room_furniture/protos/Armchair.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/living_room_furniture/protos/Sofa.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/living_room_furniture/protos/Carpet.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/plants/protos/BunchOfSunFlowers.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/plants/protos/PottedTree.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/paintings/protos/PortraitPainting.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/paintings/protos/LandscapePainting.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/television/protos/Television.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/factory/fire_extinguisher/protos/FireExtinguisher.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/school_furniture/protos/Clock.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/telephone/protos/OfficeTelephone.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/bathroom/protos/WashingMachine.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/bathroom/protos/BathroomSink.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/bathroom/protos/Bathtube.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/bathroom/protos/Toilet.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/lights/protos/CeilingSpotLight.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/trees/protos/Cypress.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/devices/robotis/protos/RobotisLds01.proto"
+EXTERNPROTO "../protos/RedApple.proto"
+EXTERNPROTO "../protos/GreenApple.proto"
+EXTERNPROTO "../protos/PurpleApple.proto"
+EXTERNPROTO "../protos/OrangeApple.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/animals/protos/Cat.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/animals/protos/Cow.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/balls/protos/FifaSoccerBall.proto"
+EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/humans/pedestrian/protos/Pedestrian.proto"
+
+WorldInfo {
+  info [
+    "This simulation was sponsored by Kamal Othman & Prof. Ahmad Rad from AISL-SFU"
+  ]
+  title "Complete apartment including two bedrooms, one bathroom, one restroom, stairs and a balcony"
+  basicTimeStep 64
+  FPS 30
+}
+Viewpoint {
+  orientation -0.65468206267547 -0.015885715819930153 0.7557374152732419 3.088922215215441
+  position -1.1876169531821947 -7.8251096003386795 18.889162707713478
+  exposure 0.5
+  follow "TurtleBot3Burger"
+  followType "Mounted Shot"
+  ambientOcclusionRadius 1
+}
+TexturedBackground {
+  texture "empty_office"
+  skybox FALSE
+  skyColor [
+    0.2 0.2 0.2
+  ]
+}
+DEF ROOF Group {
+  children [
+    Pose {
+      translation -4.83 -6.49 2.4
+      rotation -1 0 0 -3.1415923071795864
+      children [
+        Shape {
+          appearance Roughcast {
+            textureTransform TextureTransform {
+              scale 13 10
+            }
+          }
+          geometry Plane {
+            size 10 13
+          }
+        }
+      ]
+    }
+    Pose {
+      translation -11.13 -1.71 2.4
+      rotation -1 0 0 -3.1415923071795864
+      children [
+        Shape {
+          appearance Roughcast {
+            textureTransform TextureTransform {
+              scale 3.4 2.6
+            }
+          }
+          geometry Plane {
+            size 2.6 3.4
+          }
+        }
+      ]
+    }
+  ]
+}
+DEF FLOOR Solid {
+  translation -4.96 -6.5 0
+  children [
+    DEF LIVING_ROOM_1 Pose {
+      translation -1.91 3.2 0
+      children [
+        Shape {
+          appearance Parquetry {
+            textureTransform TextureTransform {
+              scale 6.3 6.26
+            }
+          }
+          geometry Plane {
+            size 6.3 6.26
+          }
+        }
+      ]
+    }
+    DEF LIVING_ROOM_2 Pose {
+      translation -6.24 4.84 0
+      rotation 0 0 1 1.5708
+      children [
+        Shape {
+          appearance Parquetry {
+            textureTransform TextureTransform {
+              scale 3.2 2.4
+            }
+          }
+          geometry Plane {
+            size 3.2 2.4
+          }
+        }
+      ]
+    }
+    DEF GARDEN Pose {
+      translation -6.29 -1.87 0
+      rotation 0 0 1 1.5708
+      children [
+        Shape {
+          appearance Pavement {
+            type "slate"
+            textureTransform TextureTransform {
+              scale 9.8 2.6
+            }
+          }
+          geometry Plane {
+            size 9.8 2.6
+          }
+        }
+      ]
+    }
+    DEF KITCHEN Pose {
+      translation 3.02 3.2 0
+      rotation 0 0 1 1.5708
+      children [
+        Shape {
+          appearance PorcelainChevronTiles {
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 3.6 6.3
+            }
+          }
+          geometry Plane {
+            size 6.3 3.6
+          }
+        }
+      ]
+    }
+    DEF CORRIDOR Pose {
+      translation 0.15 -1.014 0
+      rotation 0 0 1 1.5708
+      children [
+        Shape {
+          appearance CementTiles {
+            textureTransform TextureTransform {
+              scale 2.135 9.933
+            }
+          }
+          geometry Plane {
+            size 2.135 9.933
+          }
+        }
+      ]
+    }
+    DEF BATHROOM_1 Pose {
+      translation 0.48 -4.391 0
+      children [
+        Shape {
+          appearance CementTiles {
+            textureTransform TextureTransform {
+              scale 2 4.6185
+            }
+          }
+          geometry Plane {
+            size 2 4.6185
+          }
+        }
+      ]
+    }
+    DEF ROOM_1 Pose {
+      translation -2.74 -4.391 0
+      rotation 0 0 1 1.5708
+      children [
+        Shape {
+          appearance Parquetry {
+            textureTransform TextureTransform {
+              scale 4.6185 4.3
+            }
+          }
+          geometry Plane {
+            size 4.6185 4.3
+          }
+        }
+      ]
+    }
+    DEF ROOM_2 Pose {
+      translation 3.3 -4.391 0
+      rotation 0 0 1 1.5708
+      children [
+        Shape {
+          appearance Parquetry {
+            textureTransform TextureTransform {
+              scale 4.6185 3.6
+            }
+          }
+          geometry Plane {
+            size 4.6185 3.6
+          }
+        }
+      ]
+    }
+  ]
+  name "floor"
+  model "floor"
+  boundingObject Plane {
+    size 13 10
+  }
+}
+DEF KITCHEN_BLOCK Pose {
+  translation -2.09 -2.3 0
+  rotation 0 0 -1 -1.5707953071795862
+  children [
+    DEF KITCHEN_TILES_1 Pose {
+      translation 2.147 0.4 0.9
+      rotation 0 -1 0 1.5708
+      children [
+        Shape {
+          appearance PorcelainChevronTiles {
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 2.6 1.8
+            }
+          }
+          geometry Plane {
+            size 1.8 2.6
+          }
+        }
+      ]
+    }
+    DEF KITCHEN_TILES_2 Pose {
+      translation 1.19 1.648 0.9
+      rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395307179586
+      children [
+        Shape {
+          appearance PorcelainChevronTiles {
+            textureTransform TextureTransform {
+              rotation 1.5708
+              scale 2.5 1.8
+            }
+          }
+          geometry Plane {
+            size 1.8 2.5
+          }
+        }
+      ]
+    }
+    Cabinet {
+      hidden position_6_0 -1.2362612300975684e-05
+      hidden translation_7 -2.4601598478314953e-06 1.5207002324046925e-11 0
+      hidden rotation_7 0 0 -1 1.2362612577801076e-05
+      translation 2.15 -1 0.83
+      rotation 0 0 1 3.14159
+      name "cabinet(6)"
+      depth 0.7
+      outerThickness 0.02
+      rowsHeights [
+        0.2, 0.2, 0.2, 0.2, 0.2, 0.34
+      ]
+      columnsWidths [
+        0.4
+      ]
+      layout [
+        "LeftSidedDoor (1, 1, 1, 6, 1.5)"
+        "Shelf (1,2, 1, 0)"
+        "Shelf (1,3, 1, 0)"
+        "Shelf (1,4, 1, 0)"
+        "Shelf (1,5, 1, 0)"
+        "Shelf (1,6, 1, 0)"
+      ]
+      handle CabinetHandle {
+        translation 0 -0.3 0
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+      primaryAppearance PaintedWood {
+        colorOverride 0.2 0.2 0.2
+      }
+      secondaryAppearance PaintedWood {
+        colorOverride 0.2 0.2 0.2
+      }
+    }
+    Cabinet {
+      hidden position_6_0 1.3594534070544027e-05
+      hidden translation_7 -2.975843507950426e-06 -2.0227597374855577e-11 0
+      hidden rotation_7 0 0 1 1.3594531157546182e-05
+      hidden position_10_0 1.3594532786105885e-05
+      hidden translation_11 -2.9758432267869167e-06 -2.0227597374855577e-11 0
+      hidden rotation_11 0 0 1 1.3594531157546182e-05
+      translation -0.11 1.65 0.15
+      rotation 0 0 1 -1.5707953071795862
+      name "cabinet(2)"
+      depth 0.67
+      outerThickness 0.02
+      rowsHeights [
+        0.68, 0.25, 0.25, 0.25, 0.25, 0.34
+      ]
+      columnsWidths [
+        0.44
+      ]
+      layout [
+        "RightSidedDoor (1, 2, 1, 3, 1.5)"
+        "RightSidedDoor (1, 5, 1, 2, 1.5)"
+        "Shelf (1,2, 1, 0)"
+        "Shelf (1,3, 1, 0)"
+        "Shelf (1,4, 1, 0)"
+        "Shelf (1,5, 1, 0)"
+        "Shelf (1,6, 1, 0)"
+      ]
+      handle CabinetHandle {
+        translation 0 -0.15 0
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+      primaryAppearance PaintedWood {
+        colorOverride 0.2 0.2 0.2
+      }
+      secondaryAppearance PaintedWood {
+        colorOverride 0.827451 0.843137 0.811765
+      }
+    }
+    Cabinet {
+      hidden position_6_0 1.3693263180836352e-05
+      hidden translation_7 -2.997455310191405e-06 -2.0522444854620403e-11 0
+      hidden rotation_7 0 0 1 1.3693250985082588e-05
+      hidden position_10_0 -0.010074240606924034
+      hidden translation_11 -0.0022052139671007347 1.1108021993722073e-05 0
+      hidden rotation_11 0 0 -1 0.010074240606925355
+      hidden position_14_0 -1.3597059594292356e-05
+      hidden translation_15 -2.9763963450988845e-06 2.0235091380271797e-11 0
+      hidden rotation_15 0 0 -0.9999999999999999 1.3597046264972822e-05
+      translation 2.15 -0.1 1.4
+      rotation 0 0 1 3.14159
+      name "cabinet(3)"
+      outerThickness 0.02
+      rowsHeights [
+        0.21, 0.21, 0.22
+      ]
+      columnsWidths [
+        0.44, 0.44, 0.44
+      ]
+      layout [
+        "RightSidedDoor (1, 1, 1, 3, 1.5)"
+        "LeftSidedDoor (2, 1, 1, 3, 1.5)"
+        "LeftSidedDoor (3, 1, 1, 3, 1.5)"
+        "Shelf (1, 2, 3, 0)"
+        "Shelf (1, 3, 2, 0)"
+        "Shelf (1, 1, 0, 1)"
+        "Shelf (2, 1, 0, 3)"
+      ]
+      handle CabinetHandle {
+        translation 0 -0.2 0
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+      primaryAppearance PaintedWood {
+        colorOverride 0.2 0.2 0.2
+      }
+      secondaryAppearance PaintedWood {
+        colorOverride 0.827451 0.843137 0.811765
+      }
+    }
+    Cabinet {
+      hidden position_6_0 1.359416621611937e-05
+      hidden translation_7 -2.9757629846168762e-06 -2.0226514907406568e-11 0
+      hidden rotation_7 0 0 1 1.3594171818499174e-05
+      translation 0.37 1.647 1.4
+      rotation 0 0 1 -1.5707953071795862
+      name "cabinet(4)"
+      outerThickness 0.02
+      rowsHeights [
+        0.21, 0.21, 0.22
+      ]
+      columnsWidths [
+        0.44
+      ]
+      layout [
+        "RightSidedDoor (1, 1, 1, 3, 1.5)"
+        "Shelf (1, 2 ,1 , 0)"
+        "Shelf (1, 3 ,1 , 0)"
+      ]
+      handle CabinetHandle {
+        translation 0 -0.2 0
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+      primaryAppearance PaintedWood {
+        colorOverride 0.2 0.2 0.2
+      }
+      secondaryAppearance PaintedWood {
+        colorOverride 0.827451 0.843137 0.811765
+      }
+    }
+    Cabinet {
+      hidden position_6_0 1.3594166216001651e-05
+      hidden translation_7 -2.9757629845911074e-06 -2.0226514907406568e-11 0
+      hidden rotation_7 0 0 1 1.3594171818499174e-05
+      translation -0.59 1.647 1.4
+      rotation 0 0 1 -1.5707953071795862
+      name "cabinet(1)"
+      outerThickness 0.02
+      rowsHeights [
+        0.21, 0.21, 0.22
+      ]
+      columnsWidths [
+        0.44
+      ]
+      layout [
+        "RightSidedDoor (1, 1, 1, 3, 1.5)"
+        "Shelf (1, 2 ,1 , 0)"
+        "Shelf (1, 3 ,1 , 0)"
+      ]
+      handle CabinetHandle {
+        translation 0 -0.2 0
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+      primaryAppearance PaintedWood {
+        colorOverride 0.2 0.2 0.2
+      }
+      secondaryAppearance PaintedWood {
+        colorOverride 0.827451 0.843137 0.811765
+      }
+    }
+    Cabinet {
+      hidden position_6_0 0.010006666727941343
+      hidden translation_7 -0.002339769799028699 -1.170674598596766e-05 0
+      hidden rotation_7 0 0 1 0.010006666727935824
+      hidden position_10_0 0.01802017352959531
+      hidden translation_11 0.0042133390363371746 3.7963577607991184e-05 0
+      hidden rotation_11 0 0 1 0.018020173529605322
+      hidden position_14_0 -9.599772776382572e-06
+      hidden translation_15 1.6238015651001717e-06 -7.794070944200371e-12 0
+      hidden rotation_15 0 0 -1 9.59977168850502e-06
+      translation 0.79 1.48 0.15
+      rotation 0 0 1 -1.5707953071795862
+      name "cabinet(5)"
+      outerThickness 0.02
+      rowsHeights [
+        0.21, 0.21, 0.22
+      ]
+      columnsWidths [
+        0.34, 0.47, 0.47
+      ]
+      layout [
+        "RightSidedDoor (2, 1, 1, 3, 1.5)"
+        "LeftSidedDoor (3, 1, 1, 3, 1.5)"
+        "RightSidedDoor (1, 1, 1, 3, 1.5)"
+        "Shelf (1, 2, 1, 0)"
+        "Shelf (1, 3, 1, 0)"
+        "Shelf (1, 1, 0, 3)"
+        "Shelf (2, 1, 0, 3)"
+      ]
+      handle CabinetHandle {
+        translation 0 0 0.1
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+      primaryAppearance PaintedWood {
+        colorOverride 0.2 0.2 0.2
+      }
+      secondaryAppearance PaintedWood {
+        colorOverride 0.2 0.2 0.2
+      }
+    }
+    Cabinet {
+      hidden position_6_0 -1.6683831901676458e-05
+      hidden translation_7 -4.482111440177447e-06 3.738948040066248e-11 0
+      hidden rotation_7 0 0 -1 1.6683844756036748e-05
+      hidden position_10_0 -1.3286834450363218e-05
+      hidden translation_11 -2.842386059710319e-06 1.8883117292034513e-11 0
+      hidden rotation_11 0 0 -1 1.3286823238485729e-05
+      hidden position_14_0 1.3286834450290763e-05
+      hidden translation_15 -2.842386059694819e-06 -1.8883117292034513e-11 0
+      hidden rotation_15 0 0 1 1.3286823238485729e-05
+      hidden position_18_0 0.0073318175475042754
+      hidden translation_19 0.0073318175475042754 0 0
+      hidden position_26_0 0.00596902196718656
+      hidden translation_27 0.00596902196718656 0 0
+      hidden position_34_0 -0.009485341383241402
+      hidden translation_35 -0.009485341383241402 0 0
+      hidden position_42_0 -0.009728318558080404
+      hidden translation_43 -0.009728318558080404 0 0
+      translation 2.15 -0.12 0.15
+      rotation 0 0 1 3.14159
+      name "cabinet(7)"
+      depth 0.7
+      outerThickness 0.02
+      rowsHeights [
+        0.25, 0.25, 0.14
+      ]
+      columnsWidths [
+        0.76, 0.54, 0.43, 0.43
+      ]
+      layout [
+        "LeftSidedDoor (2, 1, 1, 2, 1.5)"
+        "LeftSidedDoor (4, 1, 1, 3, 1.5)"
+        "RightSidedDoor (3, 1, 1, 3, 1.5)"
+        "Drawer (1, 1, 1, 1, 3.5)"
+        "Drawer (1, 2, 1, 1, 3.5)"
+        "Drawer (1, 3, 1, 1, 3.5)"
+        "Drawer (2, 3, 1, 1, 3.5)"
+        "Shelf (1, 2, 1, 0)"
+        "Shelf (1, 3, 2, 0)"
+        "Shelf (3, 2, 2, 0)"
+        "Shelf (1, 1, 0, 3)"
+        "Shelf (2, 1, 0, 3)"
+        "Shelf (3, 1, 0, 1)"
+      ]
+      handle CabinetHandle {
+        handleLength 0.1
+        handleRadius 0.008
+        handleColor 0.427451 0.513725 0.533333
+      }
+      primaryAppearance PaintedWood {
+        colorOverride 0.2 0.2 0.2
+      }
+      secondaryAppearance PaintedWood {
+        colorOverride 0.827451 0.843137 0.811765
+      }
+    }
+    SolidBox {
+      translation 1.55 -0.12 0.07
+      name "box(1)"
+      size 0.2 2.2 0.16
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 4 4
+        }
+      }
+    }
+    SolidBox {
+      translation 0.65 1.08 0.07
+      rotation 0 0 1 1.5708
+      name "box(2)"
+      size 0.2 2 0.16
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 4 4
+        }
+      }
+    }
+    Solid {
+      translation 2.01 1.48 2.09
+      rotation 0 0 1 0.785398
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/default/worlds/textures/roughcast.jpg"
+              ]
+            }
+            roughness 0.5
+            metalness 0
+          }
+          geometry Box {
+            size 0.45 0.35 0.61
+          }
+        }
+      ]
+      name "solid(1)"
+    }
+    SolidBox {
+      translation 1.9 -1.12 0.07
+      rotation 0 0 -1 4.71239
+      name "box(3)"
+      size 0.2 0.5 0.16
+      appearance PBRAppearance {
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 4 4
+        }
+      }
+    }
+    SolidBox {
+      translation -0.25 1.415 0.07
+      rotation 0 0 -1 6.28318
+      name "box(4)"
+      size 0.2 0.47 0.16
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 0.5
+        metalness 0
+        textureTransform TextureTransform {
+          scale 4 4
+        }
+      }
+    }
+    Fridge {
+      hidden position_0_0 -8.480781386754899e-05
+      hidden position_0_1 8.480807922586264e-05
+      hidden rotation_1 0 0 -1 8.480781170938335e-05
+      hidden rotation_2 0 0 1 8.480807876631588e-05
+      translation 1.8 -1.57 0
+      rotation 0 0 -1 3.14159
+      name "fridge(1)"
+      mainColor 0.6666666666666666 0 0
+    }
+    Solid {
+      translation 1.8 1.3 1.742
+      rotation 0 0 -1 5.89049
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/default/worlds/textures/wood.jpg"
+              ]
+            }
+            roughness 0.5
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.1
+            radius 0.35
+            subdivision 8
+          }
+        }
+      ]
+      name "solid(2)"
+    }
+    Solid {
+      translation 1.8 1.3 1.692
+      rotation 0 0 1 0.261799
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.8 0.8 0.8
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/exhaust_hood.jpg"
+              ]
+            }
+            roughness 0.5
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.001
+            radius 0.27
+            subdivision 8
+          }
+        }
+      ]
+    }
+    Sink {
+      translation 0.78 1.33 0.87
+      rotation 0 0 1 4.71239
+      name "sink(1)"
+    }
+    Oven {
+      translation -0.11 1.24 0.17
+      rotation 0 0 1 -1.5707953071795862
+      name "oven(1)"
+    }
+    Oven {
+      hidden position_0_0 2.3564654507903672e-17
+      translation 1.81 -0.46 0.89
+      rotation 0 0 1 -3.14156
+      name "oven(2)"
+      mainColor 0.643137 0 0
+      type "microwave"
+    }
+    HotPlate {
+      translation 1.62912 1.14971 0.86
+      rotation 0 0 -1 5.49779
+      name "hot plate(1)"
+    }
+  ]
+}
+StraightStairs {
+  translation -4.32594 -5.824913 0
+  stepSize 0.25 1.27 0.19
+  stepRise 0.18
+  nSteps 12
+  stepAppearance CarpetFibers {
+    type "synthetic"
+  }
+  stringerAppearance Roughcast {
+    textureTransform TextureTransform {
+      scale 1 2.4
+    }
+  }
+  leftRail [
+    StraightStairsRail {
+      run 3
+      rise 2.16
+      newelHeight 0.94
+      appearance BrushedAluminium {
+      }
+    }
+  ]
+  rightRail []
+}
+BiscuitBox {
+  translation -3.6496 -1.06782 -0.0003907991938955427
+  rotation 3.5312264041959026e-16 9.580064551168933e-17 -1 0.2618053071795865
+}
+BiscuitBox {
+  translation -5.93285 -2.43602 0.5496110666438102
+  rotation 1.3061050756691813e-16 1.37495677960336e-15 -1 0.2618053071795865
+  name "biscuit box(1)"
+}
+CerealBox {
+  translation -1.31224 -3.1174 0.7591269956357148
+  rotation 3.211789061477595e-16 2.888314730470977e-17 0.9999999999999999 2.35619
+}
+CerealBox {
+  translation -2.1669712154519143 -0.28382469751388123 0.8291399502458968
+  rotation -4.159259040419883e-07 2.9512940448065808e-06 0.9999999999955584 -3.141585884292023
+  name "cereal box(1)"
+}
+CerealBox {
+  translation -2.260345267911458 -0.2880503554783331 0.8291433056179883
+  rotation 0.04444472646392678 0.9987550694261924 0.022649008477813794 7.734666630666899e-05
+  name "cereal box(2)"
+}
+CerealBox {
+  translation -2.399777465194157 -0.2707533328885582 0.8291398835643161
+  rotation -1.7657124711326118e-06 -1.9226762557333927e-06 0.9999999999965928 2.6203270403029872
+  name "cereal box(3)"
+}
+HoneyJar {
+  translation -2.10201 -3.51496 0.7592303407245502
+  rotation -0.12884766303809853 0.31806486727901323 0.9392726015020371 6.111546447670477e-16
+}
+JamJar {
+  translation -1.64286 -2.98499 0.7592303407245502
+  rotation 4.614361275154141e-16 -6.053842085996123e-16 1 2.0944
+}
+WallPlug {
+  translation -9.98 -0.15 0.13
+  rotation 0 0 1 -1.5707953071795862
+}
+WallPlug {
+  translation -7.73 -0.15 0.13
+  rotation 0 0 1 -1.5707953071795862
+  name "wall plug(1)"
+}
+WallPlug {
+  translation -6.82 -8.01 0.13
+  name "wall plug(2)"
+}
+WallPlug {
+  translation -3.73915 -3.21929 0.13
+  name "wall plug(3)"
+}
+WallPlug {
+  translation -0.149129 -6.88575 0.13
+  rotation 0 0 1 -3.1415853071795863
+  name "wall plug(4)"
+}
+Laptop {
+  hidden position_0_0 6.988025642938617e-06
+  hidden translation_1 -0.10000080921226094 -0.013999999999999997 0.1299996827408084
+  hidden rotation_1 0.577308279395788 -0.5774082786437588 -0.5773342448657677 2.0944640349391594
+  translation -5.927715357022273 -2.930262072979204 0.5477158935424017
+  rotation -0.0025546343731039692 -0.0020218324610629308 -0.9999946930042775 1.8290915886524683
+  controller "<none>"
+}
+CardboardBox {
+  translation -0.52547 -5.50157 0.3
+  rotation 0 0 1 3.14159
+}
+PipeSection {
+  translation -3.58714 -12.8957 1.2
+  rotation 0 0 1 1.5708
+  height 2.4
+  radius 0.04
+  appearance Roughcast {
+  }
+}
+CardboardBox {
+  translation -0.52547 -5.50157 0.77
+  rotation 0 0 1 2.0944
+  name "cardboard box(1)"
+  size 0.5 0.4 0.3
+}
+Barbecue {
+  translation -11.7017 -5.08633 0
+}
+WallPlug {
+  translation -4.03587 -4.80291 0.13
+  rotation 0 0 1 -3.1415853071795863
+  name "wall plug(5)"
+}
+Cabinet {
+  translation -3.52837 -9.4958 0
+  rotation 0 0 1 3.14159
+  name "cabinet 4(3)"
+  depth 0.4
+  outerThickness 0.02
+  rowsHeights [
+    0.32, 0.24, 0.24
+  ]
+  columnsWidths [
+    0.81
+  ]
+  layout [
+    "Shelf  (1, 2, 1, 0)"
+    "Shelf  (1, 3, 1, 0)"
+  ]
+}
+Cabinet {
+  translation -3.52837 -10.4358 0
+  rotation 0 0 1 3.14159
+  name "cabinet 4(6)"
+  depth 0.4
+  outerThickness 0.02
+  rowsHeights [
+    0.32, 0.24, 0.24
+  ]
+  columnsWidths [
+    0.81
+  ]
+  layout [
+    "Shelf  (1, 2, 1, 0)"
+    "Shelf  (1, 3, 1, 0)"
+  ]
+}
+RubberDuck {
+  translation -5.38744 -11.0827 0.5103628093576755
+  rotation 7.909697644958083e-17 4.619969752745375e-16 0.9999999999999999 0.785397
+}
+RubberDuck {
+  translation -3.84199 -10.7519 0.8603628093576755
+  rotation -1.8857725136402418e-16 1.98169250604375e-16 1 2.3562
+  name "rubber duck(1)"
+}
+Cabinet {
+  translation -7.2623999999999995 -6.39914 0
+  rotation 0 0 1 1.5708
+  name "cabinet 4(4)"
+  depth 0.4
+  outerThickness 0.02
+  rowsHeights [
+    0.32, 0.24, 0.24
+  ]
+  columnsWidths [
+    0.81
+  ]
+  layout [
+    "Shelf  (1, 2, 1, 0)"
+    "Shelf  (1, 3, 1, 0)"
+  ]
+  primaryAppearance PaintedWood {
+    colorOverride 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  }
+  secondaryAppearance PaintedWood {
+    colorOverride 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  }
+}
+Cabinet {
+  translation -0.180166 -4.63275 0
+  rotation 0 0 1 3.14159
+  name "cabinet 4(2)"
+  depth 0.4
+  outerThickness 0.02
+  rowsHeights [
+    0.4, 0.4, 0.4, 0.4, 0.4
+  ]
+  columnsWidths [
+    0.4
+  ]
+  layout [
+    "Shelf  (1, 2, 1, 0)"
+    "Shelf  (1, 3, 1, 0)"
+    "Shelf  (1, 4, 1, 0)"
+    "Shelf  (1, 5, 1, 0)"
+  ]
+  primaryAppearance PaintedWood {
+    colorOverride 0.827451 0.843137 0.811765
+  }
+  secondaryAppearance PaintedWood {
+    colorOverride 0.827451 0.843137 0.811765
+  }
+}
+Robot {
+  translation 0 0 -10
+  name "mcp_bridge"
+  controller "mcp_bridge"
+  supervisor TRUE
+}
+TurtleBot3Burger {
+  hidden position_0_0 -1.515423670429387e-10
+  hidden position_0_1 -1.916917973396513e-10
+  hidden position_0_2 -4.355278114511738e-06
+  hidden position2_0_2 -0.0008696498459185848
+  hidden position3_0_2 -1.2648091580056043e-06
+  hidden rotation_9 0 -1 0 1.5707960001515424
+  hidden rotation_10 -0.7071047811165646 -2.230137478849771e-16 -0.7071087812508734 3.141588
+  hidden rotation_11 -0.005007381636449184 -0.9999864085421137 -0.0014521915135024886 0.0008696616688736664
+  translation -0.2999999934027572 -7.499999999441295 -0.0004909072036872394
+  rotation 0.004640754076230795 -1.1074835357791327e-05 0.9999892315814966 3.1415901044029284
+  controller "mcp_robot"
+  extensionSlot [
+    Camera {
+      translation 0.05 0 -0.08
+      fieldOfView 1.0472
+      width 640
+      height 480
+    }
+    RobotisLds01 {
+    }
+  ]
+}
+Cabinet {
+  translation -8.2024 -6.39914 0
+  rotation 0 0 1 1.5708
+  name "cabinet 4(5)"
+  depth 0.4
+  outerThickness 0.02
+  rowsHeights [
+    0.32, 0.24, 0.24, 0.24, 0.24
+  ]
+  columnsWidths [
+    0.96
+  ]
+  layout [
+    "Shelf  (1, 2, 1, 0)"
+    "Shelf  (1, 3, 1, 0)"
+    "Shelf  (1, 4, 1, 0)"
+    "Shelf  (1, 5, 1, 0)"
+  ]
+  primaryAppearance PaintedWood {
+    colorOverride 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  }
+  secondaryAppearance PaintedWood {
+    colorOverride 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  }
+}
+Book {
+  translation -8.232840018799173 -6.125840017955447 0.029760448667330953
+  rotation -0.6947466492402924 0.18615624506154352 0.6947466774256447 2.7734937097720427
+  name "book(2)"
+}
+Book {
+  translation -5.613359956073624 -2.4448700039714004 0.5596912720359122
+  rotation 0.6947465003946667 0.18615754395447076 -0.6947464782337529 2.7734910936325012
+  name "book(3)"
+}
+Book {
+  translation -7.380949956993762 -6.15887000388783 0.029760448667333083
+  rotation 0.6947465330630118 0.18615753288437056 -0.6947464485316425 2.7734910706975
+  name "book(5)"
+}
+Book {
+  translation -9.646599930815418 -6.2314802537972245 0.11969170567836263
+  rotation 0.9659260992004948 0.25881802658106395 -5.699354898267495e-09 3.14159263055591
+  name "book(4)"
+}
+Cabinet {
+  translation -9.22241 -6.39914 0
+  rotation 0 0 1 1.5708
+  name "cabinet 4(1)"
+  depth 0.4
+  outerThickness 0.02
+  rowsHeights [
+    0.32, 0.24, 0.24, 0.24, 0.24, 0.24, 0.24
+  ]
+  columnsWidths [
+    0.96
+  ]
+  layout [
+    "Shelf  (1, 2, 1, 0)"
+    "Shelf  (1, 3, 1, 0)"
+    "Shelf  (1, 4, 1, 0)"
+    "Shelf  (1, 5, 1, 0)"
+    "Shelf  (1, 6, 1, 0)"
+    "Shelf  (1, 7, 1, 0)"
+  ]
+  primaryAppearance PaintedWood {
+    colorOverride 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  }
+  secondaryAppearance PaintedWood {
+    colorOverride 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  }
+}
+Cabinet {
+  hidden position_6_0 1.2361569890053643e-05
+  hidden translation_7 -2.4599524080580246e-06 -1.5204448811090288e-11 0
+  hidden rotation_7 0 0 1 1.2361570797218042e-05
+  hidden position_10_0 -1.0509193179457106e-05
+  hidden translation_11 -1.7776300262724486e-06 9.340722639805676e-12 0
+  hidden rotation_11 0 0 -1 1.0509196455158943e-05
+  hidden position_14_0 -2.852626259469503e-40
+  hidden position_22_0 -2.8526262593478785e-40
+  hidden position_30_0 -2.8526262594638503e-40
+  hidden position_38_0 -5.936589627738417e-40
+  translation -0.16999999999999998 -9.12 0
+  rotation 0 0 1 3.14159
+}
+Bed {
+  translation -1.657084 -11.861072 0
+  rotation 0 0 1 1.5708
+  name "bed(1)"
+  mattressAppearance PBRAppearance {
+    baseColor 0.533333 0.541176 0.521569
+    roughness 1
+    metalness 0
+  }
+  pillowAppearance PBRAppearance {
+    baseColor 0.569696 0.598779 0.73666
+    roughness 1
+    metalness 0
+  }
+  blanketAppearance BlanketFabric {
+    textureTransform TextureTransform {
+      scale 4 4
+    }
+  }
+}
+Cabinet {
+  hidden position_6_0 1.2361569072896784e-05
+  hidden translation_7 -2.45995224544381e-06 -1.5204448811090288e-11 0
+  hidden rotation_7 0 0 1 1.2361570797218042e-05
+  hidden position_10_0 -1.0509192484052164e-05
+  hidden translation_11 -1.7776299086447024e-06 9.340722639805676e-12 0
+  hidden rotation_11 0 0 -1 1.0509196455158943e-05
+  translation -5.445295 -9.996606 0
+  name "cabinet(9)"
+  depth 0.3
+  rowsHeights [
+    0.7
+  ]
+  layout [
+    "RightSidedDoor (1, 1, 1, 1, 1.5)"
+    "LeftSidedDoor (2, 1, 2, 1, 1.5)"
+  ]
+}
+Cabinet {
+  hidden position_6_0 1.2361569890088065e-05
+  hidden translation_7 -2.4599524080648746e-06 -1.5204448811090288e-11 0
+  hidden rotation_7 0 0 1 1.2361570797218042e-05
+  hidden position_10_0 -1.0509193179495714e-05
+  hidden translation_11 -1.777630026278979e-06 9.340722639805676e-12 0
+  hidden rotation_11 0 0 -1 1.0509196455158943e-05
+  hidden position_14_0 -2.852626259096384e-40
+  hidden position_22_0 -2.8526262599366033e-40
+  hidden position_30_0 -2.8526262590907317e-40
+  hidden position_38_0 -5.9365896337304166e-40
+  translation -5.80579 -10.1734 0
+  rotation 0 0 1 3.14159
+  name "cabinet(8)"
+}
+WoodenChair {
+  translation -3.40405 -2.90904 0
+  name "wooden chair(4)"
+}
+WoodenChair {
+  translation -2.355698 -3.611985 0
+  name "wooden chair(6)"
+}
+WoodenChair {
+  translation -0.595698 -3.611985 0
+  rotation 0 0 1 3.14159
+  name "wooden chair(1)"
+}
+WoodenChair {
+  translation -1.4680959999999998 -2.749503 0
+  rotation 0 0 1 -1.5707953071795862
+  name "wooden chair(3)"
+}
+WoodenChair {
+  translation -1.4680959999999998 -4.449503 0
+  rotation 0 0 1 1.5708
+  name "wooden chair(5)"
+}
+RoundTable {
+  translation -1.430469 -3.615372 0
+}
+Cookware {
+  translation -1.5711697012381192 -0.4725728480929296 1.159654741971019
+  rotation 0.002809191559414547 -0.004184573418232384 0.9999872988133849 0.5151130989212266
+}
+Cookware {
+  translation -3.2007863766919202 -0.5894499999830791 0.88999464365835
+  rotation 0.0013240624031225744 -1.7567589697198645e-09 0.9999991234289922 3.141590000002326
+  name "cookware(1)"
+}
+Lid {
+  translation -2.8007798294462614 -0.5048471191490425 -0.0031930183057606878
+  rotation -0.9998924051367731 8.094534733142355e-08 -0.014668951898234618 8.789577308318472e-05
+}
+WoodenSpoon {
+  hidden linearVelocity_0 -143.5844742820892 1425.1001989858155 1821.87620377842
+  hidden angularVelocity_0 -6111.713271556054 -7309.725245723899 3035.6017061387183
+  translation -20181.7223741202 200288.69918905632 352898.1099816031
+  rotation 0.14051767065250484 0.8972649726847614 -0.41853357455216045 2.5029347205286903
+}
+WoodenChair {
+  translation -6.88 -12.059999999999999 0
+  rotation 0 0 1 -1.5707953071795862
+  name "wooden chair(2)"
+}
+Bed {
+  translation -8.67447 -10.2627 0
+}
+Desk {
+  translation -6.905085 -12.493314 0
+  rotation 0 0 1 -1.5707963071795863
+  name "desk(2)"
+}
+Wall {
+  translation 0 -0.65 0
+  name "wall 1"
+  size 0.3 1 2.4
+}
+Window {
+  translation 0 -1.65 0
+  name "window 1"
+  size 0.3 1 2.4
+  frameAppearance BrushedAluminium {
+  }
+}
+Window {
+  translation -9.9 -7.46 0
+  rotation 0 0 1 -3.1415923071795864
+  name "window 1(3)"
+  size 0.3 0.7 2.4
+  bottomWallHeight 1.4
+  windowHeight 0.8
+  frameAppearance BrushedAluminium {
+  }
+}
+Window {
+  translation -4.4 -13.12 0
+  rotation 0 0 1 1.570797
+  name "window 1(7)"
+  size 0.3 0.7 2.4
+  bottomWallHeight 1.4
+  windowHeight 0.8
+  frameAppearance BrushedAluminium {
+  }
+}
+Window {
+  translation -7.95 -13.12 0
+  rotation 0 0 1 -1.5707963071795863
+  name "window 1(1)"
+  size 0.3 1 2.4
+  frameAppearance BrushedAluminium {
+  }
+}
+Window {
+  translation 0 -10.87 0
+  name "window 1(4)"
+  size 0.3 1 2.4
+  frameAppearance BrushedAluminium {
+  }
+}
+Window {
+  translation -11.15 -3.48 0
+  rotation 0 0 1 1.570797
+  name "window 1(2)"
+  size 0.3 2.2 2.4
+  bottomWallHeight 0
+  windowHeight 2.2
+  frameAppearance BrushedAluminium {
+  }
+}
+Window {
+  translation -9.9 -4.73 0
+  name "window 1(6)"
+  size 0.3 2.2 2.4
+  bottomWallHeight 0
+  windowHeight 2.2
+  frameAppearance BrushedAluminium {
+  }
+}
+Window {
+  translation -8.25 0 0
+  rotation 0 0 1 1.570797
+  name "window 1(5)"
+  size 0.3 1 2.4
+  frameAppearance BrushedAluminium {
+  }
+}
+Radiator {
+  translation -4.24028 -8.71399 0.36
+  rotation 0 0 1 -1.5707953071795862
+}
+Radiator {
+  translation -0.28465799999999997 -10.58667 0.36
+  rotation 0 0 1 3.14159
+  name "radiator(5)"
+}
+Radiator {
+  translation -3.23759 -6.88139 0.36
+  rotation 0 0 1 -1.5707953071795862
+  name "radiator(4)"
+  numberOfFins 20
+}
+Radiator {
+  translation -7.731897999999999 -12.834878 0.36
+  rotation 0 0 -1 -1.5707953071795862
+  name "radiator(3)"
+}
+Radiator {
+  translation -8.531595 -0.282246 0.36
+  rotation 0 0 1 -1.5707953071795862
+  name "radiator(2)"
+}
+DesktopComputer {
+  translation -7.25806 -12.3974 0
+  rotation 0 0 1 1.5707959999999999
+}
+Keyboard {
+  translation -6.961739 -12.493036 0.71
+  rotation 0 0 -1 -1.3089963071795863
+}
+Monitor {
+  translation -6.9690579999999995 -12.713728999999999 0.71
+  rotation 0 0 1 1.5707959999999999
+}
+ComputerMouse {
+  translation -7.191345421214518 -12.285361494052973 0.7099170275653215
+  rotation 3.091297936208222e-05 -3.9314943405815406e-05 -0.9999999987493615 1.8195632933396053
+}
+Radiator {
+  translation -0.27999999999999997 -1.53 0.36
+  rotation 0 0 1 3.14159
+  name "radiator(1)"
+}
+Wall {
+  translation 0 -4.57 0
+  name "wall 2"
+  size 0.3 4.85 2.4
+}
+Wall {
+  translation 0 -12.32 0
+  name "wall 2(1)"
+  size 0.3 1.9 2.4
+}
+Wall {
+  translation 0 -9.18 0
+  name "wall 2(2)"
+  size 0.3 2.4 2.4
+}
+Wall {
+  translation -9.9 -3.48 0
+  name "wall 3(3)"
+  size 0.3 0.3 2.4
+}
+Wall {
+  translation -9.9 -10.41 0
+  name "wall 3(1)"
+  size 0.3 5.2 2.4
+}
+Wall {
+  translation -9.9 -6.47 0
+  name "wall 3(4)"
+  size 0.3 1.28 2.4
+}
+Wall {
+  translation -3.8 0 0
+  rotation 0 0 1 1.5708
+  name "wall 5"
+  size 0.3 7.9 2.4
+}
+Wall {
+  translation -10.65 0 0
+  rotation 0 0 1 1.5708
+  name "wall 6"
+  size 0.3 3.8 2.4
+}
+Wall {
+  translation -12.399999999999999 -1.88 0
+  name "wall 3(2)"
+  size 0.3 3.5 2.4
+}
+Wall {
+  translation -6.969989999999999 -8.139999999999999 0
+  name "wall 7"
+  size 0.3 0.8 2.4
+}
+Wall {
+  translation -8.42 -6.6 0
+  rotation 0 0 1 -1.5707933071795868
+  name "wall 7(2)"
+  size 0.3 3.2 2.4
+}
+Wall {
+  translation -3.369987 -10.679991 0
+  rotation 0 0 1 -3.1415893071795864
+  name "wall 7(6)"
+  size 0.3 4.6 2.4
+}
+Wall {
+  translation -5.58999 -10.73 0
+  rotation 0 0 1 -3.1415893071795864
+  name "wall 7(9)"
+  size 0.3 4.9 2.4
+}
+Wall {
+  translation -9.25 -13.12 0
+  rotation 0 0 1 1.5708
+  name "wall 7(7)"
+  size 0.3 1.6 2.4
+}
+Wall {
+  translation -6.1 -13.12 0
+  rotation 0 0 1 1.5708
+  name "wall 7(12)"
+  size 0.3 2.7 2.4
+}
+Wall {
+  translation -2.1 -13.12 0
+  rotation 0 0 1 1.5708
+  name "wall 7(13)"
+  size 0.3 3.9 2.4
+}
+Wall {
+  translation -8.42 -8.43 0
+  rotation 0 0 1 -1.5707933071795868
+  name "wall 7(3)"
+  size 0.3 3.2 2.4
+}
+Solid {
+  translation -6.24 -8.43 0
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    Solid {
+      translation 0 0 2.2
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+              ]
+            }
+          }
+          geometry Box {
+            size 0.3 1 0.3999999999999999
+          }
+        }
+      ]
+      name "mobile part"
+      boundingObject Box {
+        size 0.3 1 0.3999999999999999
+      }
+    }
+    Solid {
+      translation 0 0 1.975
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.45 0.025
+                0.151 0.45 0.025
+                0.151 0.45 -0.025
+                -0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                0.151 -0.45 -0.025
+                0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                0.151 -0.45 0.025
+                0.151 0.45 0.025
+                -0.151 0.45 0.025
+                0.151 -0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 0.45 -0.025
+                0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 -0.45 0.025
+                -0.151 0.45 0.025
+                -0.151 0.45 -0.025
+                0.151 -0.45 0.025
+                0.151 -0.45 -0.025
+                0.151 0.45 -0.025
+                0.151 0.45 0.025
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0.33555555555555555 0
+                0 0
+                0.33555555555555555 0
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                1 0
+                1 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0 0.05555555555555556
+                0 0
+                1 0
+                1 0.05555555555555556
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "top frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.9 0.05
+      }
+    }
+    Solid {
+      translation 0 -0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "left frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+    Solid {
+      translation 0 0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "right frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+  ]
+  name "door"
+  model "door"
+}
+Solid {
+  translation -3.89 -3.95 0
+  children [
+    Solid {
+      translation 0 0 2.2
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+              ]
+            }
+          }
+          geometry Box {
+            size 0.3 1 0.3999999999999999
+          }
+        }
+      ]
+      name "mobile part"
+      boundingObject Box {
+        size 0.3 1 0.3999999999999999
+      }
+    }
+    Solid {
+      translation 0 0 1.975
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.45 0.025
+                0.151 0.45 0.025
+                0.151 0.45 -0.025
+                -0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                0.151 -0.45 -0.025
+                0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                0.151 -0.45 0.025
+                0.151 0.45 0.025
+                -0.151 0.45 0.025
+                0.151 -0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 0.45 -0.025
+                0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 -0.45 0.025
+                -0.151 0.45 0.025
+                -0.151 0.45 -0.025
+                0.151 -0.45 0.025
+                0.151 -0.45 -0.025
+                0.151 0.45 -0.025
+                0.151 0.45 0.025
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0.33555555555555555 0
+                0 0
+                0.33555555555555555 0
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                1 0
+                1 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0 0.05555555555555556
+                0 0
+                1 0
+                1 0.05555555555555556
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "top frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.9 0.05
+      }
+    }
+    Solid {
+      translation 0 -0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "left frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+    Solid {
+      translation 0 0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "right frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+  ]
+  name "door(6)"
+  model "door"
+}
+Solid {
+  translation -4.94 -8.43 0
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    Solid {
+      translation 0 0 2.2
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+              ]
+            }
+          }
+          geometry Box {
+            size 0.3 1 0.3999999999999999
+          }
+        }
+      ]
+      name "mobile part"
+      boundingObject Box {
+        size 0.3 1 0.3999999999999999
+      }
+    }
+    Solid {
+      translation 0 0 1.975
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.45 0.025
+                0.151 0.45 0.025
+                0.151 0.45 -0.025
+                -0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                0.151 -0.45 -0.025
+                0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                0.151 -0.45 0.025
+                0.151 0.45 0.025
+                -0.151 0.45 0.025
+                0.151 -0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 0.45 -0.025
+                0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 -0.45 0.025
+                -0.151 0.45 0.025
+                -0.151 0.45 -0.025
+                0.151 -0.45 0.025
+                0.151 -0.45 -0.025
+                0.151 0.45 -0.025
+                0.151 0.45 0.025
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0.33555555555555555 0
+                0 0
+                0.33555555555555555 0
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                1 0
+                1 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0 0.05555555555555556
+                0 0
+                1 0
+                1 0.05555555555555556
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "top frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.9 0.05
+      }
+    }
+    Solid {
+      translation 0 -0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "left frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+    Solid {
+      translation 0 0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "right frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+  ]
+  name "door(5)"
+  model "door"
+}
+Solid {
+  translation -6.97 -7.24 0
+  rotation 5.74518e-07 2.08285e-07 -1 -3.1415853071795863
+  children [
+    Solid {
+      translation 0 0 2.2
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+              ]
+            }
+          }
+          geometry Box {
+            size 0.3 1 0.3999999999999999
+          }
+        }
+      ]
+      name "mobile part"
+      boundingObject Box {
+        size 0.3 1 0.3999999999999999
+      }
+    }
+    Solid {
+      translation 0 0 1.975
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.45 0.025
+                0.151 0.45 0.025
+                0.151 0.45 -0.025
+                -0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                0.151 -0.45 -0.025
+                0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                0.151 -0.45 0.025
+                0.151 0.45 0.025
+                -0.151 0.45 0.025
+                0.151 -0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 0.45 -0.025
+                0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 -0.45 0.025
+                -0.151 0.45 0.025
+                -0.151 0.45 -0.025
+                0.151 -0.45 0.025
+                0.151 -0.45 -0.025
+                0.151 0.45 -0.025
+                0.151 0.45 0.025
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0.33555555555555555 0
+                0 0
+                0.33555555555555555 0
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                1 0
+                1 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0 0.05555555555555556
+                0 0
+                1 0
+                1 0.05555555555555556
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "top frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.9 0.05
+      }
+    }
+    Solid {
+      translation 0 -0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "left frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+    Solid {
+      translation 0 0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "right frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+  ]
+  name "door(3)"
+  model "door"
+}
+Solid {
+  translation -0.91 -6.6 0
+  rotation 0 0 1 1.5708
+  children [
+    Solid {
+      translation 0 0 2.2
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+              ]
+            }
+          }
+          geometry Box {
+            size 0.3 1 0.3999999999999999
+          }
+        }
+      ]
+      name "mobile part"
+      boundingObject Box {
+        size 0.3 1 0.3999999999999999
+      }
+    }
+    Solid {
+      translation 0 0 1.975
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.45 0.025
+                0.151 0.45 0.025
+                0.151 0.45 -0.025
+                -0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                0.151 -0.45 -0.025
+                0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                0.151 -0.45 0.025
+                0.151 0.45 0.025
+                -0.151 0.45 0.025
+                0.151 -0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 0.45 -0.025
+                0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 -0.45 0.025
+                -0.151 0.45 0.025
+                -0.151 0.45 -0.025
+                0.151 -0.45 0.025
+                0.151 -0.45 -0.025
+                0.151 0.45 -0.025
+                0.151 0.45 0.025
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0.33555555555555555 0
+                0 0
+                0.33555555555555555 0
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                1 0
+                1 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0 0.05555555555555556
+                0 0
+                1 0
+                1 0.05555555555555556
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "top frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.9 0.05
+      }
+    }
+    Solid {
+      translation 0 -0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "left frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+    Solid {
+      translation 0 0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "right frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+  ]
+  name "door(4)"
+  model "door"
+}
+Door {
+  hidden translation_5 0.0011370984311485643 4.327248511248882e-05 0
+  hidden rotation_5 0 0 -1 0.00028861512719292626
+  translation 0 -7.49 0
+  name "door(1)"
+  size 0.3 1 2.4
+  position -0.0002886151276841886
+  frameSize 0.001 0.05 0.05
+  frameAppearance BrushedAluminium {
+  }
+}
+Solid {
+  translation -2.14977 -8.43 0
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    Solid {
+      translation 0 0 2.2
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+              ]
+            }
+          }
+          geometry Box {
+            size 0.3 1 0.3999999999999999
+          }
+        }
+      ]
+      name "mobile part"
+      boundingObject Box {
+        size 0.3 1 0.3999999999999999
+      }
+    }
+    Solid {
+      translation 0 0 1.975
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.45 0.025
+                0.151 0.45 0.025
+                0.151 0.45 -0.025
+                -0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                0.151 -0.45 -0.025
+                0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                -0.151 -0.45 0.025
+                0.151 -0.45 0.025
+                0.151 0.45 0.025
+                -0.151 0.45 0.025
+                0.151 -0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 0.45 -0.025
+                0.151 0.45 -0.025
+                -0.151 -0.45 -0.025
+                -0.151 -0.45 0.025
+                -0.151 0.45 0.025
+                -0.151 0.45 -0.025
+                0.151 -0.45 0.025
+                0.151 -0.45 -0.025
+                0.151 0.45 -0.025
+                0.151 0.45 0.025
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0.33555555555555555 0
+                0 0
+                0.33555555555555555 0
+                0.33555555555555555 0.05555555555555556
+                0 0.05555555555555556
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                0 0.33555555555555555
+                0 0
+                1 0
+                1 0.33555555555555555
+                1 0
+                1 0.05555555555555556
+                0 0.05555555555555556
+                0 0
+                0 0.05555555555555556
+                0 0
+                1 0
+                1 0.05555555555555556
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "top frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.9 0.05
+      }
+    }
+    Solid {
+      translation 0 -0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "left frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+    Solid {
+      translation 0 0.475 1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+              ]
+            }
+            roughnessMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.151 0.025 1
+                0.151 0.025 1
+                0.151 0.025 -1
+                -0.151 0.025 -1
+                -0.151 -0.025 -1
+                0.151 -0.025 -1
+                0.151 -0.025 1
+                -0.151 -0.025 1
+                -0.151 -0.025 1
+                0.151 -0.025 1
+                0.151 0.025 1
+                -0.151 0.025 1
+                0.151 -0.025 -1
+                -0.151 -0.025 -1
+                -0.151 0.025 -1
+                0.151 0.025 -1
+                -0.151 -0.025 -1
+                -0.151 -0.025 1
+                -0.151 0.025 1
+                -0.151 0.025 -1
+                0.151 -0.025 1
+                0.151 -0.025 -1
+                0.151 0.025 -1
+                0.151 0.025 1
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.151 1
+                0 1
+                0 0
+                0.151 0
+                0 0
+                0.151 0
+                0.151 1
+                0 1
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0 0.151
+                0 0
+                0.025 0
+                0.025 0.151
+                0.025 0
+                0.025 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.025 0
+                0.025 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "right frame"
+      model "box"
+      boundingObject Box {
+        size 0.302 0.05 2
+      }
+    }
+  ]
+  name "door(2)"
+  model "door"
+}
+Wall {
+  translation -2.93 -6.6 0
+  rotation 0 0 1 1.5708
+  name "wall 7(1)"
+  size 0.3 3.045 2.4
+}
+Wall {
+  translation -0.29 -6.6 0
+  rotation 0 0 1 1.5708
+  name "wall 7(14)"
+  size 0.3 0.3 2.4
+}
+Wall {
+  translation -1.94 -5.02 0
+  rotation 0 0 1 1.5708
+  name "wall 7(8)"
+  size 0.3 3.6 2.4
+}
+Wall {
+  translation -3.837798 -5.2702 0.26217999999999997
+  rotation 0 -1 0 3.77
+  name "wall 7(10)"
+  size 1 0.2 0.4
+}
+Wall {
+  translation -0.8 -8.43 0
+  rotation 0 0 1 1.5708
+  name "wall 7(4)"
+  size 0.3 1.7 2.4
+}
+Wall {
+  translation -3.55 -8.43 0
+  rotation 0 0 1 1.5708
+  name "wall 7(5)"
+  size 0.3 1.8 2.4
+}
+Wall {
+  translation -6.78 -8.43 0
+  rotation 0 0 1 1.5708
+  name "wall 7(11)"
+  size 0.3 0.08 2.4
+}
+Wall {
+  translation -3.89 -1.8 0
+  name "wall 9"
+  size 0.3 3.3 2.4
+}
+Wall {
+  translation -3.89 -4.81 0
+  name "wall 9(1)"
+  size 0.3 0.72 2.4
+}
+CeilingLight {
+  translation -1.3341 -2.47061 2.4
+  name "ceiling light 1"
+  pointLightColor 0.913725 0.72549 0.431373
+  pointLightIntensity 3
+  pointLightRadius 3.9
+}
+CeilingLight {
+  translation -10.1237 -1.47922 2.4
+  name "ceiling light 2"
+  pointLightIntensity 2
+  pointLightRadius 4
+}
+CeilingLight {
+  translation -7.411517 -4.344069 2.4
+  name "ceiling light 2(5)"
+  pointLightIntensity 4
+  pointLightRadius 10
+}
+CeilingLight {
+  translation -1.7941829999999999 -7.551591999999999 2.4
+  name "ceiling light 2(1)"
+  pointLightColor 0.447059 0.623529 0.811765
+  pointLightIntensity 3
+  pointLightRadius 4
+}
+CeilingLight {
+  translation -5.364183 -7.551591999999999 2.4
+  name "ceiling light 2(2)"
+  pointLightColor 0.447059 0.623529 0.811765
+  pointLightIntensity 3
+  pointLightRadius 4
+}
+CeilingLight {
+  translation -7.622198 -10.602905999999999 2.4
+  name "ceiling light 2(3)"
+  pointLightIntensity 3
+  pointLightRadius 5
+}
+CeilingLight {
+  translation -1.945004 -10.56734 2.4
+  name "ceiling light 2(4)"
+  pointLightColor 0.913725 0.72549 0.431373
+  pointLightIntensity 3
+  pointLightRadius 5
+}
+FloorLight {
+  translation -4.7700309999999995 -0.49615699999999996 0
+  pointLightColor 0.913725 0.72549 0.431373
+  pointLightRadius 3
+}
+FloorLight {
+  translation -0.590395 -12.404582999999999 0
+  name "floor light(1)"
+  pointLightRadius 2
+}
+Pose {
+  translation -9.51375 -11.8794 0.4
+  children [
+    FloorLight {
+      translation -0.08583 0.580924 0
+      name "floor light(2)"
+      bulbColor 0.937255 0.16078399999999998 0.16078399999999998
+      scale 0.4
+      pointLightColor 1 0.5799949999999999 0.5799949999999999
+      pointLightIntensity 0.7
+      pointLightRadius 3
+    }
+  ]
+}
+Pose {
+  translation -2.73375 -12.6994 0.4
+  children [
+    FloorLight {
+      translation 0 -0.08 0
+      name "floor light(4)"
+      scale 0.4
+      pointLightIntensity 0.7
+      pointLightRadius 3
+    }
+  ]
+}
+Pose {
+  translation -9.51375 -9.6494 0.4
+  children [
+    FloorLight {
+      translation 0 0.524 0
+      name "floor light(3)"
+      bulbColor 0.937255 0.16078399999999998 0.16078399999999998
+      scale 0.4
+      pointLightColor 1 0.5799949999999999 0.5799949999999999
+      pointLightIntensity 0.7
+      pointLightRadius 3
+    }
+  ]
+}
+Table {
+  translation -10.415072 -1.632191 0
+  rotation 0 0 1 1.5708
+  name "table(1)"
+  size 1 2.5 0.74
+}
+Carafe {
+  translation -11.138300499469702 -1.5941171485955854 0.7385309682124898
+  rotation -0.0006055497134044993 -0.0003873990250862507 -0.9999997416157365 1.8325948506791536
+}
+Plate {
+  translation -11.5061 -1.63786 0.7398864203873051
+  rotation 0.8895803407799002 0.4566116097430022 0.012355369109051368 5.416409191996004e-16
+}
+Plate {
+  translation -2.28227 -3.63168 -0.00032049615156129127
+  rotation -0.2368381462612908 -0.9713128859688159 0.02142358575134834 3.0005957650094387e-16
+  name "plate(9)"
+}
+Plate {
+  translation -1.44694 -2.75324 -0.000292371335698211
+  rotation -0.07135392013905834 0.9911767564233614 0.11170163654509829 3.1362631515798927e-16
+  name "plate(10)"
+}
+Knife {
+  translation -2.286886892830352 -3.751269212190819 -0.0009443418205866074
+  rotation 0.999987085116193 -2.072701836484073e-07 -0.005082283028021265 -3.1415147577269886
+}
+Glass {
+  translation -1.51333 -2.90459 -0.001206572519847189
+  rotation -0.3322601482872289 0.7174796278143017 0.6122304937942895 1.2592696705123686e-15
+}
+WaterBottle {
+  translation -1.70218 -3.2776 0.7575235215243311
+  rotation -0.9110653748165967 0.37182517132878384 0.17806157580066143 4.0372144924712837e-16
+}
+Glass {
+  translation -2.13663 -3.69948 0.7588498556724902
+  rotation -0.9397505689567229 -0.18351456906248984 -0.28842897061031186 6.615699337000467e-16
+  name "glass(8)"
+}
+Knife {
+  translation -1.575239212869468 -2.7672631050151155 -0.0009443418193621706
+  rotation 0.7071026352855226 -0.7071019342518037 -0.0035661953994846445 -3.1343501341670774
+  name "knife(1)"
+}
+Fork {
+  translation -2.261049006126058 -3.511019999999118 0.0010581706896005145
+  rotation 7.187754979244491e-08 -0.9999999999999974 2.742207643104151e-09 0.0066278638501964336
+}
+Fork {
+  translation -1.323260000007586 -2.76784099387393 0.0010581706896004
+  rotation -0.0033139074242906456 -0.00331391127978826 -0.9999890179445037 1.5708062893021995
+  name "fork(1)"
+}
+Plate {
+  translation -9.3661 -1.63786 0.7398864203873051
+  rotation -0.23337187329226636 0.9723828053844439 0.0030411426696313752 4.588128968057286e-16
+  name "plate(8)"
+}
+Plate {
+  translation -11.1892 -1.29784 0.7398864203873051
+  rotation 0.3926385825380305 -0.9196214310656639 0.011461545588043555 2.7270377894620966e-16
+  name "plate(2)"
+}
+Plate {
+  translation -11.1892 -1.92784 0.7398864203873051
+  rotation -0.11821189556320569 0.9929801307361049 0.0040506432404985105 6.038536404370213e-16
+  name "plate(3)"
+}
+Plate {
+  translation -10.4792 -1.92784 0.7398864203873051
+  rotation 0.9896246302379603 0.1434395800767837 0.008257002711404192 6.311468625122401e-16
+  name "plate(4)"
+}
+Plate {
+  translation -10.4792 -1.30784 0.7398864203873051
+  rotation 0.8895803407799002 0.4566116097430022 0.012355369109051368 5.416409191996004e-16
+  name "plate(5)"
+}
+Plate {
+  translation -9.7692 -1.30784 0.7398864203873051
+  rotation 0.5833224246837351 0.8122203646596811 0.0057470073240638835 5.812698641032853e-16
+  name "plate(6)"
+}
+Plate {
+  translation -9.7692 -1.94784 0.739886420387305
+  rotation 0.9333794912248791 0.35868529651537545 -0.012148391846799372 5.54463066830588e-16
+  name "plate(7)"
+}
+Wineglass {
+  translation -9.681699999999998 -1.8196700056022372 0.7027349749332858
+  rotation 0.9999999999999707 -2.193214964709502e-07 -1.030711589419341e-07 7.572812337702813e-07
+}
+Wineglass {
+  translation -9.493520000000002 -1.550480005602233 0.7027349749332866
+  rotation 0.9999999999999943 -2.275423123267042e-08 1.0237258016427088e-07 7.572809981388201e-07
+  name "wine glass(7)"
+}
+Wineglass {
+  translation -10.381699999999995 -1.8196700056022317 0.7027349749332905
+  rotation 0.9999999999999586 2.61830189346765e-07 1.1904390364853237e-07 7.572812286478677e-07
+  name "wine glass(1)"
+}
+Wineglass {
+  translation -11.061700000000007 -1.8196700056022357 0.7027349749332915
+  rotation 0.9999999999999716 2.2751410253982138e-07 -7.11000352367039e-08 7.5728152062595e-07
+  name "wine glass(2)"
+}
+Wineglass {
+  translation -11.405000000000003 -1.7557100056022354 0.702734974933282
+  rotation 0.999999999999937 -3.524510807238809e-07 4.240769278349279e-08 7.572809571594823e-07
+  name "wine glass(3)"
+}
+Wineglass {
+  translation -11.301700000000004 -1.419670005602238 0.7027349749332898
+  rotation 0.9999999999999133 4.1641768445915537e-07 1.7128921367503742e-08 7.572813259739327e-07
+  name "wine glass(6)"
+}
+Wineglass {
+  translation -10.631699999999999 -1.4196700056022322 0.7027349749332875
+  rotation 0.9999999999999893 1.2933930861890977e-07 6.80918862045394e-08 7.57281095464855e-07
+  name "wine glass(4)"
+}
+Wineglass {
+  translation -9.881700000000004 -1.4196700056022307 0.702734974933288
+  rotation 0.9999999999998834 4.6432579475401694e-07 1.327810047481632e-07 7.572807112832348e-07
+  name "wine glass(5)"
+}
+Carafe {
+  translation -9.780717869066294 -1.641547869061447 0.738531218531721
+  rotation 0.0005829220916750372 -0.0014072986045703022 0.9999988398555633 0.7853988203463786
+  name "carafe(1)"
+}
+Table {
+  translation -9.55609 -9.09224 0
+  name "table(2)"
+  size 0.3 0.3 0.4
+  feetSize 0.04 0.05
+  legAppearance BrushedAluminium {
+  }
+}
+Table {
+  translation -9.56036 -11.3804 0
+  name "table(3)"
+  size 0.3 0.3 0.4
+  feetSize 0.04 0.05
+  legAppearance BrushedAluminium {
+  }
+}
+Table {
+  translation -2.74109 -12.7454 0
+  name "table(4)"
+  size 0.3 0.3 0.4
+  feetSize 0.04 0.05
+  legAppearance BrushedAluminium {
+  }
+}
+Book {
+  translation -2.7337500010217775 -12.639380234133059 0.40974445800307063
+  rotation 0.7071067482801889 -0.0003645770675737277 -0.7071067201067878 3.1408608468678114
+}
+Chair {
+  translation -11.172214 -1.29268 -0.008903745824310805
+  rotation -9.039283522665367e-18 6.436630657310538e-17 -0.9999999999999999 1.5707953071795862
+  name "chair 1(2)"
+  color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  physics Physics {
+    centerOfMass [
+      0 0 0.45
+    ]
+  }
+}
+Chair {
+  translation -11.160617 -1.997738 -0.008903745824310805
+  rotation 7.593598520965029e-18 -3.777741563169834e-17 1 1.570705307179586
+  name "chair 1(5)"
+  color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  physics Physics {
+    centerOfMass [
+      0 0 0.45
+    ]
+  }
+}
+Chair {
+  translation -10.450617 -1.997809 -0.008903745824310805
+  rotation 3.536017132526887e-17 -1.0008938477161027e-17 1 1.570705307179586
+  name "chair 1(6)"
+  color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  physics Physics {
+    centerOfMass [
+      0 0 0.45
+    ]
+  }
+}
+Chair {
+  translation -9.750617 -1.997879 -0.008903745824310805
+  rotation 3.536017132526887e-17 -1.0008938477161027e-17 1 1.570705307179586
+  name "chair 1(7)"
+  color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  physics Physics {
+    centerOfMass [
+      0 0 0.45
+    ]
+  }
+}
+Chair {
+  translation -8.865160852028097 -1.0091121149861064 0.09416406734265176
+  rotation -0.25810728716693887 -0.19237183903774252 -0.946770143095229 1.930222879251615
+  name "chair 1(3)"
+  color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  physics Physics {
+    centerOfMass [
+      0 0 0.45
+    ]
+  }
+}
+Chair {
+  translation -9.774799 -1.2626819999999999 -0.008903745824310805
+  rotation -9.039283522665367e-18 6.436630657310538e-17 -0.9999999999999999 1.5707953071795862
+  name "chair 1(1)"
+  color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  physics Physics {
+    centerOfMass [
+      0 0 0.45
+    ]
+  }
+}
+Chair {
+  translation -10.485493 -1.2858399999999999 -0.008903745824310805
+  rotation -9.039283522665367e-18 6.436630657310538e-17 -0.9999999999999999 1.5707953071795862
+  name "chair 1(4)"
+  color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  physics Physics {
+    centerOfMass [
+      0 0 0.45
+    ]
+  }
+}
+FruitBowl {
+  translation -10.127671227233492 -1.640701910534241 0.7393721542347367
+  rotation -0.0007005148621015884 -0.0007251087635290632 -0.9999994917479753 0.9446169036269678
+  color 0.541176 0.886275 0.203922
+}
+Apple {
+  translation -10.189141555279324 -1.6145755970841205 0.7988598123258294
+  rotation -0.4285637770723141 0.4618445922623109 0.7765517764963078 0.13869602087123722
+}
+Orange {
+  translation -1.443513203671371 -3.4974769146616698 0.8187249507861617
+  rotation -0.6827228916768573 0.5910077075872281 -0.42965025631655307 0.3333734662844976
+}
+Orange {
+  translation -1.4774979245536628 -3.591524378412484 0.8188101697844304
+  rotation -0.7356041662508823 0.11051445217887786 0.6683360430606349 0.7006091609584955
+  name "orange(2)"
+}
+Orange {
+  translation -1.3775398679103743 -3.588688824835805 0.8187225438957414
+  rotation 0.3408412438837111 0.869527568941099 0.35741999569020644 0.17907721372886087
+  name "orange(3)"
+}
+Orange {
+  translation -10.091439797279095 -1.593263266288092 0.798871185294779
+  rotation -0.9342668651302484 -0.3556600487551807 0.025521646482169334 0.5242485797014419
+  name "orange(1)"
+}
+FruitBowl {
+  translation -1.4573897129377733 -3.575900377836732 0.7592544400224499
+  rotation -0.0010117225894042256 0.0005551204982324676 -0.9999993341290956 0.9446155152703848
+  name "fruit bowl(1)"
+  color 0.6666666666666666 0 0
+}
+Table {
+  translation -11.0871 -6.84245 0.02
+  rotation 0 0 1 -1.5707953071795862
+  size 0.8 1.2 0.53
+  trayAppearance BrushedAluminium {
+  }
+  legAppearance BrushedAluminium {
+  }
+}
+Table {
+  translation -5.7806 -2.57074 0.02
+  name "table(5)"
+  size 0.8 1.2 0.53
+}
+BeerBottle {
+  translation -5.97653 -2.15917 0.5503309762472446
+  rotation -8.490875647087659e-17 -8.982276579256923e-16 1 1.5708000000000002
+}
+Can {
+  translation -6.08374 -2.30236 0.6109288038852966
+  rotation -0.6099183114936891 -0.7912453770728939 -0.04393639226724859 8.229984352469615e-16
+}
+BeerBottle {
+  translation -5.596 -2.12301 0.5503309768788378
+  rotation 2.611114018389144e-16 5.157214092441203e-16 1 -2.879795307179586
+  name "beer bottle(1)"
+}
+BeerBottle {
+  translation -6.05257 -2.63009 0.5503309762472446
+  rotation 2.113650657126768e-16 1.4743402217236812e-15 1 0.26179700000000006
+  name "beer bottle(2)"
+}
+Armchair {
+  translation -6.43026 -4.79661 0
+  rotation 0 0 -1 -1.3592853071795865
+  name "armchair(4)"
+  color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+}
+Armchair {
+  translation -9.0281 -12.1858 0
+  rotation 0 0 -1 -0.5738853071795864
+  name "armchair(3)"
+  color 0.827451 0.843137 0.811765
+}
+Sofa {
+  translation -5.9207339999999995 -0.6887059999999999 0
+  rotation 0 0 1 -1.5707953071795862
+  color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+}
+Sofa {
+  translation -7.762 -2.72199 -1.42109e-14
+  rotation 0 0 -1 0.321639
+  name "sofa 2"
+  color 0.13333333333333333 0.13333333333333333 0.13333333333333333
+}
+Sofa {
+  translation -11.1117 -8.1052 0
+  rotation 0 0 1 1.5708
+  name "sofa 2(1)"
+  color 0.827451 0.843137 0.811765
+}
+Carpet {
+  translation -5.803488 -2.55795 -0.015
+  rotation 0 0 1 -1.5707953071795862
+  color 0.13725490196078433 0.13725490196078433 0.13725490196078433
+}
+BunchOfSunFlowers {
+  translation -7.069851 -0.484029 0
+}
+Cabinet {
+  translation -4.073264 -0.6770999999999999 0
+  rotation 0 0 1 3.14159
+  name "cabinet 4"
+  depth 0.4
+  outerThickness 0.02
+  rowsHeights [
+    0.52, 0.44, 0.44, 0.44, 0.44
+  ]
+  columnsWidths [
+    0.96
+  ]
+  layout [
+    "Shelf  (1, 2, 1, 0)"
+    "Shelf  (1, 3, 1, 0)"
+    "Shelf  (1, 4, 1, 0)"
+    "Shelf  (1, 5, 1, 0)"
+  ]
+  primaryAppearance PaintedWood {
+    colorOverride 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  }
+  secondaryAppearance PaintedWood {
+    colorOverride 0.13333333333333333 0.13333333333333333 0.13333333333333333
+  }
+}
+PottedTree {
+  translation -9.03739 -3.61473 0
+}
+PottedTree {
+  translation -6.025363 -12.409485 0
+  name "potted tree(1)"
+}
+PortraitPainting {
+  translation -12.209999999999999 -1.7999999999999998 1.5999999999999999
+}
+PortraitPainting {
+  translation -3.28921 -6.76837 1.6
+  rotation 0 0 1 -1.5707953071795862
+  name "portrait painting(1)"
+}
+LandscapePainting {
+  translation -10.3223 -0.178447 1.62868
+  rotation 0 0 1 -1.5707953071795862
+}
+LandscapePainting {
+  translation -2.295442 -4.8501449999999995 1.62868
+  rotation 0 0 1 1.5708
+  name "landscape painting(1)"
+}
+Television {
+  translation -4.04287 -2.45471 1.5595999999999999
+  rotation 0 0 1 3.14159
+  controller "<none>"
+}
+FireExtinguisher {
+  translation -0.44006861534408426 -8.158107148555864 -0.009423873130841809
+  rotation 0.009078837326761542 0.012160208408433262 0.999884845391837 2.094496924669048
+}
+Clock {
+  translation -6.165 -0.155075 1.72
+  rotation 0 0 1 -1.5707953071795862
+}
+OfficeTelephone {
+  translation -4.496782 -6.58 1.0611279999999998
+  rotation -0.2907400269219462 0 0.9568020885979639 3.14159
+  enablePhysics FALSE
+}
+WashingMachine {
+  translation -2.00701 -5.63126 0.51
+}
+BathroomSink {
+  translation -5.443874 -9.989588999999999 1.07
+  name "sink(2)"
+}
+Bathtube {
+  translation -4.96001 -11.9954 0
+}
+Toilet {
+  translation -9.266226999999999 -7.456646999999999 0
+}
+Toilet {
+  translation -3.97349 -12.5259 0
+  rotation 0 0 1 1.57079
+  name "toilet(1)"
+  lidColor 1 0.721569 0.721569
+}
+BathroomSink {
+  translation -8.35 -6.75 1.07
+  rotation 0 0 1 -1.5707953071795862
+}
+CeilingSpotLight {
+  translation -7.72 -7.51 2.36
+  spotLightIntensity 5
+  spotLightRadius 3
+}
+CeilingSpotLight {
+  translation -4.28 -6.46 0.22999999999999998
+  rotation -1 0 0 -1.5707963071795863
+  name "ceiling light(5)"
+  spotLightIntensity 2
+  spotLightRadius 2
+}
+CeilingSpotLight {
+  translation -3.78 -6.46 0.61
+  rotation -1 0 0 -1.5707963071795863
+  name "ceiling light(6)"
+  spotLightIntensity 2
+  spotLightRadius 2
+}
+CeilingSpotLight {
+  translation -3.02 -6.46 1.14
+  rotation -1 0 0 -1.5707963071795863
+  name "ceiling light(7)"
+  spotLightIntensity 2
+  spotLightRadius 2
+}
+CeilingSpotLight {
+  translation -2.29 -6.46 1.69
+  rotation -1 0 0 -1.5707963071795863
+  name "ceiling light(8)"
+  spotLightIntensity 2
+  spotLightRadius 2
+}
+CeilingSpotLight {
+  translation -4.52 -9.1 2.36
+  name "ceiling light(2)"
+  spotLightIntensity 5
+  spotLightRadius 3
+}
+CeilingSpotLight {
+  translation -4.52 -10.4 2.36
+  name "ceiling light(3)"
+  spotLightIntensity 5
+  spotLightRadius 3
+}
+CeilingSpotLight {
+  translation -4.52 -11.68 2.36
+  name "ceiling light(4)"
+  spotLightIntensity 5
+  spotLightRadius 3
+}
+CeilingSpotLight {
+  translation -8.7 -7.51 2.36
+  name "ceiling light(1)"
+  spotLightIntensity 5
+  spotLightRadius 3
+}
+DEF TREES Group {
+  children [
+    Cypress {
+      translation -12.53 -4.26 0
+      rotation 0 0 1 -0.5235983071795864
+      scale 0.6
+      enableBoundingObject FALSE
+    }
+    Cypress {
+      translation -12.53 -4.76 0
+      name "cypress tree(1)"
+      scale 0.6
+      enableBoundingObject FALSE
+    }
+    Cypress {
+      translation -12.53 -5.279999999999999 0
+      rotation 0 0 1 0.7853979999999999
+      name "cypress tree(2)"
+      scale 0.6
+      enableBoundingObject FALSE
+    }
+    Cypress {
+      translation -12.53 -5.85 0
+      rotation 0 0 1 -0.26179930717958655
+      name "cypress tree(3)"
+      scale 0.6
+      enableBoundingObject FALSE
+    }
+    Cypress {
+      translation -12.53 -6.37 0
+      rotation 0 0 1 -1.0471973071795864
+      name "cypress tree(4)"
+      scale 0.6
+      enableBoundingObject FALSE
+    }
+    Cypress {
+      translation -12.53 -6.85 0
+      rotation 0 0 1 1.308997
+      name "cypress tree(5)"
+      scale 0.6
+      enableBoundingObject FALSE
+    }
+    Cypress {
+      translation -12.53 -7.319999999999999 0
+      rotation 0 0 1 -0.7853983071795865
+      name "cypress tree(6)"
+      scale 0.6
+      enableBoundingObject FALSE
+    }
+    Cypress {
+      translation -12.53 -7.9799999999999995 0
+      rotation 0 0 1 0.5235989999999999
+      name "cypress tree(7)"
+      scale 0.6
+      enableBoundingObject FALSE
+    }
+    Cypress {
+      translation -12.53 -8.5 0
+      name "cypress tree(8)"
+      scale 0.6
+      enableBoundingObject FALSE
+    }
+  ]
+}
+RedApple {
+  translation -12.02 -3.02 0.04954566333748433
+}
+RedApple {
+  translation -5.34 -10.54 0.04954566333748433
+  name "Red Apple(1)"
+}
+GreenApple {
+  translation -8.86 -7.67 0.04954566333748433
+}
+PurpleApple {
+  translation -2.84 -1.34 0.04954566333748433
+}
+OrangeApple {
+  translation -8.28 -4.81 0.04954566333748433
+}
+PurpleApple {
+  translation -7.96 -11.68 0.04954566333748433
+  name "Purple Apple(1)"
+}
+GreenApple {
+  translation -8.37 -4.98 0.04954566333748433
+  name "Green Apple(1)"
+}
+Can {
+  translation -6.1941199797793445 -3.3000000350231824 0.03612298494531087
+  rotation -0.9351129454628861 -0.2505629853871792 0.250563304539171 1.6378341160872905
+  name "can(1)"
+}
+BeerBottle {
+  translation -4.26 -12.51 0.0001795392875760804
+  rotation -0.10396257032982831 -0.941833549255978 -0.31959560301465784 9.6362874498146e-17
+  name "beer bottle(3)"
+}
+BeerBottle {
+  translation -4.36412 -12.422 0.00017953928757606652
+  rotation -1.724018129410313e-17 -5.949622910541512e-17 1 2.3562
+  name "beer bottle(4)"
+}
+BeerBottle {
+  translation -4.184107264152809 -12.27077247138949 0.030606415458855667
+  rotation 0.4775324558331175 0.6223350230190595 0.6202111517458052 2.253225942991645
+  name "beer bottle(6)"
+}
+BeerBottle {
+  translation -4.2283 -12.4011 0.00017953928757606652
+  rotation -1.7792124005827217e-17 5.027856511696674e-17 1 3.14159
+  name "beer bottle(5)"
+}
+Cat {
+  translation -2.64236 -1.61452 0
+  rotation 0 0 1 2.0944
+}
+Cow {
+  translation -8.59737 -9.76457 0.77
+  rotation 0.09269085277954646 0.7040626413221343 -0.7040626413221343 -2.9567353071795863
+  scale 0.75
+}
+FifaSoccerBall {
+  translation -4.41 -4.28 0.11106407788966398
+}
+Pedestrian {
+  translation -5.24 -3.83 1.27
+  rotation 0 0 1 -1.5707953071795862
+  controllerArgs [
+    "--speed=0.2"
+    "--trajectory=-5.24 -3.83, -4.94 -9.07, -4.45 -10.7, -4.94 -9.07, -4.94 -7.33, -6.22 -7.33, -6.22 -9.09, -8.66 -9.09, -7.4 -9.09, -6.37 -11.4, -7.08 -9.91, -6.29 -8.36, -5.24 -3.83, -3.73 -3.83, -3.08 -3.83, -2.57 -2.42, -1.63 -1.45, -0.8 -1.45, -1.63 -1.45, -2.57 -2.42, -3.08 -3.83, -3.73 -3.83, -4.57 -3.83, -4.57 -1.64, -4.57 -3.15"
+  ]
+}
