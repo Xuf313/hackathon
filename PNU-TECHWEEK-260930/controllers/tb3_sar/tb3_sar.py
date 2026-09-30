@@ -24,15 +24,22 @@ import semantic
 # ---------------- mission config (world frame, metres) ----------------
 START = (-0.3, -7.5, math.pi)       # known start pose of the robot
 DEST = (-4.94, -7.33)               # destination / "safe zone"
-TARGET_NAME = "red apple"
-TARGET_COUNT = 2                    # how many red apples must be found before delivering
+TARGET_NAME = "red apple"           # "red apple" (colour detection) or "football" (YOLO COCO "sports ball")
+TARGETS = {
+    "red apple": dict(kind="color", diameter=0.10, count=2),
+    "football": dict(kind="yolo", yolo_class="soccer ball", diameter=0.22, min_conf=0.25, count=1,
+                     max_colorful=0.25),            # football is black/white: reject strongly coloured boxes
+}
+TARGET = TARGETS[TARGET_NAME]
+TARGET_COUNT = TARGET["count"]      # how many targets must be found before delivering
 LOOK_SPACING = 1.5                  # do a 360 deg camera look-around every time we reach a new area this far away
+VERIFY_DIST = 2.0                   # a target only counts if it was confirmed (round, right size) closer than this
 REACH_DIST = 0.35                   # target reached when this close
 GOAL_TOL = 0.25                     # dest/home reached when this close
 SHOW_DEBUG = True                   # OpenCV windows (camera + map)
 SHOW_ALL_OBJECTS = False            # False: camera shows boxes on the target only (YOLO still feeds the semantic map)
-YOLO_EVERY = 5                      # run YOLO on every Nth camera frame (boxes for all other objects)
-YOLO_WEIGHTS = "yolo11n.pt"         # COCO-pretrained; yolo11s.pt / yolo11m.pt = more accurate (put in models/YOLO)
+YOLO_EVERY = 1 if TARGET["kind"] == "yolo" else 5  # YOLO-based targets need detections every frame
+YOLO_WEIGHTS = "yolo_world_apartment.pt"  # open-vocabulary YOLO-World (make_world_model.py); fallback yolo11n.pt
 SEMANTIC = True                     # semantic frontier exploration (YOLO objects bias where to search)
 YOLO_CONF = 0.2                     # sim renders score low; lecture used 0.1
 
@@ -44,7 +51,7 @@ MAX_WHEEL = 6.67
 V_MAX = 0.22                         # m/s (TB3 Burger max)
 W_MAX = 2.5                          # rad/s
 CAM_HEIGHT = 0.073                   # camera height above floor
-APPLE_D = 0.10                       # apple diameter
+APPLE_D = TARGET["diameter"]         # target diameter (m), used for size-vs-distance checks
 CAM_X = 0.02                        # camera forward offset from base
 
 # ---------------- map ----------------
@@ -95,7 +102,10 @@ x, y, th = START
 logodds = np.zeros((N, N), np.float32)
 known = np.zeros((N, N), bool)
 cam_seen = np.zeros((N, N), bool)     # floor cells the camera has actually looked at
-CAM_RANGE = 4.5                       # apple still ~12 px wide at 4.5 m -> detectable
+CAM_RANGE = 3.0                       # floor counts as "searched" only this close (detection itself works to 6 m)
+NEAR_OBST = 0.30                      # floor this close to walls/furniture (where objects get tucked away) ...
+NEAR_OBST_RANGE = 1.8                 # ... only counts as searched when seen from closer than this
+_wall_dist = [None, -1]               # cached distance-to-obstacle map [array, step computed]
 compass_off = None
 compass_sign = None
 prev_l = prev_r = None
@@ -174,6 +184,52 @@ def update_map(ranges):
     np.clip(logodds, -3, 4, out=logodds)
 
 
+# ---------------- localization correction: LiDAR scan matching against the map ----------------
+MATCH_EVERY = 5                       # control steps between corrections
+MATCH_SHIFTS = np.arange(-0.15, 0.151, 0.025)
+_match = {"dist": None, "step": -1, "n": 0, "total": 0.0}
+
+
+def scan_match(ranges):
+    """Odometry drifts (wheel slip). Try small x/y shifts of the pose and keep the one where the
+    current scan lands best on walls already in the map (truncated distance field). Heading comes
+    from the compass, so only position is corrected."""
+    global x, y
+    occ = logodds > 1.5                               # well-established walls only
+    if occ.sum() < 200:
+        return
+    step_i = int(robot.getTime() / DT)
+    if _match["dist"] is None or step_i - _match["step"] >= 25:
+        _match["dist"] = cv2.distanceTransform((~occ).astype(np.uint8), cv2.DIST_L2, 5) * RES
+        _match["step"] = step_i
+    idx = np.arange(0, NBEAM, 3)
+    r = ranges[idx]
+    ok = np.isfinite(r) & (r > 0.15) & (r < 3.3)
+    if ok.sum() < 30:
+        return
+    a = th + BEAM_ANG[idx][ok]
+    bx, by = r[ok] * np.cos(a), r[ok] * np.sin(a)
+    D = _match["dist"]
+
+    def score(dx, dy):
+        c = ((x + dx + bx - X0) / RES).astype(int); rr = ((y + dy + by - Y0) / RES).astype(int)
+        inside = (rr >= 0) & (rr < N) & (c >= 0) & (c < N)
+        d = np.full(bx.shape, 0.3)
+        d[inside] = np.minimum(D[rr[inside], c[inside]], 0.3)    # truncated: people / new objects don't dominate
+        return float(d.mean())
+
+    base = score(0.0, 0.0)
+    best = (base, 0.0, 0.0)
+    for dx in MATCH_SHIFTS:
+        for dy in MATCH_SHIFTS:
+            sc = score(dx, dy)
+            if sc < best[0]:
+                best = (sc, dx, dy)
+    if best[0] < base - 0.004:                        # clearly better alignment -> move (damped)
+        x += 0.5 * best[1]; y += 0.5 * best[2]
+        _match["n"] += 1; _match["total"] += 0.5 * math.hypot(best[1], best[2])
+
+
 def update_cam_coverage(ranges):
     """Mark floor cells inside the camera's view cone (occluded by LiDAR hits) as searched."""
     k = int(math.degrees(CAM_HALF_FOV) * NBEAM / 360) - 2
@@ -185,9 +241,19 @@ def update_cam_coverage(ranges):
     msk = S < r[:, None]
     px = (x + S * np.cos(ang)[:, None])[msk]
     py = (y + S * np.sin(ang)[:, None])[msk]
+    sd = np.broadcast_to(S, msk.shape)[msk]                   # viewing distance of each cell
     rr = ((py - Y0) / RES).astype(int); cc = ((px - X0) / RES).astype(int)
     ok = (rr >= 0) & (rr < N) & (cc >= 0) & (cc < N)
-    cam_seen[rr[ok], cc[ok]] = True
+    rr, cc, sd = rr[ok], cc[ok], sd[ok]
+    # corners next to furniture are occluded from afar (LiDAR beams slip past cabinet edges higher up
+    # than a floor object): those cells need a close look
+    step_i = int(robot.getTime() / DT)
+    if _wall_dist[0] is None or step_i - _wall_dist[1] >= 10:
+        occ = (logodds > 0.6).astype(np.uint8)
+        _wall_dist[0] = cv2.distanceTransform(1 - occ, cv2.DIST_L2, 5) * RES
+        _wall_dist[1] = step_i
+    close_ok = (_wall_dist[0][rr, cc] > NEAR_OBST) | (sd < NEAR_OBST_RANGE)
+    cam_seen[rr[close_ok], cc[close_ok]] = True
 
 
 def mark_seen_around(px, py, rad=0.4):
@@ -259,7 +325,7 @@ def nearest_frontier(blocked, banned):
     unk = (~known).astype(np.uint8)
     front = free & (cv2.dilate(unk, np.ones((3, 3), np.uint8)) > 0)
     # search goal = LiDAR frontier OR free floor the camera has not looked at yet (specks removed)
-    unseen = cv2.erode((free & ~cam_seen).astype(np.uint8), np.ones((5, 5), np.uint8)) > 0
+    unseen = cv2.erode((free & ~cam_seen).astype(np.uint8), np.ones((3, 3), np.uint8)) > 0
     front = front | unseen
     s = free_start(blocked, to_cell(x, y))
     q = deque([(s, 0)]); seen = np.zeros((N, N), bool); seen[s] = True
@@ -302,9 +368,14 @@ if SHOW_DEBUG or SEMANTIC:
         import torch
         from ultralytics import YOLO
         YOLO_DEV = "mps" if torch.backends.mps.is_available() else "cpu"
-        yolo = YOLO(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../models/YOLO", YOLO_WEIGHTS))
+        _wdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../models/YOLO")
+        if not os.path.exists(os.path.join(_wdir, YOLO_WEIGHTS)):
+            print(f"[sar] {YOLO_WEIGHTS} missing (run models/YOLO/make_world_model.py) -> using yolo11n.pt (COCO)")
+            YOLO_WEIGHTS = "yolo11n.pt"
+            TARGETS["football"]["yolo_class"] = "sports ball"
+        yolo = YOLO(os.path.join(_wdir, YOLO_WEIGHTS))
         yolo.to(YOLO_DEV)
-        print(f"[sar] YOLO loaded on {YOLO_DEV}")
+        print(f"[sar] YOLO loaded on {YOLO_DEV}: {YOLO_WEIGHTS} ({len(yolo.names)} classes)")
     except Exception as e:           # mission still works without YOLO
         print(f"[sar] YOLO disabled: {e}")
 
@@ -337,13 +408,51 @@ def draw_yolo(frame):
         cv2.putText(frame, label, (x1 + 3, ty), font, 0.45, (0, 0, 0), 1, cv2.LINE_AA)
 
 
-sem = semantic.SemanticMap()
+sem = semantic.SemanticMap(semantic.PRIORS.get(TARGET_NAME))
 jev = semantic.JevChooser()
 if SEMANTIC:
     print(f"[sar] semantic exploration ON (chooser: {'Jev' if jev.enabled else 'local prior'})")
 
 rejects = []
 _last_rej = [-1e9]
+
+
+def detect_yolo_target(frame):
+    """Target from YOLO boxes (e.g. football = COCO 'sports ball'), with the same floor/size checks."""
+    best = None
+    rejects.clear()
+    for x1, y1, x2, y2, name, conf in yolo_boxes:
+        if name != TARGET["yolo_class"]:
+            continue
+        bw, bh = x2 - x1, y2 - y1
+        why = None
+        if conf < TARGET["min_conf"]:
+            why = f"conf {conf:.2f}"
+        elif y2 < CH / 2 + 3:
+            why = "above floor"
+        elif x1 <= 2 or x2 >= CW - 2:
+            why = "edge"
+        else:
+            # two independent distance estimates must roughly agree: from box size and from floor contact
+            d_size = FOCAL * APPLE_D / max(bw, bh)
+            d_floor = CAM_HEIGHT / math.tan(math.atan2(y2 - CH / 2, FOCAL)) + CAM_X
+            roi = cv2.cvtColor(frame[max(0, y1):y2, max(0, x1):x2], cv2.COLOR_BGR2HSV)
+            sat = float((roi[..., 1] > 120).mean()) if roi.size else 0.0
+            if not (0.35 < d_size / d_floor < 3.0):
+                why = f"dist size {d_size:.1f} vs floor {d_floor:.1f}"
+            elif sat > TARGET.get("max_colorful", 1.0):
+                why = f"too colourful ({sat:.2f})"               # a red apple labelled "sports ball"
+        if why:
+            rejects.append((why, (x1, y1, bw, bh), bw * bh))
+            continue
+        if best is None or conf > best[0]:
+            best = (conf, x1, y1, bw, bh)
+    if best is None:
+        return None
+    conf, bx, by, bw, bh = best
+    bearing = math.atan2(CW / 2 - (bx + bw / 2), FOCAL)
+    dist = FOCAL * APPLE_D / max(bw, bh) + CAM_X + APPLE_D / 2    # size-based: robust for big objects
+    return bearing, dist, (bx, by, bw, bh), conf
 
 
 def detect_target(frame):
@@ -560,6 +669,8 @@ LEGEND_W = 250
 C_FREE, C_SEARCHED, C_UNKNOWN, C_WALL = (255, 255, 255), (200, 240, 200), (128, 128, 128), (0, 0, 0)
 C_PATH, C_ROBOT, C_START, C_DEST = (255, 0, 0), (0, 128, 255), (200, 0, 200), (0, 160, 0)
 C_TARGET, C_GOAL = (0, 0, 255), (0, 140, 255)
+C_NOGO, C_COST, C_LOCAL = (150, 150, 255), (140, 205, 255), (200, 120, 0)
+SHOW_COSTMAP = [True]                 # global costmap overlay on the map window (toggle: press 'c')
 
 
 def render_map(path):
@@ -567,6 +678,13 @@ def render_map(path):
     img = np.full((N, N, 3), C_UNKNOWN, np.uint8)
     img[known & (logodds < 0)] = C_FREE
     img[known & (logodds < 0) & cam_seen] = C_SEARCHED
+    if SHOW_COSTMAP[0]:
+        # global costmap (what A* plans on): no-go = inflation around walls, orange = expensive band
+        blocked, penalty = cost_maps()
+        free_known = known & (logodds < 0)
+        band = free_known & ~blocked & (penalty > 0)
+        img[band] = (img[band] * 0.45 + np.array(C_COST) * 0.55).astype(np.uint8)
+        img[free_known & blocked] = C_NOGO
     img[logodds > 0.6] = C_WALL
     # crop to explored area (+ margin), keep it square
     rows, cols = np.nonzero(known)
@@ -602,15 +720,22 @@ def render_map(path):
         cv2.rectangle(view, box[:2], box[2:], col, 1)
         cv2.putText(view, txt, (bx, by), font, scale, (30, 30, 30), 1, cv2.LINE_AA)
 
+    # local costmap footprint: the 3 m rolling window around the robot (detail in its own window)
+    h = LOCAL_SIZE / 2
+    corners = [px_of(x + dx, y + dy) for dx, dy in ((-h, -h), (h, -h), (h, h), (-h, h))]
+    for i in range(4):
+        a, b = np.array(corners[i], float), np.array(corners[(i + 1) % 4], float)
+        n = max(2, int(np.hypot(*(b - a)) / 10))
+        for j in range(0, n, 2):                       # dashed outline
+            p0 = a + (b - a) * j / n; p1 = a + (b - a) * min(j + 1, n) / n
+            cv2.line(view, tuple(p0.astype(int)), tuple(p1.astype(int)), C_LOCAL, 2)
     # global path
     pts = [px_of(px, py) for px, py in (path or [])]
     if len(pts) > 1:
         cv2.polylines(view, [np.int32(pts)], False, C_PATH, 2)
     # semantic objects: dot + class name (only well-confirmed ones get text)
     counts = {}
-    for name, ox, oy, hits in sem.objects:
-        if hits < 2:
-            continue
+    for name, ox, oy, hits, share in sem.reliable():
         counts[name] = counts.get(name, 0) + 1
         p = px_of(ox, oy)
         cv2.circle(view, p, 5, yolo_color(name), -1); cv2.circle(view, p, 5, (40, 40, 40), 1)
@@ -623,11 +748,11 @@ def render_map(path):
         p = px_of(fx, fy)
         cv2.circle(view, p, 11, C_TARGET, 3)
         cv2.putText(view, str(i), (p[0] - 5, p[1] + 5), font, 0.5, C_TARGET, 2, cv2.LINE_AA)
-        label(f"apple #{i} (found)", p, C_TARGET, 0.45, force=True)
+        label(f"{TARGET_NAME} #{i} (found)", p, C_TARGET, 0.45, force=True)
     if target_xy:
         p = px_of(*target_xy)
         cv2.drawMarker(view, p, C_TARGET, cv2.MARKER_DIAMOND, 16, 3)
-        label(f"apple #{len(found_targets) + 1}? (approaching)", p, C_TARGET, 0.45, force=True)
+        label(f"{TARGET_NAME} #{len(found_targets) + 1}? (approaching)", p, C_TARGET, 0.45, force=True)
     if goal and state == "EXPLORE":
         p = px_of(*goal)
         cv2.drawMarker(view, p, C_GOAL, cv2.MARKER_CROSS, 18, 3)
@@ -636,9 +761,8 @@ def render_map(path):
     cv2.circle(view, p, 8, C_ROBOT, -1)
     cv2.line(view, p, (int(p[0] + 18 * math.cos(th)), int(p[1] - 18 * math.sin(th))), C_ROBOT, 3)
     label("robot", p, C_ROBOT, 0.45, force=True)
-    for name, ox, oy, hits in sorted(sem.objects, key=lambda o: -o[3]):
-        if hits >= 3:
-            label(name, px_of(ox, oy), yolo_color(name), 0.35)
+    for name, ox, oy, hits, share in sorted(sem.reliable(), key=lambda o: -o[3]):
+        label(f"{name} {share:.0%}", px_of(ox, oy), yolo_color(name), 0.35)
 
     # legend panel
     leg = np.full((MAP_PX, LEGEND_W, 3), 245, np.uint8)
@@ -654,30 +778,35 @@ def render_map(path):
             cv2.rectangle(im, (p[0] - 8, p[1] - 7), (p[0] + 8, p[1] + 7), col, -1)
             cv2.rectangle(im, (p[0] - 8, p[1] - 7), (p[0] + 8, p[1] + 7), (90, 90, 90), 1)
         return f
-    cv2.putText(leg, f"{state}  apples {len(found_targets)}/{TARGET_COUNT}", (10, yy[0]), font, 0.5, (0, 0, 0), 2, cv2.LINE_AA)
+    cv2.putText(leg, f"{state}  found {len(found_targets)}/{TARGET_COUNT}", (10, yy[0]), font, 0.5, (0, 0, 0), 2, cv2.LINE_AA)
     yy[0] += 30
     row(lambda im, p: cv2.circle(im, p, 7, C_ROBOT, -1), "robot (arrow = heading)")
     row(lambda im, p: cv2.line(im, (p[0] - 9, p[1]), (p[0] + 9, p[1]), C_PATH, 3), "planned path (A*)")
     row(lambda im, p: cv2.drawMarker(im, p, C_GOAL, cv2.MARKER_CROSS, 14, 2), "exploration goal")
-    row(lambda im, p: cv2.drawMarker(im, p, C_TARGET, cv2.MARKER_DIAMOND, 12, 2), "apple seen, approaching")
-    row(lambda im, p: cv2.circle(im, p, 7, C_TARGET, 2), "apple reached (#n)")
+    row(lambda im, p: cv2.drawMarker(im, p, C_TARGET, cv2.MARKER_DIAMOND, 12, 2), "target seen, approaching")
+    row(lambda im, p: cv2.circle(im, p, 7, C_TARGET, 2), "target reached (#n)")
     row(sw(C_START), "start / home")
     row(sw(C_DEST), "destination (safe zone)")
     row(sw(C_WALL), "obstacle / wall")
     row(sw(C_FREE), "free, not yet searched")
     row(sw(C_SEARCHED), "free, checked by camera")
     row(sw(C_UNKNOWN), "unknown (unexplored)")
+    if SHOW_COSTMAP[0]:
+        row(sw(C_NOGO), "global costmap: no-go")
+        row(sw(C_COST), "global costmap: costly")
+    row(lambda im, p: cv2.rectangle(im, (p[0] - 8, p[1] - 7), (p[0] + 8, p[1] + 7), C_LOCAL, 2),
+        "local costmap window (3 m)")
     yy[0] += 8
-    cv2.putText(leg, "objects seen by YOLO (COCO):", (10, yy[0]), font, 0.45, (0, 0, 0), 1, cv2.LINE_AA)
+    cv2.putText(leg, "objects (YOLO-World, voted):", (10, yy[0]), font, 0.45, (0, 0, 0), 1, cv2.LINE_AA)
     yy[0] += 22
     for name, n in sorted(counts.items(), key=lambda t: -t[1]):
         if yy[0] > MAP_PX - 10:
             break
-        prior = semantic.APPLE_PRIOR.get(name, 0.0)
+        prior = sem.prior.get(name, 0.0)
         row(lambda im, p, col=yolo_color(name): cv2.circle(im, p, 6, col, -1),
             f"{name} x{n}" + ("  [+]" if prior >= 0.5 else ""))
     if counts:
-        cv2.putText(leg, "[+] = apple likely nearby", (10, min(yy[0] + 6, MAP_PX - 8)), font, 0.4, (0, 0, 160), 1, cv2.LINE_AA)
+        cv2.putText(leg, f"[+] = {TARGET_NAME} likely nearby", (10, min(yy[0] + 6, MAP_PX - 8)), font, 0.4, (0, 0, 160), 1, cv2.LINE_AA)
     return np.hstack([view, leg])
 
 
@@ -702,8 +831,14 @@ def show(frame, path, det):
     m = render_map(path)
     if int(robot.getTime() / DT) % 50 == 0:
         cv2.imwrite(__file__.replace("tb3_sar.py", "map_live.jpg"), m)
+        import json   # object map dump (for checking label accuracy against the real scene)
+        with open(__file__.replace("tb3_sar.py", "sem_objects.json"), "w") as fh:
+            json.dump([{**o, "label": semantic.SemanticMap.label(o)[0], "share": semantic.SemanticMap.label(o)[1],
+                        "reliable": o["n"] >= semantic.MIN_SEEN and semantic.SemanticMap.label(o)[1] >= semantic.MIN_SHARE}
+                       for o in sem.objects], fh)
     cv2.imshow("map", m)
-    cv2.waitKey(1)
+    if (cv2.waitKey(1) & 0xFF) == ord("c"):
+        SHOW_COSTMAP[0] = not SHOW_COSTMAP[0]
 
 
 # ---------------- main loop ----------------
@@ -721,6 +856,7 @@ wd_t, wd_xy = 0.0, (x, y)
 approach_fails = 0
 false_targets = []
 found_targets = []                    # apples already reached
+verified = 0                          # close-range confirmations of the current target
 arrived = False
 look_spots = [(x, y)]                 # where 360 deg look-arounds were done
 
@@ -732,15 +868,17 @@ while robot.step(dt_ms) != -1:
     th_before = th
     update_odometry()
     ranges = np.array(lidar.getRangeImage(), dtype=np.float32)
+    if int(t / DT) % MATCH_EVERY == 0 and t > 8.0:
+        scan_match(ranges)
     update_map(ranges)
     update_cam_coverage(ranges)
     update_local_costmap(ranges)
     frame = cv2.cvtColor(np.frombuffer(camera.getImage(), np.uint8).reshape(CH, CW, 4), cv2.COLOR_BGRA2BGR)
-    det = detect_target(frame)
     if yolo is not None and int(t / DT) % YOLO_EVERY == 0:
         yolo_boxes = run_yolo(frame)
         if SEMANTIC and state in ("SCAN", "EXPLORE"):
             sem.add(yolo_boxes, ranges, (x, y, th), CW, FOCAL, None, NBEAM)
+    det = detect_target(frame) if TARGET["kind"] == "color" else detect_yolo_target(frame)
     if rejects and t - _last_rej[0] > 3 and max(r[2] for r in rejects) > 80:
         _last_rej[0] = t
         print(f"[rej] t={t:.1f} {rejects[:3]}")
@@ -750,16 +888,21 @@ while robot.step(dt_ms) != -1:
     if det and state in ("SCAN", "EXPLORE", "APPROACH") and det[1] < 6.0:
         b, dist = det[0], det[1]
         tx, ty = x + dist * math.cos(th + b), y + dist * math.sin(th + b)
-        if any(math.hypot(tx - fx, ty - fy) < 0.5 for fx, fy in false_targets) or \
-                any(math.hypot(tx - fx, ty - fy) < 1.2 for fx, fy in found_targets):   # already rescued
+        if any(math.hypot(tx - fx, ty - fy) < 1.0 for fx, fy in false_targets) or \
+                any(math.hypot(tx - fx, ty - fy) < 1.5 for fx, fy in found_targets):   # already rescued
             det = None
     if det and state in ("SCAN", "EXPLORE", "APPROACH") and det[1] < 6.0:
         if target_xy is None or math.hypot(tx - target_xy[0], ty - target_xy[1]) > 1.0:
-            target_xy = (tx, ty); seen_count = 1
+            if state != "APPROACH":
+                target_xy = (tx, ty); seen_count = 1; verified = 0
         else:
             a = 0.3
             target_xy = ((1 - a) * target_xy[0] + a * tx, (1 - a) * target_xy[1] + a * ty)
             seen_count += 1
+            # close-up confirmation: far away a few red pixels look round (e.g. a red can on its side)
+            _, _, (_, _, bw_, bh_), conf_ = det
+            if det[1] < VERIFY_DIST and 0.8 < bw_ / max(bh_, 1) < 1.25 and conf_ >= 0.6:
+                verified += 1
         if seen_count >= 3 and state != "APPROACH":
             print(f"[sar] {TARGET_NAME} spotted at ({target_xy[0]:.2f}, {target_xy[1]:.2f})")
             state = "APPROACH"; path = None; last_plan = -1e9
@@ -781,10 +924,21 @@ while robot.step(dt_ms) != -1:
         drive(0, 0); show(frame, path, det); continue
 
     # choose goal for the current state
+    if state == "APPROACH" and any(math.hypot(target_xy[0] - fx, target_xy[1] - fy) < 1.5 for fx, fy in found_targets):
+        # far-away distance estimates are poor: the "new" target turned out to be one we already reached
+        print(f"[sar] target ({target_xy[0]:.2f},{target_xy[1]:.2f}) is an already-found {TARGET_NAME} -> keep exploring")
+        target_xy = None; seen_count = 0; verified = 0
+        state = "EXPLORE"; goal = None; path = None; last_plan = -1e9; drive(0, 0); continue
     if state == "APPROACH":
         goal = target_xy
+        if (near or math.hypot(goal[0] - x, goal[1] - y) < REACH_DIST) and verified < 2:
+            print(f"[sar] {TARGET_NAME} at ({goal[0]:.2f},{goal[1]:.2f}) NOT confirmed up close -> false alarm, keep exploring")
+            false_targets.append(target_xy); target_xy = None; seen_count = 0; verified = 0
+            state = "EXPLORE"; goal = None; path = None; last_plan = -1e9; drive(0, 0); continue
         if near or math.hypot(goal[0] - x, goal[1] - y) < REACH_DIST:
+            print(f"[sar] {TARGET_NAME} confirmed up close ({verified} close views)")
             found_targets.append(target_xy)
+            target_xy = None
             n = len(found_targets)
             if n >= TARGET_COUNT:
                 print(f"[sar] reached {TARGET_NAME} #{n} at t={t:.1f}s -> all {TARGET_COUNT} found, heading to destination")
@@ -878,5 +1032,5 @@ while robot.step(dt_ms) != -1:
                 path = None; arrived = True
 
     if int(t / DT) % 30 == 0:
-        print(f"[dbg] t={t:.1f} {state} pose=({x:.2f},{y:.2f},{th:.2f}) goal={goal} clear={front_clearance(ranges):.2f} det={det[:2] if det else None}")
+        print(f"[dbg] t={t:.1f} {state} scanmatch={_match['n']}x/{_match['total']:.2f}m pose=({x:.2f},{y:.2f},{th:.2f}) goal={goal} clear={front_clearance(ranges):.2f} det={det[:2] if det else None}")
     show(frame, path, det)

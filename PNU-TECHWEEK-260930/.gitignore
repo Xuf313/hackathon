@@ -1,7 +1,11 @@
-.venv_cv/
-.DS_Store
-__pycache__/
 *.bak
-controllers/tb3_sar/sar.log
-controllers/tb3_sar/*.jpg
+.DS_Store
+.venv_cv/
+__pycache__/
 controllers/*/runtime.ini
+controllers/tb3_sar/*.jpg
+controllers/tb3_sar/sar.log
+controllers/tb3_sar/sem_objects.json
+models/YOLO/yolo_world_apartment.pt
+models/YOLO/yolov8s-worldv2.pt
+weights/
