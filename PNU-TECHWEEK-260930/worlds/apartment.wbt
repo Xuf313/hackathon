@@ -1,93 +1,93 @@
 #VRML_SIM R2025a utf8
 
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/Roughcast.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/Pavement.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/PorcelainChevronTiles.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/CementTiles.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/cabinet/protos/Cabinet.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/cabinet/protos/CabinetHandle.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/PaintedWood.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/fridge/protos/Fridge.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/components/protos/Sink.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/oven/protos/Oven.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/components/protos/HotPlate.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/stairs/protos/StraightStairs.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/CarpetFibers.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/stairs/protos/StraightStairsRail.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/BrushedAluminium.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/breakfast/protos/CerealBox.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/breakfast/protos/HoneyJar.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/breakfast/protos/JamJar.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/WallPlug.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/Laptop.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/factory/containers/protos/CardboardBox.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/factory/pipes/protos/PipeSection.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/garden/protos/Barbecue.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/toys/protos/RubberDuck.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/school_furniture/protos/Book.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/bedroom/protos/Bed.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/BlanketFabric.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/chairs/protos/WoodenChair.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/tables/protos/RoundTable.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Cookware.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Lid.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/tables/protos/Desk.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/Wall.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/Window.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/Radiator.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/DesktopComputer.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/Keyboard.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/Monitor.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/ComputerMouse.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/Door.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/lights/protos/CeilingLight.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/lights/protos/FloorLight.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/tables/protos/Table.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Carafe.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Plate.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Knife.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Glass.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/drinks/protos/WaterBottle.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Fork.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/utensils/protos/Wineglass.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/chairs/protos/Chair.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/fruits/protos/FruitBowl.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/fruits/protos/Apple.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/fruits/protos/Orange.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/drinks/protos/BeerBottle.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/drinks/protos/Can.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/living_room_furniture/protos/Armchair.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/living_room_furniture/protos/Sofa.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/living_room_furniture/protos/Carpet.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/plants/protos/BunchOfSunFlowers.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/plants/protos/PottedTree.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/paintings/protos/PortraitPainting.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/paintings/protos/LandscapePainting.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/television/protos/Television.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/factory/fire_extinguisher/protos/FireExtinguisher.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/school_furniture/protos/Clock.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/telephone/protos/OfficeTelephone.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/bathroom/protos/WashingMachine.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/bathroom/protos/BathroomSink.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/bathroom/protos/Bathtube.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/bathroom/protos/Toilet.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/lights/protos/CeilingSpotLight.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/trees/protos/Cypress.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/devices/robotis/protos/RobotisLds01.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Pavement.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/PorcelainChevronTiles.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/CementTiles.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/cabinet/protos/CabinetHandle.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/PaintedWood.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/fridge/protos/Fridge.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/components/protos/Sink.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/oven/protos/Oven.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/components/protos/HotPlate.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/stairs/protos/StraightStairs.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/CarpetFibers.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/stairs/protos/StraightStairsRail.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/breakfast/protos/CerealBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/breakfast/protos/HoneyJar.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/breakfast/protos/JamJar.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/apartment_structure/protos/WallPlug.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/computers/protos/Laptop.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/containers/protos/CardboardBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/pipes/protos/PipeSection.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/garden/protos/Barbecue.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/toys/protos/RubberDuck.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/school_furniture/protos/Book.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/bedroom/protos/Bed.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/BlanketFabric.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/chairs/protos/WoodenChair.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/tables/protos/RoundTable.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/utensils/protos/Cookware.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/utensils/protos/Lid.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/apartment_structure/protos/Radiator.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/computers/protos/DesktopComputer.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/computers/protos/Keyboard.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/computers/protos/Monitor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/computers/protos/ComputerMouse.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/lights/protos/FloorLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/utensils/protos/Carafe.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/utensils/protos/Plate.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/utensils/protos/Knife.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/utensils/protos/Glass.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/drinks/protos/WaterBottle.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/utensils/protos/Fork.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/utensils/protos/Wineglass.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/chairs/protos/Chair.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/fruits/protos/FruitBowl.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/fruits/protos/Apple.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/fruits/protos/Orange.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/drinks/protos/BeerBottle.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/drinks/protos/Can.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/living_room_furniture/protos/Armchair.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/living_room_furniture/protos/Sofa.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/living_room_furniture/protos/Carpet.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/plants/protos/BunchOfSunFlowers.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/plants/protos/PottedTree.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/paintings/protos/PortraitPainting.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/paintings/protos/LandscapePainting.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/television/protos/Television.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/factory/fire_extinguisher/protos/FireExtinguisher.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/school_furniture/protos/Clock.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/telephone/protos/OfficeTelephone.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/bathroom/protos/WashingMachine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/bathroom/protos/BathroomSink.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/bathroom/protos/Bathtube.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/bathroom/protos/Toilet.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/lights/protos/CeilingSpotLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/trees/protos/Cypress.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/devices/robotis/protos/RobotisLds01.proto"
 EXTERNPROTO "../protos/RedApple.proto"
 EXTERNPROTO "../protos/GreenApple.proto"
 EXTERNPROTO "../protos/PurpleApple.proto"
 EXTERNPROTO "../protos/OrangeApple.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/animals/protos/Cat.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/animals/protos/Cow.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/balls/protos/FifaSoccerBall.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/humans/pedestrian/protos/Pedestrian.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/animals/protos/Cat.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/animals/protos/Cow.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/balls/protos/FifaSoccerBall.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/humans/pedestrian/protos/Pedestrian.proto"
 
 WorldInfo {
   info [
@@ -640,7 +640,7 @@ DEF KITCHEN_BLOCK Pose {
             baseColor 0.8 0.8 0.8
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/default/worlds/textures/roughcast.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/roughcast.jpg"
               ]
             }
             roughness 0.5
@@ -699,7 +699,7 @@ DEF KITCHEN_BLOCK Pose {
             baseColor 0.8 0.8 0.8
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/default/worlds/textures/wood.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/wood.jpg"
               ]
             }
             roughness 0.5
@@ -723,7 +723,7 @@ DEF KITCHEN_BLOCK Pose {
             baseColor 0.8 0.8 0.8
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/exhaust_hood.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/exhaust_hood.jpg"
               ]
             }
             roughness 0.5
@@ -1422,7 +1422,7 @@ Solid {
             metalness 0
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
               ]
             }
           }
@@ -1443,17 +1443,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -1534,17 +1534,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -1625,17 +1625,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -1725,7 +1725,7 @@ Solid {
             metalness 0
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
               ]
             }
           }
@@ -1746,17 +1746,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -1837,17 +1837,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -1928,17 +1928,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -2029,7 +2029,7 @@ Solid {
             metalness 0
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
               ]
             }
           }
@@ -2050,17 +2050,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -2141,17 +2141,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -2232,17 +2232,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -2333,7 +2333,7 @@ Solid {
             metalness 0
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
               ]
             }
           }
@@ -2354,17 +2354,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -2445,17 +2445,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -2536,17 +2536,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -2637,7 +2637,7 @@ Solid {
             metalness 0
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
               ]
             }
           }
@@ -2658,17 +2658,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -2749,17 +2749,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -2840,17 +2840,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -2952,7 +2952,7 @@ Solid {
             metalness 0
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/roughcast/roughcast_normal.jpg"
               ]
             }
           }
@@ -2973,17 +2973,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -3064,17 +3064,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }
@@ -3155,17 +3155,17 @@ Solid {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_base_color.jpg"
               ]
             }
             roughnessMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_roughness.jpg"
               ]
             }
             normalMap ImageTexture {
               url [
-                "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/brushed_aluminium/brushed_aluminium_normal.jpg"
               ]
             }
           }

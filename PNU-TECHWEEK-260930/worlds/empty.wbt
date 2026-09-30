@@ -1,7 +1,7 @@
 #VRML_SIM R2025a utf8
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
 WorldInfo {
 }
 Viewpoint {

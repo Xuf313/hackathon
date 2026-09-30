@@ -1,31 +1,31 @@
 #VRML_SIM R2025a utf8
 
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/backgrounds/protos/TexturedBackground.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/floors/protos/Floor.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/Parquetry.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/lights/protos/CeilingSpotLight.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/lights/protos/CeilingLight.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/Wall.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/Roughcast.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/Window.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/apartment_structure/protos/Door.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/living_room_furniture/protos/Sofa.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/plants/protos/PottedTree.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/cabinet/protos/Cabinet.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/cabinet/protos/CabinetHandle.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/GlossyPaint.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/solids/protos/SolidBox.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/kitchen/components/protos/Sink.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/tables/protos/Table.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/appearances/protos/VarnishedPine.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/Monitor.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/computers/protos/Keyboard.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/chairs/protos/OfficeChair.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/devices/robotis/protos/RobotisLds01.proto"
-EXTERNPROTO "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/lights/protos/CeilingSpotLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/lights/protos/CeilingLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/apartment_structure/protos/Wall.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/apartment_structure/protos/Window.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/apartment_structure/protos/Door.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/living_room_furniture/protos/Sofa.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/plants/protos/PottedTree.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/cabinet/protos/CabinetHandle.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/kitchen/components/protos/Sink.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/computers/protos/Monitor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/computers/protos/Keyboard.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/chairs/protos/OfficeChair.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/devices/robotis/protos/RobotisLds01.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/balls/protos/Ball.proto"
 
 WorldInfo {
   info [
@@ -605,18 +605,18 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_base_color.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_roughness.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_normal.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_normal.jpg"
           ]
         }
         normalMapFactor 0.2
@@ -698,18 +698,18 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_base_color.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_roughness.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_normal.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_normal.jpg"
           ]
         }
         normalMapFactor 0.2
@@ -792,18 +792,18 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_base_color.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_roughness.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_normal.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_normal.jpg"
           ]
         }
         normalMapFactor 0.2
@@ -886,18 +886,18 @@ Solid {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_base_color.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_base_color.jpg"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_roughness.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_roughness.jpg"
           ]
         }
         metalness 0
         normalMap ImageTexture {
           url [
-            "/Users/sam/Projects/2026 2nd semester/Tech Week Hackathon/webots_proto_mirror/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_normal.jpg"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/environments/indoor/worlds/textures/rustic_veneer_wood_normal.jpg"
           ]
         }
         normalMapFactor 0.2

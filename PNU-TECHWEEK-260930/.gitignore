@@ -4,3 +4,4 @@ __pycache__/
 *.bak
 controllers/tb3_sar/sar.log
 controllers/tb3_sar/*.jpg
+controllers/*/runtime.ini
