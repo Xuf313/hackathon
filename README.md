@@ -125,29 +125,21 @@ Press **`c`** in the 3D view to show the global costmap tint on the map.
 
 ## Repository structure
 
+**Team Alien wrote `controllers/tb3_sar/`** (`tb3_sar.py` + `semantic.py`, about 1,200 lines). The other controllers were provided by the organizers as a starter kit.
+
 ```
 hackathon/
 ├── controllers/
-│   ├── tb3_sar/                 # ★ final autonomous search-and-rescue controller
+│   ├── tb3_sar/                 # ★ OUR WORK: autonomous search-and-rescue controller
 │   │   ├── tb3_sar.py           #   mission FSM, mapping, localization, detection, planning
 │   │   ├── semantic.py          #   YOLO object map + semantic frontier scoring (+ optional Jev)
 │   │   └── sar.log              #   log of the final run
-│   ├── tb3_teleop/              # keyboard driving (W A S D)
-│   ├── tb3_teleop_sensors/      # keyboard driving + LiDAR, encoders, IMU, compass, camera readout
-│   ├── tb3_teleop_cam/          # keyboard driving + camera view
-│   ├── tb3_teleop_yolo/         # keyboard driving + YOLO11n object detection
-│   ├── tb3_cam/                 # camera test
-│   ├── tb3_lidar/               # LiDAR test (front / back / left / right ranges)
-│   ├── tb3_segmentation/        # colour segmentation (LAB mask + contours)
-│   └── tb3_ground_truth/        # Supervisor: shows the true pose to check estimates
+│   └── (starter controllers provided by the organizers, not our work)
+│       tb3_teleop, tb3_teleop_sensors, tb3_teleop_cam, tb3_teleop_yolo,
+│       tb3_cam, tb3_lidar, tb3_segmentation, tb3_ground_truth
 ├── worlds/
 │   ├── apartment.wbt            # ★ mission world (uses tb3_sar)
-│   ├── breakroom_teleop.wbt     # tb3_teleop_sensors
-│   ├── breakroom_sensor_test.wbt# tb3_lidar
-│   ├── breakroom_ball.wbt       # tb3_segmentation
-│   ├── breakroom_teleop_yolo.wbt# tb3_teleop_yolo
-│   ├── breakroom_ground_truth.wbt # tb3_ground_truth
-│   └── empty.wbt
+│   └── breakroom_*.wbt, empty.wbt  # test worlds used by the starter controllers
 ├── protos/                      # Red / Green / Purple / Orange apple PROTOs
 └── models/YOLO/yolo11n.pt       # YOLO11n (COCO) weights
 ```
