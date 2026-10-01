@@ -100,8 +100,8 @@ WorldInfo {
   FPS 30
 }
 Viewpoint {
-  orientation 0.24461283016878257 -0.04125018512610903 -0.9687429925134322 3.463058994221223
-  position 9.17197673788574 -11.617235774161504 8.713314217692076
+  orientation 0.41790179566589647 -0.00012060072800689346 -0.9084921984445895 3.14071195122933
+  position 4.734677195212563 -7.487630783046917 9.573319012239109
   exposure 0.5
   follow "TurtleBot3Burger"
   followType "Mounted Shot"
@@ -942,8 +942,23 @@ Cabinet {
 TurtleBot3Burger {
   translation -0.3 -7.5 0
   rotation 0 0 1 3.14159
-  controller "tb3_teleop"
+  controller "tb3_sar"
   extensionSlot [
+    Display {
+      name "camera_view"
+      width 640
+      height 480
+    }
+    Display {
+      name "map"
+      width 480
+      height 480
+    }
+    Display {
+      name "local_costmap"
+      width 300
+      height 300
+    }
     Camera {
       translation 0.05 0 -0.08
       fieldOfView 1.0472

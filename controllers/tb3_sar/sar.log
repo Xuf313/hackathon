@@ -1,0 +1,307 @@
+[sar] yolo_world_apartment.pt missing (run models/YOLO/make_world_model.py) -> using yolo11n.pt (COCO)
+[sar] YOLO loaded on mps: yolo11n.pt (80 classes)
+[sar] semantic exploration ON (chooser: local prior)
+[sar] mission: find 2x red apple -> destination (-4.94, -7.33) -> home (-0.3, -7.5)
+[sar] compass calibrated sign=+1
+[rej] t=0.5 [('shape circ=0.39 ar=0.20', (0, 221, 18, 90), 1282.5), ('shape circ=0.38 ar=2.12', (0, 177, 17, 8), 51.0), ('shape circ=0.21 ar=0.42', (0, 135, 17, 40), 367.0)]
+[sar] stuck at (-0.30,-7.50) -> recovery
+[dbg] t=5.8 EXPLORE scanmatch=0x/0.00m pose=(-0.40,-7.47,2.88) goal=(-1.5749999999999993, -6.324999999999999) clear=1.23 det=None
+[dbg] t=7.7 EXPLORE scanmatch=0x/0.00m pose=(-0.71,-7.28,2.32) goal=(-1.0749999999999993, -5.775) clear=0.86 det=None
+[dbg] t=9.6 EXPLORE scanmatch=1x/0.03m pose=(-0.91,-7.01,1.20) goal=(-0.2749999999999986, -7.475) clear=0.52 det=None
+[dbg] t=11.5 EXPLORE scanmatch=4x/0.06m pose=(-0.74,-6.98,0.97) goal=(-1.5749999999999993, -6.324999999999999) clear=0.37 det=None
+[rej] t=12.8 [('size 6 vs 59', (460, 278, 5, 6), 16.0), ('shape circ=0.55 ar=0.47', (487, 269, 8, 17), 86.0), ('shape circ=0.55 ar=0.47', (471, 269, 8, 17), 86.0)]
+[dbg] t=13.4 EXPLORE scanmatch=6x/0.09m pose=(-0.71,-6.66,1.89) goal=(-1.5749999999999993, -6.324999999999999) clear=0.85 det=None
+[dbg] t=15.4 EXPLORE scanmatch=7x/0.11m pose=(-0.91,-6.34,2.37) goal=(-1.7249999999999996, -6.275) clear=0.89 det=None
+[dbg] t=17.3 EXPLORE scanmatch=8x/0.13m pose=(-1.20,-6.13,2.94) goal=(-1.7249999999999996, -6.275) clear=0.53 det=None
+[dbg] t=19.2 EXPLORE scanmatch=9x/0.14m pose=(-1.57,-6.17,-2.88) goal=(-2.5249999999999986, -6.025) clear=0.33 det=None
+[dbg] t=21.1 EXPLORE scanmatch=10x/0.15m pose=(-1.96,-6.26,-3.04) goal=(-2.5249999999999986, -6.025) clear=0.37 det=None
+[dbg] t=23.0 EXPLORE scanmatch=11x/0.17m pose=(-2.34,-6.28,2.92) goal=(-2.5749999999999993, -5.975) clear=0.66 det=None
+[dbg] t=25.0 EXPLORE scanmatch=13x/0.20m pose=(-2.58,-6.11,1.36) goal=(-2.424999999999999, -7.175) clear=0.30 det=None
+[dbg] t=26.9 EXPLORE scanmatch=17x/0.26m pose=(-2.48,-6.12,-0.97) goal=(-2.424999999999999, -7.175) clear=0.40 det=None
+[dbg] t=28.8 EXPLORE scanmatch=18x/0.27m pose=(-2.29,-6.34,-0.33) goal=(-2.424999999999999, -7.175) clear=0.21 det=None
+[dbg] t=30.7 EXPLORE scanmatch=20x/0.29m pose=(-1.93,-6.35,0.24) goal=(-2.424999999999999, -7.175) clear=0.41 det=None
+[dbg] t=32.6 EXPLORE scanmatch=20x/0.29m pose=(-1.53,-6.26,0.17) goal=(-2.424999999999999, -7.175) clear=0.83 det=None
+[rej] t=33.1 [('shape circ=0.45 ar=0.50', (3, 278, 10, 20), 95.0), ('size 12 vs 47', (3, 263, 10, 12), 75.5)]
+[dbg] t=34.6 EXPLORE scanmatch=21x/0.31m pose=(-1.19,-6.29,-0.53) goal=(-2.424999999999999, -7.175) clear=0.76 det=None
+[rej] t=36.1 [('above floor', (402, 209, 13, 12), 78.5), ('above floor', (371, 206, 8, 6), 30.0), ('shape circ=0.43 ar=1.89', (371, 196, 17, 9), 72.5)]
+[dbg] t=36.5 EXPLORE scanmatch=22x/0.32m pose=(-0.96,-6.55,-1.24) goal=(-2.424999999999999, -7.175) clear=1.36 det=None
+[dbg] t=38.4 EXPLORE scanmatch=23x/0.34m pose=(-0.94,-6.91,-1.85) goal=(-2.424999999999999, -7.175) clear=1.32 det=None
+[dbg] t=40.3 EXPLORE scanmatch=24x/0.35m pose=(-1.12,-7.22,-2.46) goal=(-2.424999999999999, -7.175) clear=1.13 det=None
+[dbg] t=42.2 EXPLORE scanmatch=24x/0.35m pose=(-1.46,-7.38,-2.83) goal=(-2.424999999999999, -7.175) clear=1.15 det=None
+[dbg] t=44.2 EXPLORE scanmatch=24x/0.35m pose=(-1.80,-7.54,-2.39) goal=(-1.674999999999999, -8.575) clear=1.11 det=None
+[dbg] t=46.1 EXPLORE scanmatch=24x/0.35m pose=(-2.00,-7.85,-2.00) goal=(-1.674999999999999, -8.575) clear=0.73 det=None
+[dbg] t=48.0 EXPLORE scanmatch=24x/0.35m pose=(-2.07,-8.22,-1.52) goal=(-1.674999999999999, -8.575) clear=1.94 det=None
+[dbg] t=53.8 EXPLORE scanmatch=33x/0.49m pose=(-1.97,-8.60,-1.28) goal=(-1.375, -8.675) clear=2.25 det=None
+[dbg] t=55.7 EXPLORE scanmatch=34x/0.50m pose=(-1.78,-8.90,-0.65) goal=(-0.9749999999999996, -8.675) clear=1.21 det=None
+[dbg] t=57.6 EXPLORE scanmatch=35x/0.51m pose=(-1.44,-9.03,-0.05) goal=(-0.9749999999999996, -8.675) clear=0.87 det=None
+[sar] semantic: chose (-0.3,-9.6) over nearest (-1.1,-10.6) likelihood=0.15
+[dbg] t=59.5 EXPLORE scanmatch=35x/0.51m pose=(-1.13,-9.02,-0.45) goal=(-0.3249999999999993, -9.575) clear=0.54 det=None
+[dbg] t=61.4 EXPLORE scanmatch=38x/0.56m pose=(-0.96,-9.28,-1.48) goal=(-0.3249999999999993, -9.575) clear=1.43 det=None
+[dbg] t=63.4 EXPLORE scanmatch=38x/0.56m pose=(-0.90,-9.61,-0.91) goal=(-0.3249999999999993, -9.524999999999999) clear=0.90 det=None
+[rej] t=63.6 [('size 15 vs 294', (263, 470, 15, 10), 81.5), ('shape circ=0.39 ar=0.92', (300, 467, 12, 13), 78.0), ('shape circ=0.49 ar=2.00', (280, 464, 10, 5), 22.0)]
+[dbg] t=65.3 EXPLORE scanmatch=38x/0.56m pose=(-0.61,-9.80,-0.14) goal=(-0.3249999999999993, -9.524999999999999) clear=0.58 det=None
+[dbg] t=71.0 EXPLORE scanmatch=49x/0.73m pose=(-0.38,-9.91,-1.29) goal=(-0.6749999999999989, -11.075) clear=0.45 det=None
+[dbg] t=73.0 EXPLORE scanmatch=50x/0.74m pose=(-0.43,-10.25,-1.99) goal=(-0.7249999999999996, -11.075) clear=0.53 det=None
+[dbg] t=74.9 EXPLORE scanmatch=51x/0.76m pose=(-0.52,-10.54,-2.69) goal=(-2.125, -10.625) clear=0.23 det=None
+[dbg] t=76.8 EXPLORE scanmatch=53x/0.79m pose=(-0.85,-10.54,2.75) goal=(-2.875, -10.524999999999999) clear=1.00 det=None
+[dbg] t=78.7 EXPLORE scanmatch=54x/0.80m pose=(-1.17,-10.39,2.71) goal=(-2.875, -10.524999999999999) clear=1.89 det=None
+[dbg] t=80.6 EXPLORE scanmatch=56x/0.86m pose=(-1.10,-10.26,0.44) goal=(-0.875, -11.075) clear=0.99 det=None
+[rej] t=81.3 [('above floor', (620, 206, 14, 10), 80.5)]
+[dbg] t=82.6 EXPLORE scanmatch=57x/0.87m pose=(-0.76,-10.19,-0.12) goal=(-0.875, -11.075) clear=0.61 det=None
+[dbg] t=84.5 EXPLORE scanmatch=58x/0.89m pose=(-0.51,-10.39,-1.14) goal=(-0.875, -11.075) clear=0.29 det=None
+[dbg] t=86.4 EXPLORE scanmatch=63x/0.97m pose=(-0.56,-10.56,-3.03) goal=(-2.5749999999999993, -10.875) clear=0.32 det=None
+[dbg] t=88.3 EXPLORE scanmatch=64x/0.99m pose=(-0.92,-10.50,2.63) goal=(-2.5749999999999993, -10.875) clear=2.14 det=None
+[dbg] t=90.2 EXPLORE scanmatch=64x/0.99m pose=(-1.26,-10.36,2.82) goal=(-2.5749999999999993, -10.875) clear=1.82 det=None
+[dbg] t=92.2 EXPLORE scanmatch=64x/0.99m pose=(-1.62,-10.29,3.02) goal=(-2.5749999999999993, -10.875) clear=1.45 det=None
+[dbg] t=94.1 EXPLORE scanmatch=64x/0.99m pose=(-2.02,-10.26,3.14) goal=(-2.5749999999999993, -10.875) clear=1.04 det=None
+[dbg] t=96.0 EXPLORE scanmatch=65x/1.00m pose=(-2.41,-10.30,-2.72) goal=(-2.5749999999999993, -10.875) clear=0.66 det=None
+[dbg] t=97.9 EXPLORE scanmatch=66x/1.01m pose=(-2.66,-10.55,-1.96) goal=(-2.5749999999999993, -10.875) clear=0.46 det=None
+[rej] t=98.8 [('shape circ=0.27 ar=6.67', (30, 477, 20, 3), 36.0), ('shape circ=0.34 ar=4.00', (8, 477, 12, 3), 17.5), ('shape circ=0.31 ar=5.00', (80, 476, 20, 4), 43.5)]
+[dbg] t=103.7 EXPLORE scanmatch=74x/1.15m pose=(-2.72,-10.95,-1.31) goal=(-1.8249999999999993, -11.125) clear=0.94 det=None
+[rej] t=103.9 [('shape circ=0.53 ar=2.20', (230, 475, 11, 5), 28.0), ('shape circ=0.44 ar=2.67', (188, 462, 16, 6), 50.0), ('shape circ=0.49 ar=2.75', (153, 459, 11, 4), 24.0)]
+[dbg] t=105.6 EXPLORE scanmatch=75x/1.17m pose=(-2.53,-11.24,-0.58) goal=(-1.674999999999999, -11.075) clear=1.72 det=None
+[rej] t=107.5 [('shape circ=0.34 ar=2.30', (448, 470, 23, 10), 96.0), ('shape circ=0.53 ar=2.00', (435, 470, 8, 4), 15.0)]
+[dbg] t=107.5 EXPLORE scanmatch=75x/1.17m pose=(-2.18,-11.34,0.02) goal=(-1.674999999999999, -11.075) clear=0.91 det=None
+[dbg] t=109.4 EXPLORE scanmatch=75x/1.17m pose=(-1.84,-11.37,-0.50) goal=(-0.9749999999999996, -12.575) clear=1.46 det=None
+[rej] t=110.7 [('shape circ=0.25 ar=1.29', (233, 453, 22, 17), 80.5)]
+[dbg] t=111.4 EXPLORE scanmatch=76x/1.18m pose=(-1.49,-11.57,-0.58) goal=(-0.375, -12.675) clear=1.02 det=None
+[dbg] t=113.3 EXPLORE scanmatch=80x/1.25m pose=(-1.60,-11.65,-3.13) goal=(-3.5749999999999993, -8.175) clear=1.45 det=None
+[dbg] t=115.2 EXPLORE scanmatch=81x/1.27m pose=(-1.99,-11.59,2.80) goal=(-3.5749999999999993, -8.175) clear=1.07 det=None
+[dbg] t=117.1 EXPLORE scanmatch=81x/1.27m pose=(-2.35,-11.42,2.59) goal=(-3.5749999999999993, -8.175) clear=0.71 det=None
+[dbg] t=119.0 EXPLORE scanmatch=82x/1.28m pose=(-2.60,-11.15,2.01) goal=(-3.5749999999999993, -8.175) clear=0.52 det=None
+[dbg] t=121.0 EXPLORE scanmatch=83x/1.30m pose=(-2.70,-10.80,1.59) goal=(-3.5749999999999993, -8.175) clear=0.63 det=None
+[dbg] t=122.9 EXPLORE scanmatch=84x/1.31m pose=(-2.65,-10.44,1.31) goal=(-3.5749999999999993, -8.175) clear=1.32 det=None
+[dbg] t=124.8 EXPLORE scanmatch=84x/1.31m pose=(-2.56,-10.07,1.43) goal=(-3.5749999999999993, -8.175) clear=1.20 det=None
+[dbg] t=126.7 EXPLORE scanmatch=84x/1.31m pose=(-2.52,-9.66,1.49) goal=(-3.5749999999999993, -8.175) clear=1.09 det=None
+[dbg] t=128.6 EXPLORE scanmatch=85x/1.33m pose=(-2.43,-9.29,1.09) goal=(-3.5749999999999993, -8.175) clear=0.72 det=None
+[dbg] t=130.6 EXPLORE scanmatch=85x/1.33m pose=(-2.19,-8.98,0.95) goal=(-3.5749999999999993, -8.175) clear=0.73 det=None
+[dbg] t=130.6 EXPLORE scanmatch=85x/1.33m pose=(-2.19,-8.97,0.97) goal=(-3.5749999999999993, -8.175) clear=0.72 det=None
+[dbg] t=132.5 EXPLORE scanmatch=85x/1.33m pose=(-2.07,-8.63,1.49) goal=(-3.5749999999999993, -8.175) clear=1.69 det=None
+[dbg] t=134.4 EXPLORE scanmatch=85x/1.33m pose=(-2.07,-8.25,1.79) goal=(-3.5749999999999993, -8.175) clear=1.21 det=None
+[dbg] t=136.3 EXPLORE scanmatch=85x/1.33m pose=(-2.25,-7.93,2.39) goal=(-3.5749999999999993, -8.175) clear=0.94 det=None
+[dbg] t=138.2 EXPLORE scanmatch=85x/1.33m pose=(-2.58,-7.77,2.99) goal=(-3.5749999999999993, -8.175) clear=1.30 det=None
+[dbg] t=140.2 EXPLORE scanmatch=85x/1.33m pose=(-2.97,-7.77,-3.12) goal=(-4.574999999999999, -8.274999999999999) clear=1.00 det=None
+[dbg] t=142.1 EXPLORE scanmatch=85x/1.33m pose=(-3.38,-7.80,-3.04) goal=(-4.625, -8.475) clear=0.88 det=None
+[dbg] t=144.0 EXPLORE scanmatch=85x/1.33m pose=(-3.79,-7.84,-3.06) goal=(-4.625, -8.475) clear=1.64 det=None
+[dbg] t=145.9 EXPLORE scanmatch=85x/1.33m pose=(-4.20,-7.85,-3.12) goal=(-4.625, -8.625) clear=1.26 det=None
+[dbg] t=147.8 EXPLORE scanmatch=85x/1.33m pose=(-4.56,-7.92,-2.68) goal=(-4.625, -8.625) clear=0.90 det=None
+[dbg] t=149.8 EXPLORE scanmatch=86x/1.34m pose=(-4.82,-8.16,-1.95) goal=(-4.625, -8.625) clear=0.57 det=None
+[dbg] t=151.7 EXPLORE scanmatch=87x/1.36m pose=(-4.86,-8.52,-1.39) goal=(-4.424999999999999, -8.875) clear=1.08 det=None
+[dbg] t=153.6 EXPLORE scanmatch=89x/1.40m pose=(-4.78,-8.77,0.69) goal=(-5.875, -8.475) clear=0.42 det=None
+[dbg] t=155.5 EXPLORE scanmatch=92x/1.44m pose=(-4.71,-8.47,1.82) goal=(-5.875, -8.475) clear=1.67 det=None
+[dbg] t=157.4 EXPLORE scanmatch=92x/1.44m pose=(-4.89,-8.16,2.36) goal=(-5.875, -8.475) clear=2.25 det=None
+[dbg] t=159.4 EXPLORE scanmatch=92x/1.44m pose=(-5.21,-7.97,2.80) goal=(-5.875, -8.524999999999999) clear=1.54 det=None
+[dbg] t=161.3 EXPLORE scanmatch=92x/1.44m pose=(-5.58,-7.92,-3.11) goal=(-5.875, -8.625) clear=1.16 det=None
+[dbg] t=163.2 EXPLORE scanmatch=93x/1.45m pose=(-5.92,-8.03,-2.51) goal=(-5.875, -8.625) clear=0.80 det=None
+[dbg] t=165.1 EXPLORE scanmatch=94x/1.47m pose=(-6.13,-8.31,-1.80) goal=(-5.875, -8.625) clear=0.59 det=None
+[dbg] t=167.0 EXPLORE scanmatch=95x/1.48m pose=(-6.12,-8.67,-1.41) goal=(-6.824999999999999, -8.825) clear=0.74 det=None
+[dbg] t=169.0 EXPLORE scanmatch=96x/1.49m pose=(-6.16,-9.02,-2.04) goal=(-6.824999999999999, -8.825) clear=0.90 det=None
+[dbg] t=170.9 EXPLORE scanmatch=97x/1.51m pose=(-6.41,-9.26,-2.77) goal=(-6.824999999999999, -8.825) clear=1.12 det=None
+[dbg] t=172.8 EXPLORE scanmatch=97x/1.51m pose=(-6.77,-9.29,2.93) goal=(-6.824999999999999, -8.825) clear=0.76 det=None
+[dbg] t=178.6 EXPLORE scanmatch=107x/1.68m pose=(-6.95,-9.12,2.33) goal=(-7.725, -9.725) clear=0.40 det=None
+[dbg] t=180.5 EXPLORE scanmatch=109x/1.71m pose=(-7.25,-9.02,-2.99) goal=(-7.725, -9.725) clear=0.62 det=None
+[dbg] t=182.4 EXPLORE scanmatch=109x/1.71m pose=(-7.61,-9.16,-2.64) goal=(-7.725, -9.875) clear=1.64 det=None
+[dbg] t=184.3 EXPLORE scanmatch=110x/1.73m pose=(-7.87,-9.40,-1.96) goal=(-7.725, -9.875) clear=1.89 det=None
+[dbg] t=186.2 EXPLORE scanmatch=110x/1.73m pose=(-7.92,-9.76,-1.68) goal=(-7.5249999999999995, -11.475) clear=0.93 det=None
+[dbg] t=188.2 EXPLORE scanmatch=110x/1.73m pose=(-8.02,-10.08,-2.30) goal=(-9.274999999999999, -10.625) clear=1.51 det=None
+[dbg] t=190.1 EXPLORE scanmatch=112x/1.76m pose=(-8.23,-10.35,-1.85) goal=(-8.225, -11.875) clear=1.38 det=None
+[dbg] t=192.0 EXPLORE scanmatch=112x/1.76m pose=(-8.21,-10.71,-1.23) goal=(-7.225, -11.375) clear=0.94 det=None
+[dbg] t=193.9 EXPLORE scanmatch=112x/1.76m pose=(-8.07,-11.09,-1.23) goal=(-7.225, -11.375) clear=1.02 det=None
+[dbg] t=195.8 EXPLORE scanmatch=112x/1.76m pose=(-7.92,-11.45,-0.95) goal=(-7.225, -11.375) clear=1.13 det=None
+[dbg] t=197.8 EXPLORE scanmatch=113x/1.77m pose=(-7.63,-11.68,-0.36) goal=(-7.225, -11.375) clear=0.76 det=None
+[dbg] t=199.7 EXPLORE scanmatch=114x/1.79m pose=(-7.28,-11.70,0.36) goal=(-7.225, -10.975) clear=1.61 det=None
+[rej] t=200.5 [('above floor', (0, 100, 10, 13), 95.0), ('shape circ=0.49 ar=1.67', (0, 86, 10, 6), 24.5), ('shape circ=0.28 ar=0.34', (0, 47, 10, 29), 141.0)]
+[dbg] t=201.6 EXPLORE scanmatch=114x/1.79m pose=(-7.00,-11.48,0.97) goal=(-7.225, -10.975) clear=1.23 det=None
+[rej] t=203.5 [('shape circ=0.22 ar=0.68', (617, 69, 21, 31), 255.5), ('shape circ=0.18 ar=0.51', (618, 27, 20, 39), 262.5)]
+[dbg] t=203.5 EXPLORE scanmatch=115x/1.80m pose=(-6.91,-11.15,1.66) goal=(-7.225, -10.975) clear=0.84 det=None
+[dbg] t=205.4 EXPLORE scanmatch=115x/1.80m pose=(-6.96,-10.80,1.50) goal=(-6.975, -7.875) clear=0.97 det=None
+[dbg] t=207.4 EXPLORE scanmatch=116x/1.82m pose=(-7.06,-10.76,-2.64) goal=(-6.975, -7.875) clear=0.39 det=None
+[rej] t=209.3 [('shape circ=0.35 ar=0.46', (628, 61, 12, 26), 133.0), ('shape circ=0.37 ar=1.00', (629, 40, 11, 11), 55.0), ('shape circ=0.61 ar=0.60', (634, 21, 6, 10), 30.5)]
+[dbg] t=209.3 EXPLORE scanmatch=118x/1.85m pose=(-7.17,-10.55,1.59) goal=(-6.975, -7.875) clear=0.50 det=None
+[dbg] t=211.2 EXPLORE scanmatch=121x/1.91m pose=(-7.11,-10.32,-0.05) goal=(-6.424999999999999, -12.875) clear=0.98 det=None
+[dbg] t=213.1 EXPLORE scanmatch=122x/1.93m pose=(-6.83,-10.50,-0.99) goal=(-6.424999999999999, -12.875) clear=1.36 det=None
+[dbg] t=218.9 EXPLORE scanmatch=131x/2.07m pose=(-6.62,-10.86,-0.49) goal=(-6.975, -7.875) clear=1.08 det=None
+[dbg] t=220.8 EXPLORE scanmatch=135x/2.15m pose=(-6.50,-10.78,2.74) goal=(-8.175, -12.725) clear=0.96 det=None
+[dbg] t=222.7 EXPLORE scanmatch=136x/2.17m pose=(-6.73,-10.73,2.19) goal=(-8.175, -12.725) clear=0.78 det=None
+[rej] t=224.5 [('shape circ=0.27 ar=0.52', (624, 47, 16, 31), 202.5), ('shape circ=0.32 ar=1.00', (625, 25, 15, 15), 84.5), ('shape circ=0.49 ar=0.56', (630, 1, 10, 18), 81.5)]
+[dbg] t=224.6 EXPLORE scanmatch=137x/2.18m pose=(-6.82,-10.39,1.59) goal=(-8.175, -12.725) clear=1.65 det=None
+[dbg] t=226.6 EXPLORE scanmatch=137x/2.18m pose=(-6.80,-9.99,1.39) goal=(-8.175, -12.725) clear=1.25 det=None
+[rej] t=227.5 [('shape circ=0.17 ar=0.70', (418, 31, 33, 47), 454.0), ('shape circ=0.10 ar=1.07', (409, 0, 43, 40), 531.0)]
+[dbg] t=228.5 EXPLORE scanmatch=138x/2.21m pose=(-6.68,-9.61,1.04) goal=(-8.175, -12.725) clear=0.88 det=None
+[dbg] t=230.4 EXPLORE scanmatch=138x/2.21m pose=(-6.43,-9.31,0.69) goal=(-8.175, -12.725) clear=0.88 det=None
+[rej] t=232.1 [('shape circ=0.42 ar=0.61', (240, 7, 11, 18), 98.5)]
+[dbg] t=232.3 EXPLORE scanmatch=138x/2.21m pose=(-6.17,-9.04,1.07) goal=(-8.175, -12.725) clear=0.63 det=None
+[dbg] t=234.2 EXPLORE scanmatch=139x/2.23m pose=(-6.06,-8.68,1.48) goal=(-8.175, -12.725) clear=1.56 det=None
+[dbg] t=236.2 EXPLORE scanmatch=139x/2.23m pose=(-6.05,-8.28,1.67) goal=(-8.175, -12.725) clear=1.50 det=None
+[dbg] t=238.1 EXPLORE scanmatch=139x/2.23m pose=(-6.14,-7.89,1.81) goal=(-8.175, -12.725) clear=1.09 det=None
+[dbg] t=240.0 EXPLORE scanmatch=139x/2.23m pose=(-6.32,-7.58,2.39) goal=(-8.175, -12.725) clear=0.73 det=None
+[rej] t=241.9 [('shape circ=0.13 ar=0.06', (632, 115, 8, 136), 898.0)]
+[dbg] t=241.9 EXPLORE scanmatch=141x/2.26m pose=(-6.44,-7.29,1.35) goal=(-8.175, -12.725) clear=0.88 det=None
+[dbg] t=243.8 EXPLORE scanmatch=141x/2.26m pose=(-6.31,-6.95,1.27) goal=(-8.175, -12.725) clear=1.40 det=None
+[rej] t=244.9 [('shape circ=0.09 ar=0.04', (634, 106, 6, 145), 637.5)]
+[dbg] t=245.8 EXPLORE scanmatch=141x/2.26m pose=(-6.24,-6.58,1.52) goal=(-8.175, -12.725) clear=1.02 det=None
+[dbg] t=247.7 EXPLORE scanmatch=141x/2.26m pose=(-6.26,-6.20,1.90) goal=(-8.175, -12.725) clear=0.64 det=None
+[dbg] t=249.6 EXPLORE scanmatch=142x/2.28m pose=(-6.47,-5.92,2.58) goal=(-8.175, -12.725) clear=0.48 det=None
+[dbg] t=251.5 EXPLORE scanmatch=143x/2.31m pose=(-6.83,-5.79,3.04) goal=(-8.175, -12.725) clear=0.90 det=None
+[dbg] t=253.4 EXPLORE scanmatch=143x/2.31m pose=(-7.24,-5.75,3.06) goal=(-8.175, -12.725) clear=1.48 det=None
+[dbg] t=255.4 EXPLORE scanmatch=146x/2.36m pose=(-7.36,-5.82,-0.93) goal=(-8.175, -12.725) clear=0.71 det=None
+[dbg] t=257.3 EXPLORE scanmatch=147x/2.38m pose=(-7.07,-5.95,0.04) goal=(-8.175, -12.725) clear=0.77 det=None
+[dbg] t=261.1 EXPLORE scanmatch=148x/2.39m pose=(-6.32,-6.04,-0.63) goal=(-8.175, -12.725) clear=1.99 det=None
+[dbg] t=263.0 EXPLORE scanmatch=149x/2.41m pose=(-6.03,-6.31,-0.83) goal=(-8.175, -12.725) clear=1.68 det=None
+[dbg] t=265.0 EXPLORE scanmatch=149x/2.41m pose=(-5.85,-6.64,-1.24) goal=(-8.175, -12.725) clear=1.82 det=None
+[dbg] t=266.9 EXPLORE scanmatch=149x/2.41m pose=(-5.72,-7.03,-1.24) goal=(-8.175, -12.725) clear=1.42 det=None
+[dbg] t=268.8 EXPLORE scanmatch=149x/2.41m pose=(-5.61,-7.42,-1.36) goal=(-8.175, -12.725) clear=1.02 det=None
+[dbg] t=270.7 EXPLORE scanmatch=149x/2.41m pose=(-5.45,-7.75,-0.95) goal=(-8.175, -12.725) clear=0.66 det=None
+[dbg] t=272.6 EXPLORE scanmatch=149x/2.41m pose=(-5.17,-8.04,-0.77) goal=(-8.175, -12.725) clear=0.84 det=None
+[dbg] t=274.6 EXPLORE scanmatch=149x/2.41m pose=(-4.92,-8.33,-1.10) goal=(-8.175, -12.725) clear=0.56 det=None
+[dbg] t=276.5 EXPLORE scanmatch=150x/2.42m pose=(-4.85,-8.69,-1.64) goal=(-8.175, -12.725) clear=0.81 det=None
+[dbg] t=278.4 EXPLORE scanmatch=150x/2.42m pose=(-4.81,-9.07,-1.35) goal=(-8.175, -12.725) clear=0.68 det=None
+[dbg] t=280.3 EXPLORE scanmatch=150x/2.42m pose=(-4.67,-9.45,-1.21) goal=(-8.175, -12.725) clear=1.07 det=None
+[dbg] t=282.2 EXPLORE scanmatch=150x/2.42m pose=(-4.53,-9.83,-1.25) goal=(-8.175, -12.725) clear=1.30 det=None
+[dbg] t=284.2 EXPLORE scanmatch=150x/2.42m pose=(-4.48,-10.22,-1.53) goal=(-8.175, -12.725) clear=1.13 det=None
+[dbg] t=286.1 EXPLORE scanmatch=150x/2.42m pose=(-4.40,-10.61,-1.29) goal=(-8.175, -12.725) clear=0.75 det=None
+[dbg] t=288.0 EXPLORE scanmatch=150x/2.42m pose=(-4.27,-10.99,-1.18) goal=(-8.175, -12.725) clear=1.03 det=None
+[dbg] t=289.9 EXPLORE scanmatch=150x/2.42m pose=(-4.11,-11.37,-1.18) goal=(-8.175, -12.725) clear=0.86 det=None
+[rej] t=291.8 [('edge', (614, 236, 26, 42), 867.5)]
+[dbg] t=291.8 EXPLORE scanmatch=153x/2.47m pose=(-4.02,-11.58,2.97) goal=(-8.175, -12.725) clear=0.49 det=None
+[sar] red apple spotted at (-4.91, -10.84)
+[dbg] t=293.8 APPROACH scanmatch=155x/2.50m pose=(-4.25,-11.35,1.88) goal=(np.float64(-5.013494017190062), np.float64(-10.78335062965801)) clear=1.20 det=None
+[dbg] t=295.7 APPROACH scanmatch=156x/2.51m pose=(-4.44,-11.07,2.44) goal=(np.float64(-5.12867787145581), np.float64(-10.688461051073775)) clear=0.84 det=(0.2011210246024978, 0.7856471355810299)
+[dbg] t=297.6 APPROACH scanmatch=156x/2.51m pose=(-4.76,-10.87,2.69) goal=(np.float64(-5.175716560206301), np.float64(-10.66066433514441)) clear=0.46 det=(-0.008118832727833427, 0.4671195098655325)
+[sar] red apple confirmed up close (65 close views)
+[sar] reached red apple #1 at t=298.2s -> searching for the next one
+[rej] t=298.5 [('shape circ=0.58 ar=0.50', (0, 161, 114, 230), 18710.0)]
+[dbg] t=299.5 EXPLORE scanmatch=158x/2.54m pose=(-4.93,-10.67,1.40) goal=(-7.225, -7.975) clear=0.21 det=None
+[dbg] t=301.4 EXPLORE scanmatch=158x/2.54m pose=(-4.78,-10.34,1.07) goal=(-7.225, -7.975) clear=1.50 det=None
+[dbg] t=303.4 EXPLORE scanmatch=158x/2.54m pose=(-4.64,-10.00,1.40) goal=(-7.225, -7.975) clear=1.17 det=None
+[dbg] t=305.3 EXPLORE scanmatch=158x/2.54m pose=(-4.63,-9.64,1.71) goal=(-7.225, -7.975) clear=0.99 det=None
+[dbg] t=307.2 EXPLORE scanmatch=158x/2.54m pose=(-4.70,-9.27,1.82) goal=(-7.225, -7.975) clear=0.76 det=None
+[dbg] t=309.1 EXPLORE scanmatch=158x/2.54m pose=(-4.81,-8.87,1.84) goal=(-7.225, -7.975) clear=0.68 det=None
+[dbg] t=311.0 EXPLORE scanmatch=158x/2.54m pose=(-4.89,-8.48,1.76) goal=(-7.225, -7.975) clear=1.67 det=None
+[dbg] t=313.0 EXPLORE scanmatch=158x/2.54m pose=(-5.05,-8.15,2.32) goal=(-7.225, -7.975) clear=2.11 det=None
+[dbg] t=314.9 EXPLORE scanmatch=159x/2.56m pose=(-5.36,-7.96,2.91) goal=(-7.225, -7.975) clear=1.38 det=None
+[dbg] t=316.8 EXPLORE scanmatch=159x/2.56m pose=(-5.76,-7.89,2.98) goal=(-7.225, -7.975) clear=1.01 det=None
+[dbg] t=318.7 EXPLORE scanmatch=159x/2.56m pose=(-6.11,-7.76,2.54) goal=(-7.225, -7.975) clear=1.04 det=None
+[dbg] t=320.6 EXPLORE scanmatch=160x/2.57m pose=(-6.43,-7.54,2.64) goal=(-7.225, -7.975) clear=0.65 det=None
+[dbg] t=322.6 EXPLORE scanmatch=160x/2.57m pose=(-6.79,-7.46,3.08) goal=(-7.225, -7.975) clear=0.74 det=None
+[dbg] t=324.5 EXPLORE scanmatch=160x/2.57m pose=(-7.16,-7.51,-2.69) goal=(-7.225, -7.975) clear=1.17 det=None
+[dbg] t=326.4 EXPLORE scanmatch=161x/2.59m pose=(-7.41,-7.75,-2.05) goal=(-7.324999999999999, -8.225) clear=0.78 det=None
+[dbg] t=328.3 EXPLORE scanmatch=161x/2.59m pose=(-7.52,-8.01,-2.56) goal=(-9.075, -8.325) clear=0.55 det=None
+[dbg] t=330.2 EXPLORE scanmatch=163x/2.62m pose=(-7.85,-8.07,2.94) goal=(-9.325, -7.875) clear=1.16 det=None
+[dbg] t=332.2 EXPLORE scanmatch=164x/2.64m pose=(-8.24,-8.02,3.04) goal=(-9.325, -7.875) clear=0.79 det=None
+[dbg] t=334.1 EXPLORE scanmatch=164x/2.64m pose=(-8.61,-8.08,-2.84) goal=(-9.325, -7.875) clear=0.55 det=None
+[dbg] t=336.0 EXPLORE scanmatch=165x/2.66m pose=(-8.87,-8.13,1.86) goal=(-9.325, -7.625) clear=0.30 det=None
+[dbg] t=337.9 EXPLORE scanmatch=169x/2.76m pose=(-8.89,-7.95,1.47) goal=(-9.325, -7.625) clear=0.22 det=None
+[dbg] t=339.8 EXPLORE scanmatch=174x/2.91m pose=(-8.90,-7.89,1.62) goal=(-9.325, -7.625) clear=0.19 det=None
+[dbg] t=341.8 EXPLORE scanmatch=179x/3.03m pose=(-8.90,-7.87,1.55) goal=(-9.325, -7.625) clear=0.21 det=None
+[sar] stuck at (-8.90,-7.86) -> recovery
+[rej] t=345.6 [('shape circ=0.20 ar=0.40', (0, 0, 24, 60), 652.5)]
+[dbg] t=347.5 EXPLORE scanmatch=188x/3.18m pose=(-8.87,-7.84,0.94) goal=(-7.2749999999999995, -4.674999999999999) clear=0.90 det=None
+[rej] t=348.6 [('shape circ=0.22 ar=0.25', (412, 7, 14, 56), 352.5)]
+[dbg] t=349.4 EXPLORE scanmatch=189x/3.20m pose=(-8.57,-7.64,0.43) goal=(-7.2749999999999995, -4.674999999999999) clear=0.80 det=None
+[dbg] t=351.4 EXPLORE scanmatch=190x/3.21m pose=(-8.20,-7.51,0.18) goal=(-7.2749999999999995, -4.674999999999999) clear=0.83 det=None
+[rej] t=351.6 [('shape circ=0.67 ar=2.00', (454, 243, 14, 7), 72.0), ('shape circ=0.21 ar=0.68', (454, 212, 13, 19), 87.0), ('shape circ=0.56 ar=2.00', (453, 202, 14, 7), 61.5)]
+[dbg] t=353.3 EXPLORE scanmatch=190x/3.21m pose=(-7.80,-7.46,0.07) goal=(-7.2749999999999995, -4.674999999999999) clear=0.85 det=None
+[rej] t=354.6 [('shape circ=0.67 ar=2.14', (396, 243, 15, 7), 82.5), ('shape circ=0.39 ar=0.28', (406, 212, 5, 18), 54.0), ('shape circ=0.67 ar=2.00', (396, 199, 14, 7), 68.0)]
+[dbg] t=355.2 EXPLORE scanmatch=190x/3.21m pose=(-7.39,-7.44,0.05) goal=(-7.2749999999999995, -4.674999999999999) clear=0.75 det=None
+[dbg] t=357.1 EXPLORE scanmatch=190x/3.21m pose=(-6.98,-7.42,0.07) goal=(-7.2749999999999995, -4.674999999999999) clear=1.89 det=None
+[rej] t=357.6 [('shape circ=0.63 ar=2.00', (436, 243, 16, 8), 98.5), ('above floor', (447, 232, 5, 7), 20.5), ('shape circ=0.45 ar=0.44', (445, 212, 7, 16), 64.0)]
+[dbg] t=359.0 EXPLORE scanmatch=190x/3.21m pose=(-6.62,-7.34,0.50) goal=(-7.2749999999999995, -4.674999999999999) clear=2.25 det=None
+[rej] t=360.6 [('shape circ=0.08 ar=0.03', (398, 129, 4, 121), 359.5)]
+[dbg] t=361.0 EXPLORE scanmatch=190x/3.21m pose=(-6.36,-7.08,1.10) goal=(-7.2749999999999995, -4.674999999999999) clear=1.59 det=None
+[dbg] t=362.9 EXPLORE scanmatch=190x/3.21m pose=(-6.28,-6.71,1.50) goal=(-7.2749999999999995, -4.674999999999999) clear=1.20 det=None
+[dbg] t=364.8 EXPLORE scanmatch=190x/3.21m pose=(-6.31,-6.31,1.67) goal=(-7.2749999999999995, -4.674999999999999) clear=0.81 det=None
+[dbg] t=366.7 EXPLORE scanmatch=191x/3.22m pose=(-6.45,-5.97,2.30) goal=(-7.2749999999999995, -4.674999999999999) clear=0.52 det=None
+[dbg] t=368.6 EXPLORE scanmatch=192x/3.23m pose=(-6.75,-5.79,2.88) goal=(-7.2749999999999995, -4.674999999999999) clear=0.56 det=None
+[dbg] t=370.6 EXPLORE scanmatch=192x/3.23m pose=(-7.15,-5.69,2.90) goal=(-7.2749999999999995, -4.674999999999999) clear=1.65 det=None
+[dbg] t=372.5 EXPLORE scanmatch=193x/3.25m pose=(-7.45,-5.52,2.17) goal=(-7.2749999999999995, -4.674999999999999) clear=1.61 det=None
+[dbg] t=374.4 EXPLORE scanmatch=194x/3.27m pose=(-7.61,-5.19,1.72) goal=(-7.2749999999999995, -4.674999999999999) clear=1.25 det=None
+[rej] t=374.8 [('shape circ=0.21 ar=0.62', (627, 115, 13, 21), 128.0)]
+[dbg] t=376.3 EXPLORE scanmatch=195x/3.28m pose=(-7.57,-4.82,1.22) goal=(-7.2749999999999995, -4.674999999999999) clear=0.88 det=None
+[rej] t=380.2 [('shape circ=0.40 ar=1.14', (21, 263, 8, 7), 18.5), ('shape circ=0.27 ar=1.73', (0, 248, 38, 22), 330.5)]
+[dbg] t=382.1 EXPLORE scanmatch=202x/3.40m pose=(-7.44,-4.43,1.12) goal=(-6.725, -4.324999999999999) clear=0.76 det=None
+[rej] t=383.2 [('shape circ=0.47 ar=1.29', (525, 269, 9, 7), 27.0), ('shape circ=0.45 ar=1.12', (514, 268, 9, 8), 30.0), ('shape circ=0.49 ar=0.93', (486, 261, 13, 14), 88.0)]
+[dbg] t=384.0 EXPLORE scanmatch=202x/3.40m pose=(-7.22,-4.12,0.69) goal=(-6.725, -4.375) clear=1.21 det=None
+[dbg] t=385.9 EXPLORE scanmatch=204x/3.42m pose=(-6.90,-3.98,0.05) goal=(-6.725, -4.375) clear=1.19 det=None
+[rej] t=387.0 [('size 12 vs 89', (50, 299, 12, 8), 66.5), ('shape circ=0.44 ar=1.69', (64, 294, 22, 13), 134.5), ('shape circ=0.35 ar=0.56', (31, 292, 9, 16), 48.0)]
+[dbg] t=387.8 EXPLORE scanmatch=206x/3.45m pose=(-6.67,-3.93,0.98) goal=(-6.975, -2.3249999999999993) clear=0.68 det=None
+[dbg] t=389.8 EXPLORE scanmatch=206x/3.45m pose=(-6.66,-3.58,1.72) goal=(-6.975, -2.3249999999999993) clear=0.99 det=None
+[dbg] t=391.7 EXPLORE scanmatch=206x/3.45m pose=(-6.72,-3.17,1.72) goal=(-7.324999999999999, -2.0749999999999993) clear=0.76 det=None
+[dbg] t=393.6 EXPLORE scanmatch=206x/3.45m pose=(-6.72,-2.78,1.46) goal=(-7.324999999999999, -2.0749999999999993) clear=0.66 det=None
+[dbg] t=395.5 EXPLORE scanmatch=211x/3.57m pose=(-6.69,-2.39,0.95) goal=(-7.324999999999999, -2.0749999999999993) clear=0.42 det=None
+[dbg] t=397.4 EXPLORE scanmatch=217x/3.75m pose=(-6.72,-2.12,1.57) goal=(-7.324999999999999, -2.0749999999999993) clear=0.64 det=None
+[dbg] t=399.4 EXPLORE scanmatch=223x/4.05m pose=(-6.73,-1.82,1.59) goal=(-7.324999999999999, -2.0749999999999993) clear=0.27 det=None
+[dbg] t=401.3 EXPLORE scanmatch=226x/4.15m pose=(-6.82,-1.73,3.01) goal=(-7.324999999999999, -2.0749999999999993) clear=1.03 det=None
+[sar] semantic: chose (-8.2,-2.2) over nearest (-5.8,-2.1) likelihood=0.17
+[dbg] t=403.2 EXPLORE scanmatch=227x/4.17m pose=(-7.18,-1.79,-2.90) goal=(-8.225, -2.2249999999999996) clear=0.60 det=None
+[dbg] t=405.1 EXPLORE scanmatch=227x/4.17m pose=(-7.54,-1.77,2.76) goal=(-8.225, -2.2249999999999996) clear=1.22 det=None
+[dbg] t=407.0 EXPLORE scanmatch=227x/4.17m pose=(-7.89,-1.64,2.93) goal=(-8.274999999999999, -2.2749999999999986) clear=0.87 det=None
+[dbg] t=409.0 EXPLORE scanmatch=228x/4.18m pose=(-8.24,-1.67,-2.69) goal=(-8.274999999999999, -2.2749999999999986) clear=1.00 det=None
+[rej] t=410.5 [('shape circ=0.74 ar=0.56', (618, 241, 9, 16), 97.5)]
+[dbg] t=410.9 EXPLORE scanmatch=229x/4.19m pose=(-8.51,-1.91,-2.05) goal=(-8.274999999999999, -2.2749999999999986) clear=0.90 det=None
+[dbg] t=412.8 EXPLORE scanmatch=229x/4.19m pose=(-8.59,-2.27,-1.71) goal=(-8.375, -2.4749999999999996) clear=0.76 det=None
+[dbg] t=414.7 EXPLORE scanmatch=229x/4.19m pose=(-8.70,-2.64,-1.94) goal=(-10.175, -2.4749999999999996) clear=0.98 det=None
+[dbg] t=416.6 EXPLORE scanmatch=230x/4.21m pose=(-8.88,-2.98,-2.35) goal=(-10.175, -2.4749999999999996) clear=0.92 det=None
+[rej] t=417.0 [('shape circ=0.72 ar=0.55', (629, 240, 11, 20), 151.5)]
+[sar] red apple spotted at (-11.01, -3.33)
+[dbg] t=418.6 APPROACH scanmatch=231x/4.22m pose=(-9.19,-3.16,-2.93) goal=(np.float64(-11.226044539446155), np.float64(-3.3956392701125298)) clear=0.83 det=(-0.0944400234809753, 2.0730296228478324)
+[dbg] t=420.5 APPROACH scanmatch=232x/4.23m pose=(-9.59,-3.22,-3.06) goal=(np.float64(-11.445119584441324), np.float64(-3.42993722173889)) clear=1.05 det=(0.037870603704780396, 1.8891178389525751)
+[dbg] t=422.4 APPROACH scanmatch=232x/4.23m pose=(-10.00,-3.23,-3.14) goal=(np.float64(-11.590363249345675), np.float64(-3.449217128667554)) clear=1.07 det=(0.13538568025740602, 1.6061766329598712)
+[dbg] t=424.3 APPROACH scanmatch=232x/4.23m pose=(-10.41,-3.23,-3.14) goal=(np.float64(-11.727146190746334), np.float64(-3.4604697559393043)) clear=1.10 det=(0.17150402949851654, 1.3551804018373115)
+[dbg] t=426.2 APPROACH scanmatch=232x/4.23m pose=(-10.82,-3.24,-3.12) goal=(np.float64(-11.822748311795554), np.float64(-3.470029187417138)) clear=1.16 det=(0.20804003242904667, 1.0368437184623573)
+[dbg] t=428.2 APPROACH scanmatch=232x/4.23m pose=(-11.22,-3.27,-2.94) goal=(np.float64(-11.913945046442898), np.float64(-3.486021961377235)) clear=0.91 det=(0.0944400234809753, 0.7357727535077397)
+[dbg] t=430.1 APPROACH scanmatch=232x/4.23m pose=(-11.59,-3.36,-2.88) goal=(np.float64(-11.959600100667702), np.float64(-3.4993061542166215)) clear=0.63 det=(0.11674135961301121, 0.3958170295466381)
+[sar] red apple confirmed up close (173 close views)
+[sar] reached red apple #2 at t=430.4s -> all 2 found, heading to destination
+[rej] t=430.7 [('shape circ=0.68 ar=0.47', (546, 189, 94, 201), 14736.5), ('shape circ=0.39 ar=0.36', (635, 160, 5, 14), 32.5)]
+[dbg] t=432.0 TO_DEST scanmatch=234x/4.27m pose=(-11.59,-3.44,-0.44) goal=(-4.94, -7.33) clear=0.54 det=None
+[dbg] t=433.9 TO_DEST scanmatch=236x/4.30m pose=(-11.22,-3.50,0.03) goal=(-4.94, -7.33) clear=0.75 det=None
+[dbg] t=435.8 TO_DEST scanmatch=236x/4.30m pose=(-10.82,-3.48,0.17) goal=(-4.94, -7.33) clear=0.81 det=None
+[dbg] t=437.8 TO_DEST scanmatch=236x/4.30m pose=(-10.43,-3.38,0.30) goal=(-4.94, -7.33) clear=1.14 det=None
+[dbg] t=439.7 TO_DEST scanmatch=236x/4.30m pose=(-10.06,-3.27,0.37) goal=(-4.94, -7.33) clear=0.79 det=None
+[rej] t=441.0 [('size 11 vs 20', (382, 247, 11, 8), 49.5), ('above floor', (624, 91, 16, 14), 149.5), ('shape circ=0.54 ar=3.00', (628, 77, 12, 4), 32.5)]
+[dbg] t=441.6 TO_DEST scanmatch=236x/4.30m pose=(-9.69,-3.22,-0.12) goal=(-4.94, -7.33) clear=1.02 det=None
+[dbg] t=443.5 TO_DEST scanmatch=236x/4.30m pose=(-9.30,-3.30,-0.22) goal=(-4.94, -7.33) clear=0.89 det=None
+[rej] t=444.0 [('shape circ=0.38 ar=1.70', (244, 247, 17, 10), 91.0)]
+[dbg] t=445.4 TO_DEST scanmatch=236x/4.30m pose=(-8.95,-3.43,-0.68) goal=(-4.94, -7.33) clear=0.52 det=None
+[dbg] t=447.4 TO_DEST scanmatch=237x/4.32m pose=(-8.74,-3.73,-1.22) goal=(-4.94, -7.33) clear=2.21 det=None
+[dbg] t=449.3 TO_DEST scanmatch=241x/4.38m pose=(-8.92,-3.79,2.88) goal=(-4.94, -7.33) clear=0.84 det=(0.17587986790372123, 2.9400423183540463)
+[dbg] t=451.2 TO_DEST scanmatch=243x/4.42m pose=(-9.12,-3.71,-1.37) goal=(-4.94, -7.33) clear=0.20 det=None
+[rej] t=451.4 [('shape circ=0.17 ar=0.38', (0, 23, 21, 56), 525.0), ('above floor', (0, 10, 10, 12), 58.5)]
+[dbg] t=453.1 TO_DEST scanmatch=245x/4.45m pose=(-8.93,-3.78,-0.23) goal=(-4.94, -7.33) clear=0.42 det=None
+[rej] t=454.4 [('shape circ=0.20 ar=0.97', (260, 12, 67, 69), 2796.0)]
+[dbg] t=455.0 TO_DEST scanmatch=246x/4.47m pose=(-8.64,-3.90,-0.78) goal=(-4.94, -7.33) clear=0.73 det=None
+[dbg] t=457.0 TO_DEST scanmatch=246x/4.47m pose=(-8.46,-4.21,-1.12) goal=(-4.94, -7.33) clear=1.70 det=None
+[dbg] t=458.9 TO_DEST scanmatch=246x/4.47m pose=(-8.27,-4.54,-1.06) goal=(-4.94, -7.33) clear=1.42 det=None
+[dbg] t=460.8 TO_DEST scanmatch=246x/4.47m pose=(-8.07,-4.90,-1.06) goal=(-4.94, -7.33) clear=1.16 det=None
+[dbg] t=462.7 TO_DEST scanmatch=246x/4.47m pose=(-7.84,-5.24,-0.93) goal=(-4.94, -7.33) clear=0.83 det=None
+[dbg] t=464.6 TO_DEST scanmatch=246x/4.47m pose=(-7.61,-5.57,-1.02) goal=(-4.94, -7.33) clear=0.80 det=None
+[dbg] t=466.6 TO_DEST scanmatch=246x/4.47m pose=(-7.37,-5.86,-0.63) goal=(-4.94, -7.33) clear=0.74 det=None
+[dbg] t=468.5 TO_DEST scanmatch=246x/4.47m pose=(-7.03,-5.98,-0.15) goal=(-4.94, -7.33) clear=0.78 det=None
+[dbg] t=470.4 TO_DEST scanmatch=246x/4.47m pose=(-6.62,-6.05,-0.15) goal=(-4.94, -7.33) clear=2.05 det=None
+[dbg] t=472.3 TO_DEST scanmatch=246x/4.47m pose=(-6.27,-6.17,-0.64) goal=(-4.94, -7.33) clear=1.93 det=None
+[dbg] t=474.2 TO_DEST scanmatch=247x/4.49m pose=(-5.94,-6.42,-0.68) goal=(-4.94, -7.33) clear=1.55 det=None
+[rej] t=475.3 [('tall', (107, 242, 12, 10), 96.0), ('shape circ=0.66 ar=0.50', (115, 217, 4, 8), 21.0), ('above floor', (113, 208, 5, 8), 26.0)]
+[dbg] t=476.2 TO_DEST scanmatch=247x/4.49m pose=(-5.62,-6.68,-0.68) goal=(-4.94, -7.33) clear=1.19 det=None
+[dbg] t=478.1 TO_DEST scanmatch=247x/4.49m pose=(-5.30,-6.93,-0.70) goal=(-4.94, -7.33) clear=1.84 det=None
+[rej] t=478.3 [('shape circ=0.66 ar=2.18', (54, 242, 24, 11), 221.0), ('above floor', (73, 227, 5, 7), 24.0), ('shape circ=0.58 ar=2.00', (56, 207, 8, 4), 17.5)]
+[sar] destination reached at t=479.5s -> returning home
+[dbg] t=480.0 HOME scanmatch=247x/4.49m pose=(-5.01,-7.19,-0.74) goal=(-0.3, -7.5) clear=1.47 det=None
+[rej] t=481.3 [('shape circ=0.63 ar=2.08', (57, 241, 27, 13), 276.0), ('above floor', (78, 225, 6, 7), 26.5), ('shape circ=0.31 ar=0.36', (74, 194, 9, 25), 113.0)]
+[dbg] t=481.9 HOME scanmatch=247x/4.49m pose=(-4.71,-7.41,-0.45) goal=(-0.3, -7.5) clear=1.26 det=None
+[dbg] t=483.8 HOME scanmatch=247x/4.49m pose=(-4.34,-7.50,-0.12) goal=(-0.3, -7.5) clear=1.19 det=None
+[rej] t=484.3 [('shape circ=0.70 ar=2.08', (352, 241, 27, 13), 298.5), ('shape circ=0.46 ar=0.60', (372, 224, 6, 10), 33.5), ('shape circ=0.19 ar=0.92', (354, 191, 24, 26), 172.0)]
+[dbg] t=485.8 HOME scanmatch=247x/4.49m pose=(-3.94,-7.55,-0.12) goal=(-0.3, -7.5) clear=0.82 det=None
+[rej] t=487.3 [('shape circ=0.69 ar=2.00', (282, 240, 32, 16), 433.0), ('above floor', (288, 226, 8, 6), 24.5), ('shape circ=0.50 ar=2.75', (302, 225, 11, 4), 25.5)]
+[dbg] t=487.7 HOME scanmatch=247x/4.49m pose=(-3.54,-7.62,-0.27) goal=(-0.3, -7.5) clear=1.10 det=None
+[dbg] t=489.6 HOME scanmatch=247x/4.49m pose=(-3.16,-7.72,-0.14) goal=(-0.3, -7.5) clear=1.67 det=None
+[rej] t=490.3 [('shape circ=0.65 ar=1.82', (375, 237, 40, 22), 691.5), ('above floor', (382, 221, 10, 8), 43.0), ('shape circ=0.32 ar=1.17', (400, 213, 14, 12), 68.0)]
+[dbg] t=491.5 HOME scanmatch=247x/4.49m pose=(-2.75,-7.75,-0.08) goal=(-0.3, -7.5) clear=1.29 det=None
+[rej] t=493.3 [('shape circ=0.43 ar=1.20', (394, 219, 53, 44), 1319.5), ('shape circ=0.58 ar=2.50', (421, 219, 10, 4), 25.5), ('above floor', (404, 213, 13, 10), 76.5)]
+[dbg] t=493.4 HOME scanmatch=247x/4.49m pose=(-2.34,-7.78,-0.08) goal=(-0.3, -7.5) clear=1.01 det=None
+[dbg] t=495.4 HOME scanmatch=247x/4.49m pose=(-1.93,-7.81,-0.08) goal=(-0.3, -7.5) clear=0.94 det=None
+[rej] t=496.3 [('shape circ=0.68 ar=1.93', (431, 230, 83, 43), 3142.0), ('above floor', (502, 205, 7, 6), 30.0), ('shape circ=0.22 ar=0.12', (510, 204, 3, 25), 48.0)]
+[dbg] t=497.3 HOME scanmatch=247x/4.49m pose=(-1.53,-7.84,0.01) goal=(-0.3, -7.5) clear=1.00 det=None
+[dbg] t=499.2 HOME scanmatch=247x/4.49m pose=(-1.14,-7.80,0.22) goal=(-0.3, -7.5) clear=1.02 det=None
+[dbg] t=501.1 HOME scanmatch=247x/4.49m pose=(-0.75,-7.69,0.31) goal=(-0.3, -7.5) clear=0.80 det=None
+[sar] MISSION COMPLETE at t=502.5s
