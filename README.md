@@ -125,7 +125,7 @@ Press **`c`** in the 3D view to show the global costmap tint on the map.
 
 ## Repository structure
 
-**Team Alien wrote `controllers/tb3_sar/`** (`tb3_sar.py` + `semantic.py`, about 1,200 lines). The other controllers were provided by the organizers as a starter kit.
+**Team Alien wrote `controllers/tb3_sar/`** (`tb3_sar.py` + `semantic.py`, about 1,200 lines). Everything else in this repository (the other controllers, the worlds, the apple PROTOs and the YOLO weights) was provided by the organizers as a starter kit.
 
 ```
 hackathon/
@@ -138,10 +138,10 @@ hackathon/
 │       tb3_teleop, tb3_teleop_sensors, tb3_teleop_cam, tb3_teleop_yolo,
 │       tb3_cam, tb3_lidar, tb3_segmentation, tb3_ground_truth
 ├── worlds/
-│   ├── apartment.wbt            # ★ mission world (uses tb3_sar)
-│   └── breakroom_*.wbt, empty.wbt  # test worlds used by the starter controllers
-├── protos/                      # Red / Green / Purple / Orange apple PROTOs
-└── models/YOLO/yolo11n.pt       # YOLO11n (COCO) weights
+│   ├── apartment.wbt            # mission world (given; runs tb3_sar)
+│   └── breakroom_*.wbt, empty.wbt  # given test worlds
+├── protos/                      # given: Red / Green / Purple / Orange apple PROTOs
+└── models/YOLO/yolo11n.pt       # given: YOLO11n (COCO) weights
 ```
 
 ## Getting started
