@@ -9,3 +9,4 @@ controllers/tb3_sar/sem_objects.json
 models/YOLO/yolo_world_apartment.pt
 models/YOLO/yolov8s-worldv2.pt
 weights/
+controllers/tb3_autonomous/autonomous.log
