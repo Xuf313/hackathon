@@ -187,4 +187,7 @@ Optional: set `TYPESAFE_API_KEY` (and install `typesafe_sdk`) to let Jev choose 
 
 ## Presentation
 
-Team Alien's slides: https://claude.ai/artifact/FeSKZwtdanLu1fJKiugyvL
+Team Alien's slides are in [`presentation/`](presentation/):
+
+- [`Team_Alien_Presentation.pdf`](presentation/Team_Alien_Presentation.pdf): all 13 slides, viewable on GitHub
+- [`index.html`](presentation/index.html): open in a browser to present. Use → / ← or click to move, **N** for speaker notes, **F** for fullscreen.
