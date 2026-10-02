@@ -48,9 +48,10 @@ REACH_DIST = 0.35                   # target reached when this close
 FALSE_FORGET = 90.0                 # a false alarm or unreachable target is ignored this long (s), then retried
 GOAL_TOL = 0.25                     # dest/home reached when this close
 NEAR_GOAL = 0.6                     # ... or this close when walls / obstacles stop the robot getting closer
-SHOW_DEBUG = True                   # camera / map / local costmap views
+SHOW_DEBUG = True                   # camera / map / costmap views
 SAVE_DEBUG_FILES = False            # also save snapshots (rej_*.jpg, spotted.jpg, *_live.jpg, sem_objects.json)
-SHOW_ALL_OBJECTS = False            # also draw every YOLO box and rejected red blob on the camera view
+SHOW_ALL_OBJECTS = False            # also draw rejected red blobs (grey) on the camera view, for debugging
+YOLO_SHOW_CONF = 0.4                # YOLO boxes shown on the camera view only from this confidence
 YOLO_EVERY = 5                      # run YOLO on every 5th frame (it only feeds the semantic map)
 YOLO_WEIGHTS = "yolo11n.pt"         # COCO model, 80 classes
 SEMANTIC = True                     # let recognised objects (table, fridge, ...) guide where to search
@@ -75,6 +76,9 @@ N = int(2 * MAP_HALF / RES)
 INFLATE = ROBOT_RADIUS + 0.09        # planned paths keep the robot centre this far from obstacles
 SAFE_FRONT = 0.20                    # emergency stop when something is this close in front (from the LiDAR)
 SAFE_REAR = 0.25                     # reverse only when nothing is this close behind
+LOW_OBJECTS = True                   # use the camera to spot objects too low for the LiDAR to see
+LOW_MAX_H = 0.13                     # objects lower than this (m) pass under the LiDAR scan plane
+LOW_MIN_SAT = 130                    # strongly coloured pixels (any hue) can belong to an object on the floor
 TILT_MAX = math.radians(6.0)         # tilting more than this while driving means the wheels are on something
                                      # too low for the LiDAR to see (carpet edge, step): back off and avoid it
 
@@ -350,7 +354,7 @@ def astar(goal_xy, blocked, penalty):
 
 def nearest_frontier(blocked, banned):
     """Next place to search. Candidates are the edge of the known map plus free floor the camera hasn't
-    looked at yet, found by BFS so their path distance is known; the semantic score (or Jev) picks one."""
+    looked at yet, found by BFS so their path distance is known; the semantic score picks one."""
     free = known & (logodds < -0.5)
     unk = (~known).astype(np.uint8)
     front = free & (cv2.dilate(unk, np.ones((3, 3), np.uint8)) > 0)
@@ -377,11 +381,6 @@ def nearest_frontier(blocked, banned):
         return None
     if not SEMANTIC:
         return cands[0][:2]                            # plain nearest-frontier exploration
-    jev.request(cands, sem, TARGET_NAME)
-    r = jev.take()
-    if r:
-        print(f"[sar] Jev picked frontier ({r[0]:.2f},{r[1]:.2f}) conf={r[2]:.2f}")
-        return r[:2]
     g = semantic.pick(cands, sem)
     if g != cands[0][:2]:
         print(f"[sar] semantic: chose ({g[0]:.1f},{g[1]:.1f}) over nearest ({cands[0][0]:.1f},{cands[0][1]:.1f})"
@@ -420,9 +419,20 @@ def yolo_color(name):
     return int(b), int(g), int(r)
 
 
-def draw_yolo(frame):
+def _overlaps(a, b):
+    """True if two (x1, y1, x2, y2) boxes overlap by more than 30 % of the smaller one."""
+    w = min(a[2], b[2]) - max(a[0], b[0]); h = min(a[3], b[3]) - max(a[1], b[1])
+    if w <= 0 or h <= 0:
+        return False
+    small = min((a[2] - a[0]) * (a[3] - a[1]), (b[2] - b[0]) * (b[3] - b[1]))
+    return w * h > 0.3 * max(small, 1)
+
+
+def draw_yolo(frame, taken):
+    """Label the objects YOLO is reasonably sure about; boxes in `taken` already have a colour-based label."""
     font = cv2.FONT_HERSHEY_SIMPLEX
-    for id_, (x1, y1, x2, y2, name, c) in enumerate(yolo_boxes, 1):
+    shown = [b for b in yolo_boxes if b[5] >= YOLO_SHOW_CONF and not any(_overlaps(b[:4], t) for t in taken)]
+    for id_, (x1, y1, x2, y2, name, c) in enumerate(shown, 1):
         col = yolo_color(name)
         cv2.rectangle(frame, (x1, y1), (x2, y2), col, 2)
         label = f"id:{id_} {name} {c:.2f}"
@@ -433,9 +443,8 @@ def draw_yolo(frame):
 
 
 sem = semantic.SemanticMap()
-jev = semantic.JevChooser()
 if SEMANTIC:
-    print(f"[sar] semantic exploration ON (chooser: {'Jev' if jev.enabled else 'local prior'})")
+    print("[sar] semantic exploration ON")
 
 rejects = []
 _last_rej = [-1e9]
@@ -575,28 +584,60 @@ def dwa(lx, ly):
     return float(_V[i]), float(_W[i])
 
 
-def local_view(size=300):
-    """Local costmap (robot frame, forward = right): obstacles, inflation, DWA candidates + chosen one."""
-    heat = np.clip(local_dist / 0.8, 0, 1)[..., None]
-    img = (np.float32(UI_BG) * heat + UI_NEAR * (1 - heat)).astype(np.uint8)        # darker = farther from obstacles
-    img[local_dist < COLLIDE] = UI_INFL                                   # lethal for the robot centre
-    img[local_occ > 0] = UI_WALL
-    k = size / LN
-    img = cv2.resize(img, (size, size), interpolation=cv2.INTER_NEAREST)
+COSTMAP_VIEW = 6.0                   # side of the costmap view window (m), centred on the robot
+
+
+def costmap_view(path, size=300):
+    """Global + local costmap around the robot (north up).
+    Global layer: walls, the no-go margin around them, extra cost near them, low obstacles found by camera/tilt.
+    Local layer: obstacles in the current LiDAR scan (e.g. the pedestrian), DWA trajectories and the chosen one."""
+    k = int(COSTMAP_VIEW / RES / 2); pad = int(0.5 / RES)
+    r0, c0 = to_cell(x, y)
+    ra, rb = max(0, r0 - k - pad), min(N, r0 + k + pad + 1)
+    ca, cb = max(0, c0 - k - pad), min(N, c0 + k + pad + 1)
+    occ = ((logodds[ra:rb, ca:cb] > 0.6) | hazard[ra:rb, ca:cb]).astype(np.uint8)
+    dist = cv2.distanceTransform(1 - occ, cv2.DIST_L2, 5) * RES
+    win = np.full((2 * k + 1, 2 * k + 1, 3), UI_BG, np.float32)
+    sr, sc = slice(r0 - k - ra, r0 - k - ra + 2 * k + 1), slice(c0 - k - ca, c0 - k - ca + 2 * k + 1)
+    d = dist[sr, sc]; kn = known[r0 - k:r0 + k + 1, c0 - k:c0 + k + 1]
+    lo = logodds[r0 - k:r0 + k + 1, c0 - k:c0 + k + 1]; hz = hazard[r0 - k:r0 + k + 1, c0 - k:c0 + k + 1]
+    free = kn & (lo < 0)
+    win[free] = UI_FREE
+    near = free & (d < 0.45)                                        # extra path cost near obstacles
+    w = np.clip((0.45 - d) / 0.45, 0, 1)[..., None]
+    win[near] = (win * (1 - 0.6 * w) + UI_COST * 0.6 * w)[near]
+    win[d < INFLATE] = UI_INFL                                      # no-go margin for the robot centre
+    win[lo > 0.6] = UI_WALL
+    win[hz] = UI_HAZARD
+    img = cv2.resize(cv2.flip(win, 0).astype(np.uint8), (size, size), interpolation=cv2.INTER_NEAREST)
+    s_ = size / (2 * k + 1)
+
+    def px(wx, wy):                                                 # world -> view pixel (north up)
+        return int((wx - x) / RES * s_ + size / 2), int(-(wy - y) / RES * s_ + size / 2)
+
+    ct, st = math.cos(th), math.sin(th)
+
+    def rob(lx, ly):                                                # robot frame -> world
+        return x + lx * ct - ly * st, y + lx * st + ly * ct
+
+    if path and len(path) > 1:
+        cv2.polylines(img, [np.int32([px(*p) for p in path])], False, UI_PATH, 2, cv2.LINE_AA)
     if dwa_viz["cands"] is not None:
         for i, tr in enumerate(dwa_viz["cands"][::3]):
             if dwa_viz["ok"][i * 3]:
-                pts = (((tr + LOCAL_SIZE / 2) / RES) * k).astype(np.int32)
-                cv2.polylines(img, [pts], False, UI_TRAJ, 1, cv2.LINE_AA)
+                cv2.polylines(img, [np.int32([px(*rob(*p)) for p in tr[::3]])], False, UI_TRAJ, 1, cv2.LINE_AA)
         if dwa_viz["best"] is not None:
-            pts = (((dwa_viz["cands"][dwa_viz["best"]] + LOCAL_SIZE / 2) / RES) * k).astype(np.int32)
-            cv2.polylines(img, [pts], False, UI_PATH, 3, cv2.LINE_AA)
-    img = cv2.flip(img, 0)                              # robot frame: forward = right, left = up
-    cc = size // 2
-    rr = max(4, int(ROBOT_RADIUS / RES * k))
-    cv2.circle(img, (cc, cc), rr, UI_ROBOT, -1, cv2.LINE_AA)
-    cv2.line(img, (cc, cc), (cc + rr, cc), UI_BG, 2, cv2.LINE_AA)
-    _badge(img, "local costmap  3 m")
+            tr = dwa_viz["cands"][dwa_viz["best"]]
+            cv2.polylines(img, [np.int32([px(*rob(*p)) for p in tr[::2]])], False, UI_BEST, 3, cv2.LINE_AA)
+    rr, cc = np.nonzero(local_occ)                                  # current scan, robot frame
+    for ly_, lx_ in zip((rr + 0.5) * RES - LOCAL_SIZE / 2, (cc + 0.5) * RES - LOCAL_SIZE / 2):
+        cv2.circle(img, px(*rob(lx_, ly_)), 1, UI_SCAN, -1)
+    p = np.array(px(x, y), np.float32)
+    fwd = np.array((ct, -st), np.float32); left = np.array((-fwd[1], fwd[0]), np.float32)
+    r_ = max(5.0, ROBOT_RADIUS / RES * s_)
+    tri = np.int32([p + fwd * r_ * 1.4, p - fwd * r_ * 0.8 + left * r_, p - fwd * r_ * 0.8 - left * r_])
+    cv2.fillPoly(img, [tri], UI_ROBOT, cv2.LINE_AA)
+    _badge(img, f"costmap {COSTMAP_VIEW:.0f} m  global + local")
     cv2.rectangle(img, (0, 0), (size - 1, size - 1), UI_FRAME, 2)
     return img
 
@@ -630,6 +671,96 @@ def tipping():
     _grav["a"] = tilt()
     _grav["n"] = _grav["n"] + 1 if _grav["a"] > TILT_MAX else 0
     return _grav["n"] >= 5
+
+
+def mark_hazard_disc(px, py, rad):
+    """Mark a disc of floor as an obstacle for both planners."""
+    r0, c0 = to_cell(px, py); k = int(math.ceil(rad / RES))
+    rr, cc = np.mgrid[r0 - k:r0 + k + 1, c0 - k:c0 + k + 1]
+    m = ((rr - r0) ** 2 + (cc - c0) ** 2 <= k * k) & (rr >= 0) & (rr < N) & (cc >= 0) & (cc < N)
+    hazard[rr[m], cc[m]] = True
+
+
+low_cands = []                       # [x, y, radius, sightings, colour] of low objects not yet trusted
+low_boxes = []                       # this frame's low objects for the camera view: (x1, y1, x2, y2, label, colour)
+HUE_NAMES = [(8, "red"), (20, "orange"), (33, "yellow"), (85, "green"), (128, "blue"), (170, "purple"), (180, "red")]
+LOW_BGR = {"red": (60, 60, 230), "orange": (40, 170, 255), "yellow": (60, 230, 230), "green": (80, 200, 80),
+           "blue": (230, 150, 60), "purple": (220, 80, 170)}
+
+
+def hue_name(h):
+    """Plain colour name for an OpenCV hue (0-180), used only to label boxes."""
+    return next(name for top, name in HUE_NAMES if h < top)
+
+
+def update_low_obstacles(frame, det):
+    """Spot small, strongly coloured objects lying on the floor with the camera and mark them as obstacles
+    before the robot touches them, since the LiDAR scans above them. Any colour counts except the floor's own.
+    A blob counts when its bottom sits on the floor, its top is below LOW_MAX_H and it is 3-40 cm wide;
+    position comes from where it touches the floor. Each object must be seen 3 times before it is marked.
+    Round red blobs are skipped: those may be the apples we're looking for."""
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    low_boxes.clear()
+    m = ((hsv[..., 1] >= LOW_MIN_SAT) & (hsv[..., 2] >= 50)).astype(np.uint8) * 255
+    floor = hsv[CH - 30:, CW // 3:2 * CW // 3].reshape(-1, 3)        # the floor right in front of the robot
+    if floor[:, 1].mean() >= LOW_MIN_SAT * 0.7:                        # a strongly coloured floor: ignore its colour
+        fh = float(np.median(floor[:, 0]))
+        dh = np.abs(hsv[..., 0].astype(np.int16) - fh)
+        m[np.minimum(dh, 180 - dh) < 10] = 0
+    m = cv2.morphologyEx(m, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+    cnts, _ = cv2.findContours(m, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    for c in cnts:
+        a = cv2.contourArea(c)
+        if a < 20:
+            continue
+        bx, by, bw, bh = cv2.boundingRect(c)
+        bottom = by + bh
+        if bottom < CH / 2 + 3 or bottom >= CH - 2 or bx <= 2 or bx + bw >= CW - 2:
+            continue                                  # not standing on the floor, or cut off by the image edge
+        blob = np.zeros((bh, bw), np.uint8)
+        cv2.drawContours(blob, [c - (bx, by)], -1, 255, -1)
+        hues = hsv[by:by + bh, bx:bx + bw, 0][blob > 0].astype(np.float32) * (np.pi / 90)
+        colour = hue_name(float(np.degrees(np.arctan2(np.sin(hues).mean(), np.cos(hues).mean())) % 360) / 2)
+        per = cv2.arcLength(c, True)
+        round_ = 4 * math.pi * a / (per * per + 1e-6) >= 0.5 and 0.6 < bw / bh < 1.6
+        if colour == "red" and round_:
+            continue                                  # round red blobs may be the apples we're looking for
+        dist = CAM_HEIGHT / math.tan(math.atan2(bottom - CH / 2, FOCAL)) + CAM_X
+        if dist > 2.5:
+            continue                                  # far away the floor-contact distance is too rough
+        d_cam = dist - CAM_X
+        top_h = CAM_HEIGHT - d_cam * (by - CH / 2) / FOCAL
+        width = bw * d_cam / FOCAL
+        if top_h > LOW_MAX_H or not (0.03 < width < 0.40):
+            continue                                  # tall things are on the LiDAR map already
+        label = f"{colour} apple" if round_ and 0.06 < width < 0.15 else f"{colour} object"
+        low_boxes.append((bx, by, bx + bw, by + bh, f"{label} {dist:.1f}m", colour))
+        rad = min(0.15, max(0.05, width / 2))
+        b = math.atan2(CW / 2 - (bx + bw / 2), FOCAL)
+        ox, oy = x + (dist + rad) * math.cos(th + b), y + (dist + rad) * math.sin(th + b)
+        for cand in low_cands:
+            if math.hypot(cand[0] - ox, cand[1] - oy) < 0.25:
+                cand[0] += 0.3 * (ox - cand[0]); cand[1] += 0.3 * (oy - cand[1])
+                cand[2] = max(cand[2], rad); cand[3] += 1
+                if cand[3] == 3:
+                    print(f"[sar] low obstacle ({colour}) at ({cand[0]:.2f},{cand[1]:.2f}) -> avoiding it")
+                if cand[3] >= 3:
+                    mark_hazard_disc(cand[0], cand[1], cand[2])
+                break
+        else:
+            low_cands.append([ox, oy, rad, 1, colour])
+
+
+def draw_low(frame):
+    """Boxes for the low floor objects (decoy apples, cans) the colour detector found in this frame."""
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    for x1, y1, x2, y2, label, colour in low_boxes:
+        col = LOW_BGR[colour]
+        cv2.rectangle(frame, (x1, y1), (x2, y2), col, 2)
+        (tw, th_), _ = cv2.getTextSize(label, font, 0.45, 1)
+        ty = y1 - 4 if y1 - th_ - 8 >= 0 else y2 + th_ + 6
+        cv2.rectangle(frame, (x1, ty - th_ - 4), (x1 + tw + 6, ty + 3), col, -1)
+        cv2.putText(frame, label, (x1 + 3, ty), font, 0.45, (0, 0, 0), 1, cv2.LINE_AA)
 
 
 def mark_hazard(forward):
@@ -730,6 +861,9 @@ UI_APPLE = (80, 80, 235)                              # red
 UI_LEAF = (90, 190, 90)
 UI_TEXT = (240, 236, 232)
 UI_FRAME = (90, 76, 66)
+UI_HAZARD = (40, 150, 255)                            # low obstacles (orange)
+UI_SCAN = (80, 255, 255)                              # current LiDAR hits (yellow)
+UI_BEST = (120, 230, 120)                             # chosen DWA trajectory (green)
 SHOW_COSTMAP = [False]                # global costmap tint on the map (toggle: press 'c' in the 3D view)
 
 
@@ -864,8 +998,13 @@ def show(frame, path, det):
     if SHOW_ALL_OBJECTS:
         for why, (rx, ry, rw, rh), _ in rejects:   # rejected red blobs: thin grey boxes
             cv2.rectangle(frame, (rx, ry), (rx + rw, ry + rh), (160, 160, 160), 1)
-        if yolo is not None:
-            draw_yolo(frame)
+    taken = [b[:4] for b in low_boxes]
+    if det:
+        bx_, by_, bw_, bh_ = det[2]
+        taken.append((bx_, by_, bx_ + bw_, by_ + bh_))
+    if yolo is not None:
+        draw_yolo(frame, taken)
+    draw_low(frame)
     if det:
         draw_bbox(frame, det)
     status = f"{state}  x={x:.2f} y={y:.2f}"
@@ -876,7 +1015,7 @@ def show(frame, path, det):
     if SAVE_DEBUG_FILES and yolo_boxes and step_i % 50 == 0:   # snapshot for slides/debugging
         cv2.imwrite(os.path.join(HERE, "cam_live.jpg"), frame)
     m = render_map(path, disp_map.getWidth() if disp_map else 600) if step_i % 2 == 0 or not disp_map else None
-    lv = local_view(disp_local.getWidth() if disp_local else 300)
+    lv = costmap_view(path, disp_local.getWidth() if disp_local else 300)
     if disp_cam:
         _paste(disp_cam, frame)
     else:
@@ -884,7 +1023,7 @@ def show(frame, path, det):
     if disp_local:
         _paste(disp_local, lv)
     else:
-        cv2.imshow("local costmap", lv)
+        cv2.imshow("costmap", lv)
     if m is not None:
         if disp_map:
             _paste(disp_map, m)
@@ -1018,6 +1157,8 @@ while robot.step(dt_ms) != -1:
         if SEMANTIC and state in ("SCAN", "EXPLORE"):
             sem.add(yolo_boxes, ranges, (x, y, th), CW, FOCAL, None, NBEAM)
     det = detect_target(frame)
+    if LOW_OBJECTS and int(t / DT) % 2 == 0:
+        update_low_obstacles(frame, det)
     if rejects and t - _last_rej[0] > 3 and max(r[2] for r in rejects) > 80:
         _last_rej[0] = t
         print(f"[rej] t={t:.1f} {rejects[:3]}")
@@ -1101,6 +1242,7 @@ while robot.step(dt_ms) != -1:
             pos = tuple(np.median(np.array(close_obs), axis=0)) if close_obs else target_xy
             found_targets.append((float(pos[0]), float(pos[1])))
             sem.forget_near(pos[0], pos[1], 1.5)       # a rescued apple must not pull the search back to it
+            mark_hazard_disc(pos[0], pos[1], 0.06)     # and must not be driven over later
             target_xy = None
             n = len(found_targets)
             if TARGET_COUNT and n >= TARGET_COUNT:

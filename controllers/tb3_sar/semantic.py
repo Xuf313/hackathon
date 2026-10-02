@@ -3,11 +3,9 @@
 Objects are placed on a map (YOLO bearing + LiDAR range). Each frontier is scored by travel cost
 minus a bonus for being near objects where fruit is usually kept:
     score = path_distance - W_SEM * sum_obj prior[class] * exp(-d(frontier, obj) / SIGMA)
-The lowest score wins. Optionally Jev (TypeSafe AI) chooses among the best candidates instead.
+The lowest score wins.
 """
 import math
-import os
-import threading
 
 import numpy as np
 
@@ -108,11 +106,6 @@ class SemanticMap:
             s += self.prior.get(cls, 0.0) * share * math.exp(-math.hypot(wx - ox, wy - oy) / SIGMA)
         return s
 
-    def nearby(self, wx, wy, rad=2.5):
-        out = [(c, math.hypot(wx - ox, wy - oy)) for c, ox, oy, n, sh in self.reliable()
-               if math.hypot(wx - ox, wy - oy) < rad]
-        return sorted(out, key=lambda t: t[1])[:5]
-
 
 def pick(cands, sem):
     """cands: [(wx, wy, path_dist)] -> best (wx, wy) by distance-vs-semantics trade-off."""
@@ -122,55 +115,3 @@ def pick(cands, sem):
         if s < best_s:
             best, best_s = (wx, wy), s
     return best
-
-
-# ---------------- optional: Jev (TypeSafe AI) as the high-level chooser ----------------
-class JevChooser:
-    """Asks Jev to choose among the top frontier candidates. The call runs in a background thread
-    (70-500 ms) so the control loop never waits; without an API key `pick` is used instead."""
-
-    def __init__(self):
-        self.client = None
-        self.pending = None
-        self.result = None
-        if not os.environ.get("TYPESAFE_API_KEY"):
-            return
-        try:
-            from typesafe_sdk import Choice, TypeSafeClient
-            self.Choice = Choice
-            self.client = TypeSafeClient()
-        except Exception as e:
-            print(f"[sar] Jev disabled: {e}")
-
-    @property
-    def enabled(self):
-        return self.client is not None
-
-    def request(self, cands, sem, target_name):
-        if not self.enabled or (self.pending and self.pending.is_alive()):
-            return
-        top = sorted(cands, key=lambda c: c[2] - W_SEM * sem.likelihood(c[0], c[1]))[:6]
-        lines, criteria = [], {}
-        for i, (wx, wy, dist) in enumerate(top):
-            near = ", ".join(f"{n} {d:.1f}m" for n, d in sem.nearby(wx, wy)) or "nothing recognised"
-            criteria[f"f{i}"] = f"frontier {i}: {dist:.1f} m away; nearby: {near}"
-            lines.append(criteria[f"f{i}"])
-        state = (f"A small floor robot searches an apartment for a {target_name} lying on the floor. "
-                 "Pick the unexplored frontier most worth visiting next (likely location vs travel cost).\n"
-                 + "\n".join(lines))
-
-        def work():
-            try:
-                resp = self.client.system_one(state=state, questions={
-                    "frontier": self.Choice(instructions="Which frontier should the robot explore next?",
-                                            criteria=criteria)})
-                i = int(resp.answers["frontier"].choice[1:])
-                self.result = (top[i][0], top[i][1], resp.answers["frontier"].confidence)
-            except Exception as e:
-                print(f"[sar] Jev call failed: {e}")
-        self.pending = threading.Thread(target=work, daemon=True)
-        self.pending.start()
-
-    def take(self):
-        r, self.result = self.result, None
-        return r
