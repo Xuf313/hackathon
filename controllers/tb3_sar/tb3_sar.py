@@ -296,7 +296,7 @@ def cost_maps():
     occ = ((logodds > 0.6) | hazard).astype(np.uint8)
     dist = cv2.distanceTransform(1 - occ, cv2.DIST_L2, 5) * RES
     blocked = dist < INFLATE
-    penalty = np.clip(0.45 - dist, 0, None) * 8.0
+    penalty = np.clip(0.55 - dist, 0, None) * 14.0      # shortest path, but kept away from walls
     return blocked, penalty
 
 
@@ -521,7 +521,7 @@ LOOKAHEAD = 0.6
 DWA_T, DWA_DT = 1.5, 0.1             # simulate each candidate command 1.5 s ahead
 DWA_V = np.linspace(0.0, V_MAX, 6)
 DWA_W = np.linspace(-W_MAX, W_MAX, 15)
-COLLIDE = ROBOT_RADIUS + 0.03
+COLLIDE = ROBOT_RADIUS + 0.045                      # trajectories closer than this to an obstacle are rejected
 local_occ = np.zeros((LN, LN), np.uint8)
 local_dist = np.full((LN, LN), LOCAL_SIZE, np.float32)
 local_blocked = [False]
@@ -573,7 +573,7 @@ def dwa(lx, ly):
     end = TRAJ[:, -1, :]
     goal_cost = np.hypot(end[:, 0] - lx, end[:, 1] - ly)
     # end close to the look-ahead point, stay away from obstacles, prefer driving faster
-    cost = 1.0 * goal_cost + 0.8 * (1 - np.minimum(clear, 0.5) / 0.5) - 0.25 * _V / V_MAX
+    cost = 1.0 * goal_cost + 1.2 * (1 - np.minimum(clear, 0.6) / 0.6) - 0.25 * _V / V_MAX
     cost[~ok] = np.inf
     dwa_viz["cands"], dwa_viz["ok"] = TRAJ, ok
     if not ok.any():
@@ -656,6 +656,7 @@ def tilt():
     a = np.array(accel.getValues(), dtype=float)
     if not np.all(np.isfinite(a)) or np.linalg.norm(a) < 5.0:
         return 0.0                                            # sensor not ready yet
+    _grav["raw"] = a
     # wheel speeds change instantly in Webots, so starting / braking gives one-step jolts: low-pass filter
     _grav["f"] = a if _grav["f"] is None else 0.8 * _grav["f"] + 0.2 * a
     g = _grav["f"] / np.linalg.norm(_grav["f"])
@@ -761,6 +762,33 @@ def draw_low(frame):
         ty = y1 - 4 if y1 - th_ - 8 >= 0 else y2 + th_ + 6
         cv2.rectangle(frame, (x1, ty - th_ - 4), (x1 + tw + 6, ty + 3), col, -1)
         cv2.putText(frame, label, (x1 + 3, ty), font, 0.45, (0, 0, 0), 1, cv2.LINE_AA)
+
+
+BUMP_ACC = 4.0                       # sideways/forward jolt (m/s^2) that means the robot hit something
+cmd_hist = []                        # recent (v, w) commands, to tell a collision from our own speed change
+
+
+def bumped():
+    """True when the accelerometer shows a sharp horizontal jolt while the speed command was steady:
+    the robot has run into something (possibly closer than the LiDAR's 12 cm minimum range)."""
+    a, ref = _grav.get("raw"), _grav.get("ref")
+    if a is None or ref is None or len(cmd_hist) < 3 or abs(cmd_hist[-1][0]) < 0.03:
+        return False
+    if max(abs(c[0] - cmd_hist[-1][0]) for c in cmd_hist) > 0.01 or max(abs(c[1] - cmd_hist[-1][1]) for c in cmd_hist) > 0.05:
+        return False                                  # we changed speed ourselves: that jolt is expected
+    horiz = a - (a @ ref) * ref
+    return float(np.linalg.norm(horiz)) > BUMP_ACC
+
+
+def wall_ahead_on_map():
+    """True if the map has a wall or obstacle right in front of the robot. The LiDAR can't see anything
+    closer than 12 cm, so once the robot is almost touching a wall only the map still knows it is there."""
+    for d in (0.13, 0.17, 0.21):
+        for lat in (-0.09, 0.0, 0.09):
+            r, c = to_cell(x + d * math.cos(th) - lat * math.sin(th), y + d * math.sin(th) + lat * math.cos(th))
+            if 0 <= r < N and 0 <= c < N and (logodds[r, c] > 0.6 or hazard[r, c]):
+                return True
+    return False
 
 
 def mark_hazard(forward):
@@ -907,74 +935,184 @@ def _start(img, p, r):
     cv2.circle(img, p, max(2, r // 3), (255, 255, 255), -1, cv2.LINE_AA)
 
 
+# map palette (BGR)
+M_BG_IN, M_BG_OUT = (46, 34, 26), (22, 16, 12)          # vignette: centre / corners
+M_DOT = (70, 56, 46)                                    # dot grid over unknown space
+M_FLOOR = (86, 70, 58)                                  # explored floor
+M_SEARCHED = (122, 112, 58)                             # floor the camera has checked (teal)
+M_WALL = (244, 240, 236)
+M_PATH = (255, 196, 84)                                 # planned path (sky blue)
+M_ROBOT = (64, 186, 255)                                # amber
+M_START = (120, 214, 96)                                # green
+M_HAZARD = (52, 140, 255)                               # low obstacles (orange)
+M_PANEL = (30, 22, 17)                                  # header / legend bars
+trail = []                                              # robot positions, for the faded trail on the map
+_vignette = {}                                          # cached map background per canvas size
+
+
+def _blend(img, mask, colour, alpha=1.0):
+    """Alpha-blend a solid colour into img where mask (0..1 float) is set."""
+    a = (np.clip(mask, 0, 1) * alpha)[..., None]
+    img[:] = img * (1 - a) + np.array(colour, np.float32) * a
+
+
+def _glow(img, centre, radius, colour, strength=0.5):
+    """Soft round glow (blurred disc) under an icon."""
+    m = np.zeros(img.shape[:2], np.float32)
+    cv2.circle(m, centre, radius, 1.0, -1, cv2.LINE_AA)
+    _blend(img, cv2.GaussianBlur(m, (0, 0), radius * 0.6), colour, strength)
+
+
+def _chip(img, org, text, dot=None, scale=0.42):
+    """Rounded label chip with an optional coloured dot; returns its right edge."""
+    font = cv2.FONT_HERSHEY_DUPLEX
+    (tw, th_), _ = cv2.getTextSize(text, font, scale, 1)
+    x0, y0 = org; pad = 8; dw = 14 if dot else 0
+    x1, y1 = x0 + tw + 2 * pad + dw, y0 + th_ + 10
+    over = img.copy()
+    r = (y1 - y0) // 2
+    cv2.rectangle(over, (x0 + r, y0), (x1 - r, y1), (58, 46, 38), -1, cv2.LINE_AA)
+    cv2.circle(over, (x0 + r, y0 + r), r, (58, 46, 38), -1, cv2.LINE_AA)
+    cv2.circle(over, (x1 - r, y0 + r), r, (58, 46, 38), -1, cv2.LINE_AA)
+    cv2.addWeighted(over, 0.85, img, 0.15, 0, img)
+    if dot:
+        cv2.circle(img, (x0 + pad + 4, y0 + r), 4, dot, -1, cv2.LINE_AA)
+    cv2.putText(img, text, (x0 + pad + dw, y1 - 6), font, scale, UI_TEXT, 1, cv2.LINE_AA)
+    return x1
+
+
 def render_map(path, size=480):
-    """Clean global map: walls, explored floor, robot, path, start and found apples. Zooms to the explored area."""
+    """The overall map: explored and searched floor, walls, path, trail, start, apples and the robot.
+    Drawn at twice the size and scaled down for smooth edges; zooms to the explored area."""
     rows, cols = np.nonzero(known)
     if rows.size:
         r0, r1, c0, c1 = rows.min(), rows.max(), cols.min(), cols.max()
     else:
         r0 = r1 = c0 = c1 = N // 2
-    for px, py in (START[:2], (x, y)):
-        r, c = to_cell(px, py); r0, r1, c0, c1 = min(r0, r), max(r1, r), min(c0, c), max(c1, c)
-    side = max(r1 - r0, c1 - c0, 60) + 16
+    for px_, py_ in (START[:2], (x, y)):
+        r, c = to_cell(px_, py_); r0, r1, c0, c1 = min(r0, r), max(r1, r), min(c0, c), max(c1, c)
+    side = max(r1 - r0, c1 - c0, 60) + 24
     rc, cc = (r0 + r1) // 2, (c0 + c1) // 2
     r0, c0 = max(0, rc - side // 2), max(0, cc - side // 2)
     r0, c0 = min(r0, N - side), min(c0, N - side)
     sl = (slice(r0, r0 + side), slice(c0, c0 + side))
-    kn, lo, seen_ = known[sl], logodds[sl], cam_seen[sl]
+    kn, lo, seen_, hz = known[sl], logodds[sl], cam_seen[sl], hazard[sl]
 
-    cell = np.empty((side, side, 3), np.float32)
-    cell[:] = UI_BG
+    H = size * 2                                        # supersampled canvas
+    k = H / side
+
+    # background: vignette + dot grid every metre
+    if _vignette.get(H) is None:
+        yy, xx = np.mgrid[0:H, 0:H].astype(np.float32)
+        v = np.clip(np.hypot(xx - H / 2, yy - H / 2) / (H * 0.72), 0, 1)[..., None]
+        _vignette[H] = np.array(M_BG_IN, np.float32) * (1 - v) + np.array(M_BG_OUT, np.float32) * v
+    img = _vignette[H].copy()
+    step = 1.0 / RES * k
+    ox = (-((X0 + c0 * RES) % 1.0)) / RES * k
+    oy = (((Y0 + (r0 + side) * RES) % 1.0)) / RES * k
+    for gx in np.arange(ox, H, step):
+        for gy in np.arange(oy - step, H, step):
+            cv2.circle(img, (int(gx), int(gy)), 2, M_DOT, -1, cv2.LINE_AA)
+
+    def up(mask, blur):                                 # grid mask -> smooth canvas mask
+        m = cv2.resize(cv2.flip(mask.astype(np.float32), 0), (H, H), interpolation=cv2.INTER_LINEAR)
+        return cv2.GaussianBlur(m, (0, 0), max(0.8, k * blur))
+
     free = kn & (lo < 0)
-    cell[free] = UI_FREE
-    cell[free & seen_] = UI_SEARCHED
+    _blend(img, np.clip(up(free, 0.45) * 1.6, 0, 1), M_FLOOR)
+    _blend(img, np.clip(up(free & seen_, 0.6) * 1.4, 0, 1), M_SEARCHED, 0.9)
     if SHOW_COSTMAP[0]:
         blocked, _ = cost_maps()
-        b = free & blocked[sl]
-        cell[b] = cell[b] * 0.4 + UI_COST * 0.6
-    view = cv2.resize(cv2.flip(cell, 0), (size, size), interpolation=cv2.INTER_LINEAR).astype(np.uint8)
-    k = size / side
+        _blend(img, up(free & blocked[sl], 0.3), UI_INFL, 0.55)
 
-    # faint 1 m grid
-    step = 1.0 / RES * k
-    off_x = ((X0 + c0 * RES) % 1.0) / RES * k
-    off_y = ((Y0 + (r0 + side) * RES) % 1.0) / RES * k
-    for gx in np.arange(-off_x, size, step):
-        cv2.line(view, (int(gx), 0), (int(gx), size), UI_GRID, 1)
-    for gy in np.arange(off_y, size, step):
-        cv2.line(view, (0, int(gy)), (size, int(gy)), UI_GRID, 1)
+    # walls with a soft drop shadow
+    wall = np.clip(up(lo > 0.6, 0.3) * 2.2, 0, 1)
+    shadow = np.roll(cv2.GaussianBlur(wall, (0, 0), k * 0.9), (int(k * 0.5), int(k * 0.5)), (0, 1))
+    _blend(img, shadow, (8, 6, 4), 0.55)
+    _blend(img, wall, M_WALL)
 
-    # walls on top, slightly thickened and anti-aliased
-    wall = cv2.resize(cv2.flip((lo > 0.6).astype(np.float32), 0), (size, size), interpolation=cv2.INTER_LINEAR)
-    wall = np.clip(cv2.GaussianBlur(wall, (0, 0), max(0.6, k * 0.25)) * 1.8, 0, 1)[..., None]
-    view = (view * (1 - wall) + np.array(UI_WALL, np.float32) * wall).astype(np.uint8)
-
-    def px_of(wx, wy):                 # world -> display pixel (map is flipped so +y is up)
+    def px_of(wx, wy):                                  # world -> canvas pixel (+y up)
         r, c = to_cell(wx, wy)
         return int((c - c0 + 0.5) * k), int((side - 1 - (r - r0) + 0.5) * k)
 
-    pts = [px_of(px, py) for px, py in (path or [])]
+    # low obstacles: soft orange patches
+    if hz.any():
+        _blend(img, np.clip(up(hz, 0.5) * 2.0, 0, 1), M_HAZARD, 0.9)
+
+    # robot trail, fading out with age
+    if len(trail) > 1:
+        pts = [px_of(*p) for p in trail]
+        for i in range(1, len(pts)):
+            a = i / len(pts)
+            col = tuple(float(M_BG_IN[j] * (1 - a * 0.7) + M_ROBOT[j] * a * 0.7) for j in range(3))
+            cv2.line(img, pts[i - 1], pts[i], col, max(2, int(k * 0.35)), cv2.LINE_AA)
+
+    # planned path: glow + core, ring at the goal
+    pts = [px_of(*p) for p in (path or [])]
     if len(pts) > 1:
-        cv2.polylines(view, [np.int32(pts)], False, UI_PATH, 2, cv2.LINE_AA)
+        g = np.zeros((H, H), np.float32)
+        cv2.polylines(g, [np.int32(pts)], False, 1.0, int(k * 1.6), cv2.LINE_AA)
+        _blend(img, cv2.GaussianBlur(g, (0, 0), k * 0.8), M_PATH, 0.45)
+        cv2.polylines(img, [np.int32(pts)], False, M_PATH, max(3, int(k * 0.4)), cv2.LINE_AA)
+        cv2.circle(img, pts[-1], int(k * 1.6), M_PATH, max(2, int(k * 0.25)), cv2.LINE_AA)
 
-    mr = max(6, int(size / 50))
-    _start(view, px_of(*START[:2]), mr)
+    mr = max(10, int(H / 40))
+    # start / home: green ring with a house glyph
+    sp = px_of(*START[:2])
+    _glow(img, sp, int(mr * 1.6), M_START, 0.45)
+    cv2.circle(img, sp, mr, M_START, -1, cv2.LINE_AA)
+    cv2.circle(img, sp, mr, (255, 255, 255), 2, cv2.LINE_AA)
+    hw = mr * 0.5
+    roof = np.int32([(sp[0] - hw * 1.2, sp[1]), (sp[0], sp[1] - hw * 1.1), (sp[0] + hw * 1.2, sp[1])])
+    cv2.fillPoly(img, [roof], (255, 255, 255), cv2.LINE_AA)
+    cv2.rectangle(img, (int(sp[0] - hw * 0.75), int(sp[1])), (int(sp[0] + hw * 0.75), int(sp[1] + hw * 0.9)), (255, 255, 255), -1)
+
+    # apples: glow, icon and a check badge once rescued
     for fx, fy in found_targets:
-        _apple(view, px_of(fx, fy), mr)
+        p = px_of(fx, fy)
+        _glow(img, p, int(mr * 1.7), UI_APPLE, 0.5)
+        _apple(img, p, mr)
+        b = (p[0] + int(mr * 0.9), p[1] + int(mr * 0.9))
+        cv2.circle(img, b, int(mr * 0.55), M_START, -1, cv2.LINE_AA)
+        cv2.polylines(img, [np.int32([(b[0] - mr * 0.3, b[1]), (b[0] - mr * 0.05, b[1] + mr * 0.25),
+                                      (b[0] + mr * 0.32, b[1] - mr * 0.25)])], False, (255, 255, 255), 3, cv2.LINE_AA)
     if target_xy:
-        _apple(view, px_of(*target_xy), mr, ghost=True)
+        _apple(img, px_of(*target_xy), mr, ghost=True)
 
-    # robot: amber arrowhead pointing along the heading
+    # robot: amber halo + arrow
     p = np.array(px_of(x, y), np.float32)
+    _glow(img, (int(p[0]), int(p[1])), int(mr * 2.0), M_ROBOT, 0.45)
     fwd = np.array((math.cos(th), -math.sin(th)), np.float32)
     left = np.array((-fwd[1], fwd[0]), np.float32)
-    s = mr * 1.6
-    tri = np.int32([p + fwd * s, p - fwd * s * 0.6 + left * s * 0.75, p - fwd * s * 0.25, p - fwd * s * 0.6 - left * s * 0.75])
-    cv2.fillPoly(view, [tri], UI_ROBOT, cv2.LINE_AA)
-    cv2.polylines(view, [tri], True, (30, 22, 18), 1, cv2.LINE_AA)
+    s_ = mr * 1.5
+    tri = np.int32([p + fwd * s_, p - fwd * s_ * 0.6 + left * s_ * 0.75, p - fwd * s_ * 0.2, p - fwd * s_ * 0.6 - left * s_ * 0.75])
+    cv2.fillPoly(img, [tri], M_ROBOT, cv2.LINE_AA)
+    cv2.polylines(img, [tri], True, (255, 255, 255), 3, cv2.LINE_AA)
 
-    _badge(view, f"{TARGET_NAME}  {len(found_targets)}{count_suffix()}")
-    cv2.rectangle(view, (0, 0), (size - 1, size - 1), UI_FRAME, 2)
+    view = cv2.resize(np.clip(img, 0, 255).astype(np.uint8), (size, size), interpolation=cv2.INTER_AREA)
+
+    # header: title + status chips; footer: legend
+    over = view.copy()
+    cv2.rectangle(over, (0, 0), (size, 34), M_PANEL, -1)
+    cv2.rectangle(over, (0, size - 26), (size, size), M_PANEL, -1)
+    cv2.addWeighted(over, 0.78, view, 0.22, 0, view)
+    cv2.putText(view, "MAP", (12, 23), cv2.FONT_HERSHEY_DUPLEX, 0.55, UI_TEXT, 1, cv2.LINE_AA)
+    xe = _chip(view, (60, 7), f"apples {len(found_targets)}{count_suffix()}", UI_APPLE)
+    xe = _chip(view, (xe + 6, 7), state.lower(), M_ROBOT)
+    _chip(view, (xe + 6, 7), f"{robot.getTime():.0f} s")
+    lx = 10
+    for name, col in (("searched", M_SEARCHED), ("path", M_PATH), ("obstacle", M_HAZARD), ("start", M_START)):
+        cv2.circle(view, (lx + 5, size - 13), 5, col, -1, cv2.LINE_AA)
+        cv2.putText(view, name, (lx + 15, size - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.4, UI_TEXT, 1, cv2.LINE_AA)
+        lx += 30 + cv2.getTextSize(name, cv2.FONT_HERSHEY_SIMPLEX, 0.4, 1)[0][0]
+
+    # rounded frame
+    mask = np.zeros((size, size), np.uint8)
+    cv2.rectangle(mask, (14, 0), (size - 15, size - 1), 255, -1)
+    cv2.rectangle(mask, (0, 14), (size - 1, size - 15), 255, -1)
+    for cx_, cy_ in ((14, 14), (size - 15, 14), (14, size - 15), (size - 15, size - 15)):
+        cv2.circle(mask, (cx_, cy_), 14, 255, -1, cv2.LINE_AA)
+    view[mask == 0] = M_BG_OUT
     return view
 
 
@@ -1131,6 +1269,8 @@ print(f"[sar] mission: find {f'{TARGET_COUNT}x' if TARGET_COUNT else 'every'} {T
 while robot.step(dt_ms) != -1:
     t = robot.getTime()
     near = arrived; arrived = False
+    if not trail or math.hypot(x - trail[-1][0], y - trail[-1][1]) > 0.1:
+        trail.append((x, y))                          # for the faded trail on the map
     th_before = th
     update_odometry()
     if tipping() and last_cmd[0] > 0.03 and t >= backoff_until and t >= escape_until and t - last_tilt > 2.0 \
@@ -1145,6 +1285,15 @@ while robot.step(dt_ms) != -1:
             goal = None
         drive(0, 0)
         start_backoff(t, 3.0, "tilt")                  # ends early once the robot is level again
+    cmd_hist.append(tuple(last_cmd)); del cmd_hist[:-3]
+    if bumped() and t >= backoff_until and t >= escape_until and state not in ("SCAN", "DONE"):
+        forward = last_cmd[0] > 0
+        print(f"[sar] bump at ({x:.2f},{y:.2f}) -> marking it, backing off and re-planning")
+        mark_hazard(forward)
+        path = None; last_plan = -1e9
+        drive(0, 0)
+        if forward:
+            start_backoff(t, 1.0, "bump")
     ranges = np.array(lidar.getRangeImage(), dtype=np.float32)
     if int(t / DT) % MATCH_EVERY == 0 and t > 8.0:
         scan_match(ranges)
@@ -1304,11 +1453,13 @@ while robot.step(dt_ms) != -1:
         wd_t, wd_xy = t, (x, y)
 
     clear = front_clearance(ranges)
-    if clear < SAFE_FRONT or local_blocked[0]:
-        # something right in front / DWA found no safe trajectory (possibly the pedestrian): stop, wait, back off
+    if clear < SAFE_FRONT or local_blocked[0] or wall_ahead_on_map():
+        # something right in front / DWA found no safe trajectory (possibly the pedestrian): stop, re-plan
+        # around it at once, and back off if that doesn't help within 2.5 s
         local_blocked[0] = False          # re-run DWA next step
         if blocked_since is None:
             blocked_since = t
+            last_plan = -1e9
         if t - blocked_since > 2.5:
             start_backoff(t, 0.8, "blocked"); blocked_since = None; path = None
             if state == "EXPLORE" and goal:
