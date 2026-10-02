@@ -49,7 +49,7 @@ From [`controllers/tb3_sar/sar.log`](controllers/tb3_sar/sar.log):
 - Got stuck **2** times and recovered on its own both times
 - LiDAR scan matching applied **247** pose corrections, **4.49 m** in total
 
-> This run used the `yolo11n.pt` (COCO) fallback because the YOLO-World weights were missing. The frontier choice came from the local semantic prior (Jev was off).
+> This run used `yolo11n.pt` (COCO), which is now the only model the code uses. The frontier choice came from the local semantic prior (Jev was off).
 
 ## How it works
 
@@ -72,7 +72,7 @@ SCAN ──► EXPLORE ──► APPROACH        EXPLORE ──► (TO_DEST) ─
 | `HOME` | Plan back to the start pose. |
 | `DONE` | Stop. |
 
-A **safety layer** runs on every step under all states. If anything is closer than 20 cm in the driving direction, or DWA finds no safe trajectory, the robot stops, waits, backs off and re-plans. It only reverses while the LiDAR shows nothing within 25 cm behind it. A progress watchdog (no motion for 3.5 s) triggers the same recovery.
+A **safety layer** runs on every step under all states. If anything is closer than 20 cm in the driving direction, or DWA finds no safe trajectory, the robot stops, waits, backs off and re-plans. It only reverses while the LiDAR shows nothing within 25 cm behind it. A progress watchdog (no motion for 3.5 s) triggers the same recovery. Home (or a given destination) counts as reached within 0.25 m, or within 0.6 m when a wall or obstacle stops the robot getting closer, so it doesn't keep backing off next to the goal.
 
 ### 2. Localization and mapping
 
@@ -91,7 +91,7 @@ Each frontier is then scored, and the lowest score wins:
 score = path_distance − 3.0 × Σ prior[class] × share × exp(−d / 1.5 m)
 ```
 
-The priors encode where an apple is likely: `table 1.0`, `bowl 0.9`, `orange 0.9`, `refrigerator 0.8`, `oven 0.7`, `chair 0.5`, `sofa 0.2`, … People are never used as anchors.
+The priors encode general knowledge of where fruit is kept: `dining table 1.0`, `bowl 0.9`, `orange 0.9`, `refrigerator 0.8`, `oven 0.7`, `chair 0.5`, `couch 0.2`, … Every class name is one of the 80 COCO classes the provided `yolo11n.pt` model detects, and the map only keeps COCO's indoor categories. Nothing is taken from the competition world. People are never used as anchors.
 
 When `TYPESAFE_API_KEY` is set, an optional **Jev (TypeSafe AI)** chooser picks among the top 6 frontiers. It runs in a background thread so the control loop never blocks, and falls back to the local score.
 
@@ -173,7 +173,7 @@ YOLO runs on Apple Silicon (`mps`) when available, otherwise on the CPU. If YOLO
 | --- | --- | --- |
 | `START` | `(-0.3, -7.5, π)` | known start pose |
 | `SEMANTIC` | `True` | semantic frontier scoring on / off |
-| `YOLO_WEIGHTS` | `yolo_world_apartment.pt` | falls back to `yolo11n.pt` if missing |
+| `YOLO_WEIGHTS` | `yolo11n.pt` | provided COCO model; feeds the semantic map only |
 | `SHOW_DEBUG` | `True` | camera / map / local-costmap views |
 | `SAVE_DEBUG_FILES` | `False` | save snapshots and `sem_objects.json` next to the controller |
 
@@ -188,7 +188,6 @@ Optional: set `TYPESAFE_API_KEY` (and install `typesafe_sdk`) to let Jev choose 
 
 ## Next steps
 
-- Generate the open-vocabulary **YOLO-World** weights (`yolo_world_apartment.pt`) for apartment-specific classes.
 - Evaluate the **Jev** frontier chooser against the local prior.
 - Compare the estimated pose with `tb3_ground_truth` to measure localization error.
 

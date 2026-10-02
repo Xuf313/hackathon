@@ -46,11 +46,12 @@ LOOK_SPACING = 1.5                  # do a 360 deg camera look-around every time
 VERIFY_DIST = 2.0                   # a target only counts if it was confirmed (round, right size) closer than this
 REACH_DIST = 0.35                   # target reached when this close
 GOAL_TOL = 0.25                     # dest/home reached when this close
+NEAR_GOAL = 0.6                     # ... or this close when walls / obstacles stop the robot getting closer
 SHOW_DEBUG = True                   # camera / map / local costmap views
 SAVE_DEBUG_FILES = False            # True: also save debug snapshots here (rej_*.jpg, spotted.jpg, *_live.jpg, sem_objects.json)
 SHOW_ALL_OBJECTS = False            # False: camera shows boxes on the target only (YOLO still feeds the semantic map)
 YOLO_EVERY = 5                      # YOLO only feeds the semantic map: every 5th frame is enough
-YOLO_WEIGHTS = "yolo_world_apartment.pt"  # open-vocabulary YOLO-World (make_world_model.py); fallback yolo11n.pt
+YOLO_WEIGHTS = "yolo11n.pt"         # provided COCO model (80 classes); feeds the semantic map only
 SEMANTIC = True                     # semantic frontier exploration (YOLO objects bias where to search)
 YOLO_CONF = 0.2                     # sim renders score low; lecture used 0.1
 
@@ -382,9 +383,6 @@ if SHOW_DEBUG or SEMANTIC:
         from ultralytics import YOLO
         YOLO_DEV = "mps" if torch.backends.mps.is_available() else "cpu"
         _wdir = os.path.join(HERE, "../../models/YOLO")
-        if not os.path.exists(os.path.join(_wdir, YOLO_WEIGHTS)):
-            print(f"[sar] {YOLO_WEIGHTS} missing (run models/YOLO/make_world_model.py) -> using yolo11n.pt (COCO)")
-            YOLO_WEIGHTS = "yolo11n.pt"
         yolo = YOLO(os.path.join(_wdir, YOLO_WEIGHTS))
         yolo.to(YOLO_DEV)
         print(f"[sar] YOLO loaded on {YOLO_DEV}: {YOLO_WEIGHTS} ({len(yolo.names)} classes)")
@@ -848,6 +846,21 @@ def count_suffix():
     return f"/{TARGET_COUNT}" if TARGET_COUNT else ""
 
 
+def at_goal(goal, ranges):
+    """Destination / home reached: within GOAL_TOL, or within NEAR_GOAL when the robot can't get any closer
+    (goal inside a wall's safety margin, or something right in front). Without this the robot keeps
+    hitting the safety stop next to the goal and backing off again and again."""
+    d = math.hypot(goal[0] - x, goal[1] - y)
+    if d < GOAL_TOL:
+        return True
+    if d >= NEAR_GOAL:
+        return False
+    if front_clearance(ranges) < SAFE_FRONT + 0.05 or local_blocked[0] or blocked_since is not None:
+        return True
+    blocked, _ = cost_maps()
+    return bool(blocked[to_cell(*goal)])
+
+
 def after_search():
     """State to switch to once the search is over: deliver if a destination was given, else go home."""
     return "TO_DEST" if DEST else "HOME"
@@ -923,6 +936,9 @@ while robot.step(dt_ms) != -1:
             if SAVE_DEBUG_FILES:
                 cv2.imwrite(os.path.join(HERE, "spotted.jpg"), frame)
 
+    if state == "DONE":
+        drive(0, 0); show(frame, path, det); continue
+
     # ---- safety layer / recovery ----
     if t < backoff_until:
         # never reverse blind: back off only while the LiDAR shows nothing close behind
@@ -938,9 +954,6 @@ while robot.step(dt_ms) != -1:
         if scan_turned > 2 * math.pi:
             state = "EXPLORE"; path = None
         show(frame, path, det); continue
-
-    if state == "DONE":
-        drive(0, 0); show(frame, path, det); continue
 
     # choose goal for the current state
     if state == "APPROACH" and any(math.hypot(target_xy[0] - fx, target_xy[1] - fy) < 1.5 for fx, fy in found_targets):
@@ -968,14 +981,14 @@ while robot.step(dt_ms) != -1:
             path = None; last_plan = -1e9; drive(0, 0); continue
     elif state == "TO_DEST":
         goal = DEST
-        if near or math.hypot(goal[0] - x, goal[1] - y) < GOAL_TOL:
+        if near or at_goal(goal, ranges):
             print(f"[sar] destination reached at t={t:.1f}s -> returning home")
-            state = "HOME"; path = None; last_plan = -1e9; drive(0, 0); continue
+            state = "HOME"; path = None; last_plan = -1e9; backoff_until = 0.0; drive(0, 0); continue
     elif state == "HOME":
         goal = START[:2]
-        if near or math.hypot(goal[0] - x, goal[1] - y) < GOAL_TOL:
+        if near or at_goal(goal, ranges):
             print(f"[sar] MISSION COMPLETE at t={t:.1f}s")
-            state = "DONE"; drive(0, 0); continue
+            state = "DONE"; backoff_until = 0.0; drive(0, 0); continue
 
     # (re)plan periodically so the map/pedestrian changes are taken into account
     if path is None or t - last_plan > 1.5:

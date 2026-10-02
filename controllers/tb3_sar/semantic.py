@@ -10,19 +10,28 @@ import threading
 
 import numpy as np
 
-# how strongly each COCO class suggests "an apple is nearby" (kitchen / dining context)
-# vocabulary = YOLO-World classes (models/YOLO/make_world_model.py); COCO names kept for yolo11n fallback
+# Every class name below is a COCO class, i.e. something the provided yolo11n.pt model can output.
+# Nothing is taken from the competition world: the priors are general "where is fruit kept" knowledge.
 APPLE_PRIOR = {   # how strongly each object suggests "an apple is nearby" (kitchen / dining context)
-    "table": 1.0, "dining table": 1.0, "bowl": 0.9, "plate": 0.8, "refrigerator": 0.8, "oven": 0.7,
-    "sink": 0.5, "wine glass": 0.4, "bottle": 0.4, "chair": 0.5, "orange": 0.9, "green apple": 0.9,
-    "red apple": 1.0, "apple": 1.0, "sofa": 0.2, "couch": 0.2, "potted plant": 0.2, "cabinet": 0.3,
+    "dining table": 1.0, "bowl": 0.9, "refrigerator": 0.8, "oven": 0.7, "microwave": 0.5, "sink": 0.5,
+    "chair": 0.5, "wine glass": 0.4, "bottle": 0.4, "apple": 1.0, "orange": 0.9, "banana": 0.8,
+    "couch": 0.2, "potted plant": 0.2,
 }
 SKIP = {"person"}                     # dynamic: never anchor semantics on the pedestrian
-INDOOR = set(APPLE_PRIOR) | {   # classes allowed on the map
-    "armchair", "television", "tv", "soccer ball", "sports ball", "cat", "rubber duck", "bed", "toilet",
-    "bathtub", "washing machine", "fire extinguisher", "computer monitor", "laptop",
-    "flowers", "book", "clock", "painting", "radiator", "door", "stairs", "cardboard box",
-    "vase", "cup", "keyboard", "mouse", "teddy bear"}
+INDOOR = {                            # classes allowed on the map: COCO's indoor super-categories
+    # furniture
+    "chair", "couch", "potted plant", "bed", "dining table", "toilet",
+    # electronic
+    "tv", "laptop", "mouse", "remote", "keyboard", "cell phone",
+    # appliance
+    "microwave", "oven", "toaster", "sink", "refrigerator",
+    # kitchen
+    "bottle", "wine glass", "cup", "fork", "knife", "spoon", "bowl",
+    # food
+    "banana", "apple", "sandwich", "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake",
+    # indoor
+    "book", "clock", "vase", "scissors", "teddy bear", "hair drier", "toothbrush",
+}
 W_SEM = 3.0                           # metres of detour one fully-likely object is worth
 SIGMA = 1.5                           # influence radius (m)
 MERGE = 0.6                           # detections within this distance = same object
