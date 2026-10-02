@@ -48,6 +48,12 @@ class SemanticMap:
     def __init__(self, prior=None):
         self.objects = []             # dicts: x, y, n (sightings), votes {cls: conf_sum}
         self.prior = prior if prior is not None else APPLE_PRIOR
+        self.ignore = []              # (x, y, r) zones around rescued targets: no objects mapped there
+
+    def forget_near(self, wx, wy, rad):
+        """Drop objects near (wx, wy) and ignore new ones there (e.g. a rescued apple YOLO keeps seeing)."""
+        self.objects = [o for o in self.objects if math.hypot(o["x"] - wx, o["y"] - wy) >= rad]
+        self.ignore.append((wx, wy, rad))
 
     def add(self, boxes, ranges, pose, cam_w, focal, beam_ang_of_idx, nbeam):
         """Project YOLO boxes onto the floor map using the LiDAR range along the box bearing."""
@@ -67,6 +73,8 @@ class SemanticMap:
             d = float(np.median(r))
             b = (b1 + b2) / 2
             ox, oy = x + d * math.cos(th + b), y + d * math.sin(th + b)
+            if any(math.hypot(ox - ix, oy - iy) < ir for ix, iy, ir in self.ignore):
+                continue
             # merge with any object at this spot (whatever its class) -> class votes compete
             near = [o for o in self.objects if math.hypot(o["x"] - ox, o["y"] - oy) < MERGE]
             if near:

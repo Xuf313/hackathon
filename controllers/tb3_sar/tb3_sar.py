@@ -936,6 +936,12 @@ def open_direction(ranges):
     return float(BEAM_ANG[int(np.argmax(sm))])
 
 
+def dup_tol(d):
+    """How close (m) a sighting at distance d must be to a rescued apple to count as that same apple.
+    Far-away distance estimates are poor, so the tolerance grows with distance."""
+    return max(1.5, 0.6 + 0.35 * d)
+
+
 def after_search():
     """State to switch to once the search is over: deliver if a destination was given, else go home."""
     return "TO_DEST" if DEST else "HOME"
@@ -958,6 +964,7 @@ wd_t, wd_xy = 0.0, (x, y)
 approach_fails = 0
 false_targets = []
 found_targets = []                    # apples already reached
+close_obs = []                        # close-range position estimates of the current target
 verified = 0                          # close-range confirmations of the current target
 arrived = False
 look_spots = [(x, y)]                 # where 360 deg look-arounds were done
@@ -1006,12 +1013,12 @@ while robot.step(dt_ms) != -1:
         b, dist = det[0], det[1]
         tx, ty = x + dist * math.cos(th + b), y + dist * math.sin(th + b)
         if any(math.hypot(tx - fx, ty - fy) < 1.0 for fx, fy in false_targets) or \
-                any(math.hypot(tx - fx, ty - fy) < 1.5 for fx, fy in found_targets):   # already rescued
+                any(math.hypot(tx - fx, ty - fy) < dup_tol(dist) for fx, fy in found_targets):   # already rescued
             det = None
     if det and state in ("SCAN", "EXPLORE", "APPROACH") and det[1] < 6.0:
         if target_xy is None or math.hypot(tx - target_xy[0], ty - target_xy[1]) > 1.0:
             if state != "APPROACH":
-                target_xy = (tx, ty); seen_count = 1; verified = 0
+                target_xy = (tx, ty); seen_count = 1; verified = 0; close_obs = []
         else:
             a = 0.3
             target_xy = ((1 - a) * target_xy[0] + a * tx, (1 - a) * target_xy[1] + a * ty)
@@ -1020,6 +1027,7 @@ while robot.step(dt_ms) != -1:
             _, _, (_, _, bw_, bh_), conf_ = det
             if det[1] < VERIFY_DIST and 0.8 < bw_ / max(bh_, 1) < 1.25 and conf_ >= 0.6:
                 verified += 1
+                close_obs.append((tx, ty))           # close-range sightings give the most accurate position
         if seen_count >= 3 and state != "APPROACH":
             print(f"[sar] {TARGET_NAME} spotted at ({target_xy[0]:.2f}, {target_xy[1]:.2f})")
             state = "APPROACH"; path = None; last_plan = -1e9
@@ -1061,7 +1069,7 @@ while robot.step(dt_ms) != -1:
         show(frame, path, det); continue
 
     # choose goal for the current state
-    if state == "APPROACH" and any(math.hypot(target_xy[0] - fx, target_xy[1] - fy) < 1.5 for fx, fy in found_targets):
+    if state == "APPROACH" and any(math.hypot(target_xy[0] - fx, target_xy[1] - fy) < 1.8 for fx, fy in found_targets):
         # far-away distance estimates are poor: the "new" target turned out to be one we already reached
         print(f"[sar] target ({target_xy[0]:.2f},{target_xy[1]:.2f}) is an already-found {TARGET_NAME} -> keep exploring")
         target_xy = None; seen_count = 0; verified = 0
@@ -1074,7 +1082,9 @@ while robot.step(dt_ms) != -1:
             state = "EXPLORE"; goal = None; path = None; last_plan = -1e9; drive(0, 0); continue
         if near or math.hypot(goal[0] - x, goal[1] - y) < REACH_DIST:
             print(f"[sar] {TARGET_NAME} confirmed up close ({verified} close views)")
-            found_targets.append(target_xy)
+            pos = tuple(np.median(np.array(close_obs), axis=0)) if close_obs else target_xy
+            found_targets.append((float(pos[0]), float(pos[1])))
+            sem.forget_near(pos[0], pos[1], 1.5)       # a rescued apple must not pull the search back to it
             target_xy = None
             n = len(found_targets)
             if TARGET_COUNT and n >= TARGET_COUNT:
