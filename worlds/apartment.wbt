@@ -943,6 +943,9 @@ TurtleBot3Burger {
   translation -0.3 -7.5 0
   rotation 0 0 1 3.14159
   controller "tb3_sar"
+  controllerArgs [
+    "--count=2"
+  ]
   extensionSlot [
     Display {
       name "camera_view"
