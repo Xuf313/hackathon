@@ -74,7 +74,7 @@ N = int(2 * MAP_HALF / RES)
 INFLATE = ROBOT_RADIUS + 0.09        # obstacle inflation radius
 SAFE_FRONT = 0.20                    # emergency stop distance (from lidar centre)
 SAFE_REAR = 0.25                     # only back off when nothing is closer than this behind the robot
-TILT_MAX = math.radians(4.0)         # tipping more than this = driving onto something too low for the LiDAR
+TILT_MAX = math.radians(6.0)         # tipping more than this while driving = something too low for the LiDAR
                                      # (carpet edge, first stair, a fallen object): stop and mark it
 
 robot = Robot()
@@ -611,10 +611,11 @@ def tilt():
 
 
 def tipping():
-    """True once the robot has been tilted past TILT_MAX for 3 steps in a row (a real tip, not a jolt)."""
+    """True once the robot has been tilted past TILT_MAX for 5 steps (~0.3 s) in a row: a real tip, not the
+    body rocking on its caster when it brakes or starts."""
     _grav["a"] = tilt()
     _grav["n"] = _grav["n"] + 1 if _grav["a"] > TILT_MAX else 0
-    return _grav["n"] >= 3
+    return _grav["n"] >= 5
 
 
 def mark_hazard(forward):
@@ -907,6 +908,34 @@ def at_goal(goal, ranges):
     return bool(blocked[to_cell(*goal)])
 
 
+def start_backoff(t, dur, reason):
+    """Back off for `dur` s, unless that keeps happening (3 times in 15 s): then turn toward open space
+    and give up the current goal instead, so the robot can't reverse itself into a corner."""
+    global backoff_until
+    recent_backoffs[:] = [b for b in recent_backoffs if t - b < 15.0] + [t]
+    if len(recent_backoffs) < 3:
+        backoff_until = t + dur
+        return
+    recent_backoffs.clear()
+    start_escape(t, f"{reason}: 3 back-offs in 15 s")
+
+
+def start_escape(t, why):
+    global backoff_until, escape_until, goal, path
+    print(f"[sar] {why} -> turning toward open space and dropping the current goal")
+    backoff_until = 0.0; escape_until = t + 3.0; path = None
+    if state == "EXPLORE" and goal is not None:
+        banned.append(goal); mark_seen_around(*goal); goal = None
+
+
+def open_direction(ranges):
+    """Robot-frame angle of the most open direction (LiDAR ranges smoothed over ~30 deg)."""
+    r = np.where(np.isfinite(ranges), np.minimum(ranges, LMAX), LMAX)
+    k = max(1, NBEAM // 12)
+    sm = np.convolve(np.concatenate((r[-k:], r, r[:k])), np.ones(2 * k + 1) / (2 * k + 1), "valid")
+    return float(BEAM_ANG[int(np.argmax(sm))])
+
+
 def after_search():
     """State to switch to once the search is over: deliver if a destination was given, else go home."""
     return "TO_DEST" if DEST else "HOME"
@@ -919,6 +948,8 @@ target_xy = None
 banned = []
 last_plan = -1e9
 last_tilt = -1e9
+escape_until = 0.0                    # turning toward open space until then
+recent_backoffs = []                  # times of recent back-offs
 blocked_since = None
 backoff_until = 0.0
 scan_turned = 0.0
@@ -940,18 +971,18 @@ while robot.step(dt_ms) != -1:
     near = arrived; arrived = False
     th_before = th
     update_odometry()
-    if tipping() and t - last_tilt > 2.0 and state != "DONE":
-        # tipping: something too low for the LiDAR (carpet edge, step, object) is under the wheels
-        forward = last_cmd[0] >= 0
-        print(f"[sar] tilt {math.degrees(_grav['a']):.1f} deg at ({x:.2f},{y:.2f}) -> low obstacle {'ahead' if forward else 'behind'}, "
-              f"marking it and backing away")
+    if tipping() and last_cmd[0] > 0.03 and t >= backoff_until and t >= escape_until and t - last_tilt > 2.0 \
+            and state not in ("SCAN", "DONE"):
+        # tipping while driving forward: something too low for the LiDAR (carpet edge, step) is under the wheels
+        print(f"[sar] tilt {math.degrees(_grav['a']):.1f} deg at ({x:.2f},{y:.2f}) -> low obstacle ahead, "
+              f"marking it and backing off until level")
         last_tilt = t
-        mark_hazard(forward)
+        mark_hazard(True)
         path = None; last_plan = -1e9
         if state == "EXPLORE":
             goal = None
         drive(0, 0)
-        backoff_until = t + 1.0 if forward else 0.0   # reversing onto it: just stop and re-plan
+        start_backoff(t, 3.0, "tilt")                  # ended early once level again (see below)
     ranges = np.array(lidar.getRangeImage(), dtype=np.float32)
     if int(t / DT) % MATCH_EVERY == 0 and t > 8.0:
         scan_match(ranges)
@@ -999,11 +1030,26 @@ while robot.step(dt_ms) != -1:
         drive(0, 0); show(frame, path, det); continue
 
     # ---- safety layer / recovery ----
+    if t < escape_until:
+        err = wrap(open_direction(ranges))
+        if abs(err) < 0.25:
+            escape_until = 0.0                    # facing open space: let the planner take over again
+        else:
+            drive(0, 1.5 if err > 0 else -1.5)
+            show(frame, path, det); continue
+    if t < backoff_until and t - last_tilt > 1.0 and _grav.get("a", 0.0) < TILT_MAX / 2 and \
+            last_tilt > backoff_until - 3.5:
+        backoff_until = t                         # tilt back-off: level again, off the edge -> stop reversing
     if t < backoff_until:
-        # never reverse blind: back off only while the LiDAR shows nothing close behind
-        if rear_clearance(ranges) > SAFE_REAR:
+        # never reverse blind: back off only while the LiDAR shows nothing close behind,
+        # and stop if reversing tips the robot onto something behind it
+        if _grav.get("a", 0.0) > TILT_MAX and t - last_tilt > 3.5:
+            backoff_until = 0.0
+            drive(0, 0)
+        elif rear_clearance(ranges) > SAFE_REAR:
             drive(-0.08, 0.0)
         else:
+            start_escape(t, "no room to back off")
             drive(0, 0)
         show(frame, path, det); continue
 
@@ -1078,7 +1124,7 @@ while robot.step(dt_ms) != -1:
     if t - wd_t > 3.5:
         if math.hypot(x - wd_xy[0], y - wd_xy[1]) < 0.08 and path:
             print(f"[sar] stuck at ({x:.2f},{y:.2f}) -> recovery")
-            backoff_until = t + 1.0; path = None
+            start_backoff(t, 1.0, "stuck"); path = None
             if state == "EXPLORE" and goal:
                 banned.append(goal); mark_seen_around(*goal); goal = None
             if state == "APPROACH":
@@ -1096,7 +1142,7 @@ while robot.step(dt_ms) != -1:
         if blocked_since is None:
             blocked_since = t
         if t - blocked_since > 2.5:
-            backoff_until = t + 0.8; blocked_since = None; path = None
+            start_backoff(t, 0.8, "blocked"); blocked_since = None; path = None
             if state == "EXPLORE" and goal:
                 banned.append(goal); goal = None
         # still allowed to rotate toward the path so we can turn away from walls
@@ -1130,5 +1176,5 @@ while robot.step(dt_ms) != -1:
                 path = None; arrived = True
 
     if int(t / DT) % 30 == 0:
-        print(f"[dbg] t={t:.1f} {state} scanmatch={_match['n']}x/{_match['total']:.2f}m pose=({x:.2f},{y:.2f},{th:.2f}) goal={goal} clear={front_clearance(ranges):.2f} det={det[:2] if det else None}")
+        print(f"[dbg] t={t:.1f} {state} scanmatch={_match['n']}x/{_match['total']:.2f}m pose=({x:.2f},{y:.2f},{th:.2f}) goal={goal} clear={front_clearance(ranges):.2f} tilt={math.degrees(_grav.get('a', 0.0)):.1f} det={det[:2] if det else None}")
     show(frame, path, det)
