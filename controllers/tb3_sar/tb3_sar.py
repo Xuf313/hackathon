@@ -74,6 +74,8 @@ N = int(2 * MAP_HALF / RES)
 INFLATE = ROBOT_RADIUS + 0.09        # obstacle inflation radius
 SAFE_FRONT = 0.20                    # emergency stop distance (from lidar centre)
 SAFE_REAR = 0.25                     # only back off when nothing is closer than this behind the robot
+TILT_MAX = math.radians(4.0)         # tipping more than this = driving onto something too low for the LiDAR
+                                     # (carpet edge, first stair, a fallen object): stop and mark it
 
 robot = Robot()
 dt_ms = int(robot.getBasicTimeStep())
@@ -88,6 +90,7 @@ MAX_WHEEL = min(lm.getMaxVelocity(), rm.getMaxVelocity())   # read the real limi
 le = lm.getPositionSensor(); le.enable(dt_ms)
 re_ = rm.getPositionSensor(); re_.enable(dt_ms)
 compass = robot.getDevice("compass"); compass.enable(dt_ms)
+accel = robot.getDevice("accelerometer"); accel.enable(dt_ms)
 lidar = robot.getDevice("LDS-01"); lidar.enable(dt_ms)
 camera = robot.getDevice("camera"); camera.enable(dt_ms)
 CW, CH = camera.getWidth(), camera.getHeight()
@@ -117,6 +120,9 @@ x, y, th = START
 logodds = np.zeros((N, N), np.float32)
 known = np.zeros((N, N), bool)
 cam_seen = np.zeros((N, N), bool)     # floor cells the camera has actually looked at
+hazard = np.zeros((N, N), bool)       # low obstacles found by tipping (invisible to the LiDAR)
+_grav = {"ref": None, "f": None, "n": 0}  # gravity when standing flat / filtered reading / steps over TILT_MAX
+last_cmd = [0.0, 0.0]                # last (v, w) sent to the wheels
 CAM_RANGE = 3.0                       # floor counts as "searched" only this close (detection itself works to 6 m)
 NEAR_OBST = 0.30                      # floor this close to walls/furniture (where objects get tucked away) ...
 NEAR_OBST_RANGE = 1.8                 # ... only counts as searched when seen from closer than this
@@ -277,7 +283,7 @@ def mark_seen_around(px, py, rad=0.4):
 
 
 def cost_maps():
-    occ = (logodds > 0.6).astype(np.uint8)
+    occ = ((logodds > 0.6) | hazard).astype(np.uint8)
     dist = cv2.distanceTransform(1 - occ, cv2.DIST_L2, 5) * RES
     blocked = dist < INFLATE
     penalty = np.clip(0.45 - dist, 0, None) * 8.0
@@ -485,6 +491,7 @@ def drive(v, w):
     lim = 0.99 * MAX_WHEEL           # stay just under the motor limit (float rounding triggers Webots warnings)
     k = max(1.0, abs(wl) / lim, abs(wr) / lim)
     lm.setVelocity(max(-lim, min(lim, wl / k))); rm.setVelocity(max(-lim, min(lim, wr / k)))
+    last_cmd[0], last_cmd[1] = v, w
 
 
 # ---------------- local costmap (rolling window, robot frame) + DWA local planner ----------------
@@ -521,6 +528,16 @@ def update_local_costmap(ranges):
     c = ((px + LOCAL_SIZE / 2) / RES).astype(int); r = ((py + LOCAL_SIZE / 2) / RES).astype(int)
     m = (r >= 0) & (r < LN) & (c >= 0) & (c < LN)
     local_occ[r[m], c[m]] = 1
+    # low obstacles the LiDAR can't see, remembered in the global hazard layer
+    k = int(LOCAL_SIZE / RES); r0, c0 = to_cell(x, y)
+    ra, ca = max(0, r0 - k), max(0, c0 - k)
+    hr, hc = np.nonzero(hazard[ra:r0 + k + 1, ca:c0 + k + 1])
+    if hr.size:
+        wx = X0 + (hc + ca + 0.5) * RES - x; wy = Y0 + (hr + ra + 0.5) * RES - y
+        lx = wx * math.cos(th) + wy * math.sin(th); ly = -wx * math.sin(th) + wy * math.cos(th)
+        c = ((lx + LOCAL_SIZE / 2) / RES).astype(int); r = ((ly + LOCAL_SIZE / 2) / RES).astype(int)
+        m = (r >= 0) & (r < LN) & (c >= 0) & (c < LN)
+        local_occ[r[m], c[m]] = 1
     local_dist[:] = cv2.distanceTransform(1 - local_occ, cv2.DIST_L2, 5) * RES
 
 
@@ -577,6 +594,35 @@ def front_clearance(ranges, half_deg=35):
     seg = ranges[i0 - k:i0 + k + 1]
     seg = seg[np.isfinite(seg) & (seg > 0.11)]
     return float(seg.min()) if seg.size else LMAX
+
+
+def tilt():
+    """Angle (rad) between the current gravity direction and the one measured standing flat at the start."""
+    a = np.array(accel.getValues(), dtype=float)
+    if not np.all(np.isfinite(a)) or np.linalg.norm(a) < 5.0:
+        return 0.0                                            # sensor not ready yet
+    # wheel speeds change instantly in Webots, so starting / braking gives one-step jolts: low-pass filter
+    _grav["f"] = a if _grav["f"] is None else 0.8 * _grav["f"] + 0.2 * a
+    g = _grav["f"] / np.linalg.norm(_grav["f"])
+    if _grav["ref"] is None:
+        _grav["ref"] = g
+        return 0.0
+    return math.acos(max(-1.0, min(1.0, float(g @ _grav["ref"]))))
+
+
+def tipping():
+    """True once the robot has been tilted past TILT_MAX for 3 steps in a row (a real tip, not a jolt)."""
+    _grav["a"] = tilt()
+    _grav["n"] = _grav["n"] + 1 if _grav["a"] > TILT_MAX else 0
+    return _grav["n"] >= 3
+
+
+def mark_hazard(forward):
+    """Mark a small patch just ahead of (or behind) the robot as an obstacle, not the robot's own spot."""
+    d = 0.20 if forward else -0.20
+    r0, c0 = to_cell(x + d * math.cos(th), y + d * math.sin(th))
+    k = int(0.08 / RES)
+    hazard[max(0, r0 - k):r0 + k + 1, max(0, c0 - k):c0 + k + 1] = True
 
 
 def rear_clearance(ranges, half_deg=40):
@@ -872,6 +918,7 @@ goal = None
 target_xy = None
 banned = []
 last_plan = -1e9
+last_tilt = -1e9
 blocked_since = None
 backoff_until = 0.0
 scan_turned = 0.0
@@ -893,6 +940,18 @@ while robot.step(dt_ms) != -1:
     near = arrived; arrived = False
     th_before = th
     update_odometry()
+    if tipping() and t - last_tilt > 2.0 and state != "DONE":
+        # tipping: something too low for the LiDAR (carpet edge, step, object) is under the wheels
+        forward = last_cmd[0] >= 0
+        print(f"[sar] tilt {math.degrees(_grav['a']):.1f} deg at ({x:.2f},{y:.2f}) -> low obstacle {'ahead' if forward else 'behind'}, "
+              f"marking it and backing away")
+        last_tilt = t
+        mark_hazard(forward)
+        path = None; last_plan = -1e9
+        if state == "EXPLORE":
+            goal = None
+        drive(0, 0)
+        backoff_until = t + 1.0 if forward else 0.0   # reversing onto it: just stop and re-plan
     ranges = np.array(lidar.getRangeImage(), dtype=np.float32)
     if int(t / DT) % MATCH_EVERY == 0 and t > 8.0:
         scan_match(ranges)

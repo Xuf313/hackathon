@@ -72,7 +72,7 @@ SCAN ──► EXPLORE ──► APPROACH        EXPLORE ──► (TO_DEST) ─
 | `HOME` | Plan back to the start pose. |
 | `DONE` | Stop. |
 
-A **safety layer** runs on every step under all states. If anything is closer than 20 cm in the driving direction, or DWA finds no safe trajectory, the robot stops, waits, backs off and re-plans. It only reverses while the LiDAR shows nothing within 25 cm behind it. A progress watchdog (no motion for 3.5 s) triggers the same recovery. Home (or a given destination) counts as reached within 0.25 m, or within 0.6 m when a wall or obstacle stops the robot getting closer, so it doesn't keep backing off next to the goal.
+A **safety layer** runs on every step under all states. If anything is closer than 20 cm in the driving direction, or DWA finds no safe trajectory, the robot stops, waits, backs off and re-plans. It only reverses while the LiDAR shows nothing within 25 cm behind it. Objects too low for the LiDAR (about 15 cm up), such as a carpet edge or the first stair, are caught by the built-in **accelerometer**: if the robot tips more than 4° for 0.2 s, it stops, backs off and marks that spot as an obstacle for both planners. A progress watchdog (no motion for 3.5 s) triggers the same recovery. Home (or a given destination) counts as reached within 0.25 m, or within 0.6 m when a wall or obstacle stops the robot getting closer, so it doesn't keep backing off next to the goal.
 
 ### 2. Localization and mapping
 
@@ -182,7 +182,7 @@ Runtime options (add them to the robot's `controllerArgs` in the world file, onl
 | Argument | Example | Effect |
 | --- | --- | --- |
 | `--dest=x,y` | `--dest=-4.94,-7.33` | after the search, drive to this destination before going home |
-| `--count=N` | `--count=2` | end the search as soon as N targets are found |
+| `--count=N` | `--count=2` | as soon as N apples are confirmed, stop searching and go straight back to the start |
 
 Optional: set `TYPESAFE_API_KEY` (and install `typesafe_sdk`) to let Jev choose frontiers.
 
