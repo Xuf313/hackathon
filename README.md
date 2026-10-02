@@ -92,7 +92,9 @@ Each found apple is stored at the median of its close-range sightings. A new sig
 - **Global path:** A* on the map, with walls padded by the robot's size. Re-planned every 1.5 s.
 - **Local planner (DWA):** tests 90 short trajectories 1.5 s ahead on a 3 × 3 m costmap rebuilt from the current scan only, so the walking pedestrian never leaves ghost obstacles.
 - **Emergency stop:** something within 20 cm in front → stop, wait, back off (only if the LiDAR shows room behind) and re-plan.
-- **Low obstacles:** the LiDAR scans about 15 cm above the floor, so a carpet edge or a step is invisible to it. The **accelerometer** catches them instead: a tilt over 6° for 0.3 s while driving forward makes the robot reverse until level and mark that spot as an obstacle for both planners.
+- **Low obstacles:** the LiDAR scans about 15 cm above the floor, so small things lying on the floor (decoy apples, a can) and carpet edges are invisible to it. Two other sensors cover this:
+  - the **camera** spots small, strongly coloured objects on the floor (any colour except the floor's own), estimates their position from where they touch the floor, and marks them as obstacles after 3 sightings, before the robot touches them. Rescued apples are marked too.
+  - the **accelerometer** catches what the camera can't, like a carpet edge: a tilt over 6° for 0.3 s while driving forward makes the robot reverse until level and mark that spot as an obstacle for both planners.
 - **Getting unstuck:** after 3 back-offs within 15 s, or with no room behind, the robot turns toward the most open direction and picks a new goal.
 - **Arriving home:** within 0.25 m of the start, or within 0.6 m when a wall stops it getting closer.
 
@@ -100,19 +102,18 @@ Each found apple is stored at the median of its close-range sightings. A new sig
 
 The robot in `apartment.wbt` has three Display overlays in the 3D view:
 
-- `camera_view`: camera image with the apple's bounding box (class, confidence, distance, bearing)
-- `map`: the map with explored and searched floor, path, start, found apples and the robot
-- `local_costmap`: the local costmap with the DWA trajectories and the chosen one
-
-Press **`c`** in the 3D view to tint the map with the planning costmap.
+- `camera_view`: a box for everything recognised: the red apple (class, confidence, distance, bearing), colour-named objects on the floor (e.g. "green apple 1.2m"), and YOLO objects it is reasonably sure about
+- `map`: the overall map with explored and searched floor, path, start, found apples and the robot
+- `local_costmap`: a 6 m costmap window around the robot, combining the global costmap (walls, no-go margin, extra cost near walls, low obstacles) with the local layer (the live LiDAR scan, DWA trajectories and the chosen one)
 
 ## Testing
 
-In our Webots runs the robot found and confirmed both red apples, with no false alarms from the decoys. Testing also found four problems, each of which led to a fix:
+In our Webots runs the robot found and confirmed both red apples, with no false alarms from the decoys. Testing also found five problems, each of which led to a fix:
 
 | Problem in testing | Fix |
 | --- | --- |
 | Fell over on a carpet edge | Tilt sensing with the accelerometer |
+| Missed the apple under the bathroom sink | Failed spots are retried instead of ignored for good |
 | Kept backing into a corner | Back-off limit, then turn toward open space |
 | Counted a found apple twice | Close-range positions; rescued apples remembered |
 | Kept reversing next to the start | Home reached within 0.6 m when a wall blocks |
@@ -164,6 +165,7 @@ YOLO runs on Apple Silicon (`mps`) when available, otherwise on the CPU. Without
 | `START` | `(-0.3, -7.5, π)` | start pose given by the organizers |
 | `TARGET_COUNT` | `2` | go home after this many apples (`None`: search the whole map) |
 | `SEMANTIC` | `True` | let recognised objects guide where to search |
+| `LOW_OBJECTS` | `True` | use the camera to spot objects too low for the LiDAR |
 | `TILT_MAX` | `6°` | tilt that counts as hitting a low obstacle |
 | `SHOW_DEBUG` | `True` | camera / map / local-costmap views |
 | `SAVE_DEBUG_FILES` | `False` | save snapshots and `sem_objects.json` next to the controller |
@@ -178,7 +180,7 @@ Almost everything this robot does is what a robotic guide dog needs:
 | --- | --- |
 | Explores a building with no prior map | Guides someone through unfamiliar buildings |
 | Dodges a walking person in real time | Walks safely through crowds |
-| Feels carpet edges by tilt | Warns about steps and curbs |
+| Sees and feels obstacles below the LiDAR | Warns about steps, curbs and trip hazards |
 | Finds target objects with its camera | Finds doors, empty seats, dropped keys |
 | Remembers the way back to the start | Leads its user home |
 
