@@ -45,6 +45,7 @@ TARGET_NAME = "red apple"
 LOOK_SPACING = 1.5                  # do a 360 deg camera look-around every time we reach a new area this far away
 VERIFY_DIST = 2.0                   # an apple only counts once it was seen clearly (round, right size) from this close
 REACH_DIST = 0.35                   # target reached when this close
+FALSE_FORGET = 90.0                 # a false alarm or unreachable target is ignored this long (s), then retried
 GOAL_TOL = 0.25                     # dest/home reached when this close
 NEAR_GOAL = 0.6                     # ... or this close when walls / obstacles stop the robot getting closer
 SHOW_DEBUG = True                   # camera / map / local costmap views
@@ -546,7 +547,8 @@ def update_local_costmap(ranges):
         wx = X0 + (hc + ca + 0.5) * RES - x; wy = Y0 + (hr + ra + 0.5) * RES - y
         lx = wx * math.cos(th) + wy * math.sin(th); ly = -wx * math.sin(th) + wy * math.cos(th)
         c = ((lx + LOCAL_SIZE / 2) / RES).astype(int); r = ((ly + LOCAL_SIZE / 2) / RES).astype(int)
-        m = (r >= 0) & (r < LN) & (c >= 0) & (c < LN)
+        # patches the robot is already standing on can't be avoided: leave them out so it can drive away
+        m = (r >= 0) & (r < LN) & (c >= 0) & (c < LN) & (np.hypot(lx, ly) > 0.20)
         local_occ[r[m], c[m]] = 1
     local_dist[:] = cv2.distanceTransform(1 - local_occ, cv2.DIST_L2, 5) * RES
 
@@ -938,7 +940,7 @@ def start_escape(t, why):
     print(f"[sar] {why} -> turning toward open space and dropping the current goal")
     backoff_until = 0.0; escape_until = t + 3.0; path = None
     if state == "EXPLORE" and goal is not None:
-        banned.append(goal); mark_seen_around(*goal); goal = None
+        banned.append(goal); goal = None
 
 
 def open_direction(ranges):
@@ -976,7 +978,7 @@ scan_turned = 0.0
 seen_count = 0
 wd_t, wd_xy = 0.0, (x, y)
 approach_fails = 0
-false_targets = []
+false_targets = []                    # (x, y, t) of false alarms / unreachable targets, ignored for a while
 found_targets = []                    # apples already reached
 close_obs = []                        # close-range position estimates of the current target
 verified = 0                          # close-range confirmations of the current target
@@ -1026,7 +1028,7 @@ while robot.step(dt_ms) != -1:
     if det and state in ("SCAN", "EXPLORE", "APPROACH") and det[1] < 6.0:
         b, dist = det[0], det[1]
         tx, ty = x + dist * math.cos(th + b), y + dist * math.sin(th + b)
-        if any(math.hypot(tx - fx, ty - fy) < 1.0 for fx, fy in false_targets) or \
+        if any(math.hypot(tx - fx, ty - fy) < 1.0 and t - ft < FALSE_FORGET for fx, fy, ft in false_targets) or \
                 any(math.hypot(tx - fx, ty - fy) < dup_tol(dist) for fx, fy in found_targets):   # already rescued
             det = None
     if det and state in ("SCAN", "EXPLORE", "APPROACH") and det[1] < 6.0:
@@ -1092,7 +1094,7 @@ while robot.step(dt_ms) != -1:
         goal = target_xy
         if (near or math.hypot(goal[0] - x, goal[1] - y) < REACH_DIST) and verified < 2:
             print(f"[sar] {TARGET_NAME} at ({goal[0]:.2f},{goal[1]:.2f}) NOT confirmed up close -> false alarm, keep exploring")
-            false_targets.append(target_xy); target_xy = None; seen_count = 0; verified = 0
+            false_targets.append((*target_xy, t)); target_xy = None; seen_count = 0; verified = 0
             state = "EXPLORE"; goal = None; path = None; last_plan = -1e9; drive(0, 0); continue
         if near or math.hypot(goal[0] - x, goal[1] - y) < REACH_DIST:
             print(f"[sar] {TARGET_NAME} confirmed up close ({verified} close views)")
@@ -1150,12 +1152,12 @@ while robot.step(dt_ms) != -1:
             print(f"[sar] stuck at ({x:.2f},{y:.2f}) -> recovery")
             start_backoff(t, 1.0, "stuck"); path = None
             if state == "EXPLORE" and goal:
-                banned.append(goal); mark_seen_around(*goal); goal = None
+                banned.append(goal); goal = None       # skipped for now, retried before the search ends
             if state == "APPROACH":
                 approach_fails += 1
                 if approach_fails >= 3:
                     print("[sar] target unreachable/false -> back to EXPLORE")
-                    false_targets.append(target_xy); target_xy = None
+                    false_targets.append((*target_xy, t)); target_xy = None
                     state = "EXPLORE"; goal = None; approach_fails = 0
         wd_t, wd_xy = t, (x, y)
 
