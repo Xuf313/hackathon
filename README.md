@@ -15,10 +15,11 @@
 
 A **TurtleBot3 Burger** in the **Webots** apartment world that runs a full search-and-rescue mission with no human input:
 
-1. **Search** the apartment for **2 red apples** lying on the floor.
+1. **Search** the whole apartment for **red apples** lying on the floor. Their number and positions are unknown.
 2. **Confirm** each apple up close, so decoys (green, purple and orange apples, a red can) don't count.
-3. **Deliver** to the safe zone at `(-4.94, -7.33)`.
-4. **Return home** to the start pose at `(-0.3, -7.5)`.
+3. **Return home** to the start pose at `(-0.3, -7.5)` once no reachable area is left unseen.
+
+Only the start pose is known in advance, as the hackathon rules allow: no map, no target positions, no destination and no target count. If the organizers announce a destination or a target count, they can be passed in at runtime (see [Key settings](#key-settings-top-of-tb3_sarpy)).
 
 The robot only uses its own sensors: **wheel encoders, compass, 360° LiDAR (LDS-01) and camera**. It has no GPS and no ground-truth pose, and a **pedestrian** keeps walking through the rooms.
 
@@ -30,7 +31,9 @@ The whole mission lives in one controller, [`controllers/tb3_sar/tb3_sar.py`](co
 | --- | --- |
 | **Alien** 👽 | 쳇제이야 · 칫수뛔이 · 텟까웅산 · 손옐래나 |
 
-## Results (final run)
+## Results (earlier run)
+
+> ⚠️ This run used an **earlier version** that had a fixed destination `(-4.94, -7.33)` and a fixed count of 2 apples, which the rules don't allow. Both were removed afterwards; the current version still needs a new full run in Webots.
 
 From [`controllers/tb3_sar/sar.log`](controllers/tb3_sar/sar.log):
 
@@ -39,7 +42,7 @@ From [`controllers/tb3_sar/sar.log`](controllers/tb3_sar/sar.log):
 | Start: 360° scan, compass calibration | 0 s |
 | Red apple #1 reached and confirmed (65 close views) | 298.2 s |
 | Red apple #2 reached and confirmed (173 close views) | 430.4 s |
-| Safe zone reached | 479.5 s |
+| Fixed destination reached (removed since) | 479.5 s |
 | Back home: **MISSION COMPLETE** | **502.5 s** |
 
 - **2 / 2** red apples found, **0** false alarms
@@ -53,29 +56,29 @@ From [`controllers/tb3_sar/sar.log`](controllers/tb3_sar/sar.log):
 ### 1. Mission state machine
 
 ```
-SCAN ──► EXPLORE ──► APPROACH ──► TO_DEST ──► HOME ──► DONE
-  ▲         │  ▲          │
-  └─────────┘  └──────────┘
- new area:      false alarm, or
- look 360°      more apples to find
+SCAN ──► EXPLORE ──► APPROACH        EXPLORE ──► (TO_DEST) ──► HOME ──► DONE
+  ▲         │  ▲          │          search over:  only with
+  └─────────┘  └──────────┘          nothing left  --dest
+ new area:      false alarm, or      unseen
+ look 360°      apple rescued
 ```
 
 | State | What the robot does |
 | --- | --- |
 | `SCAN` | Spins 360° to build the first map and look around. Repeated in every new area at least 1.5 m from earlier look spots, because the camera only sees ahead. |
-| `EXPLORE` | Frontier exploration: BFS to candidate frontiers, a semantic score, then A* and path following. |
+| `EXPLORE` | Frontier exploration: BFS to candidate frontiers, a semantic score, then A* and path following. The search is over when no reachable floor is left unseen (checked twice, retrying skipped goals in between), or when `--count` targets were found. |
 | `APPROACH` | Target seen 3 times: plan to it until within 0.35 m. It needs at least 2 close-up confirmations under 2 m, or it is marked as a false alarm. |
-| `TO_DEST` | All apples found: plan to the safe zone. |
+| `TO_DEST` | Only if a destination was given with `--dest`: plan to it. Skipped otherwise. |
 | `HOME` | Plan back to the start pose. |
 | `DONE` | Stop. |
 
-A **safety layer** runs on every step under all states. If anything is closer than 20 cm in the driving direction, or DWA finds no safe trajectory, the robot stops, waits, backs off and re-plans. A progress watchdog (no motion for 3.5 s) triggers the same recovery.
+A **safety layer** runs on every step under all states. If anything is closer than 20 cm in the driving direction, or DWA finds no safe trajectory, the robot stops, waits, backs off and re-plans. It only reverses while the LiDAR shows nothing within 25 cm behind it. A progress watchdog (no motion for 3.5 s) triggers the same recovery.
 
 ### 2. Localization and mapping
 
 - **Odometry + compass.** Wheel encoders give the distance travelled and the compass gives heading. The compass sign and offset are **auto-calibrated against the encoders during the first spin**.
 - **LiDAR scan matching.** Every 5 steps the robot tries x/y shifts of ±15 cm in 2.5 cm steps. It keeps the shift where the scan best matches the walls already in the map (a truncated distance field) and applies half of it. This removes wheel-slip drift.
-- **Occupancy grid.** An 18 × 18 m log-odds grid with 5 cm cells, updated from every second LiDAR beam. Obstacles are inflated by the robot radius plus 9 cm for planning.
+- **Occupancy grid.** A 40 × 40 m log-odds grid with 5 cm cells, centred on the start pose (no prior knowledge of the building's size), updated from every second LiDAR beam. Obstacles are inflated by the robot radius plus 9 cm for planning.
 - **Camera coverage map.** Floor cells inside the camera's view cone (within 3 m) are marked as *searched*. Floor next to furniture only counts when seen from closer than 1.8 m.
 
 ### 3. Semantic exploration (`semantic.py`)
@@ -169,12 +172,17 @@ YOLO runs on Apple Silicon (`mps`) when available, otherwise on the CPU. If YOLO
 | Setting | Default | Meaning |
 | --- | --- | --- |
 | `START` | `(-0.3, -7.5, π)` | known start pose |
-| `DEST` | `(-4.94, -7.33)` | safe zone |
-| `TARGET_NAME` | `"red apple"` | `"red apple"` (colour) or `"football"` (YOLO) |
 | `SEMANTIC` | `True` | semantic frontier scoring on / off |
 | `YOLO_WEIGHTS` | `yolo_world_apartment.pt` | falls back to `yolo11n.pt` if missing |
 | `SHOW_DEBUG` | `True` | camera / map / local-costmap views |
 | `SAVE_DEBUG_FILES` | `False` | save snapshots and `sem_objects.json` next to the controller |
+
+Runtime options (add them to the robot's `controllerArgs` in the world file, only if the organizers give this information):
+
+| Argument | Example | Effect |
+| --- | --- | --- |
+| `--dest=x,y` | `--dest=-4.94,-7.33` | after the search, drive to this destination before going home |
+| `--count=N` | `--count=2` | end the search as soon as N targets are found |
 
 Optional: set `TYPESAFE_API_KEY` (and install `typesafe_sdk`) to let Jev choose frontiers.
 
@@ -182,7 +190,6 @@ Optional: set `TYPESAFE_API_KEY` (and install `typesafe_sdk`) to let Jev choose 
 
 - Generate the open-vocabulary **YOLO-World** weights (`yolo_world_apartment.pt`) for apartment-specific classes.
 - Evaluate the **Jev** frontier chooser against the local prior.
-- Try **football mode** (`TARGET_NAME = "football"`).
 - Compare the estimated pose with `tb3_ground_truth` to measure localization error.
 
 ## Presentation

@@ -2,11 +2,14 @@
 
 Mission (FSM):
   SCAN      spin 360 deg at start to build the first map and look around
-  EXPLORE   frontier exploration (BFS to nearest unknown border, A* + pure pursuit)
+  EXPLORE   frontier exploration (BFS to nearest unknown border, A* + pure pursuit); the search is over
+            when no reachable area is left unseen (or when --count targets were found)
   APPROACH  target (red apple) seen -> plan to it until within REACH_DIST
-  TO_DEST   deliver: plan to the destination (safe zone)
+  TO_DEST   deliver: plan to the destination, only if one is given with --dest
   HOME      plan back to the start pose
   DONE
+
+Only the start pose is known in advance: no map, no target positions, no destination, no target count.
 
 Safety layer runs every step: stop if anything is too close in the driving direction
 (walls, furniture, the moving pedestrian); wait, then back off and replan.
@@ -14,6 +17,7 @@ Safety layer runs every step: stop if anything is too close in the driving direc
 import heapq
 import math
 import os
+import sys
 from collections import deque
 
 import cv2
@@ -22,17 +26,22 @@ from controller import Display, Node, Robot
 
 import semantic
 
+
+def _arg(name):
+    """Value of a '--name=value' controllerArgs entry in the world file, or None."""
+    for a in sys.argv[1:]:
+        if a.startswith(f"--{name}="):
+            return a.split("=", 1)[1]
+    return None
+
+
 # ---------------- mission config (world frame, metres) ----------------
-START = (-0.3, -7.5, math.pi)       # known start pose of the robot
-DEST = (-4.94, -7.33)               # destination / "safe zone"
-TARGET_NAME = "red apple"           # "red apple" (colour detection) or "football" (YOLO COCO "sports ball")
-TARGETS = {
-    "red apple": dict(kind="color", diameter=0.10, count=2),
-    "football": dict(kind="yolo", yolo_class="soccer ball", diameter=0.22, min_conf=0.25, count=1,
-                     max_colorful=0.25),            # football is black/white: reject strongly coloured boxes
-}
-TARGET = TARGETS[TARGET_NAME]
-TARGET_COUNT = TARGET["count"]      # how many targets must be found before delivering
+START = (-0.3, -7.5, math.pi)       # known start pose of the robot (given by the rules)
+# Neither the destination nor the number of targets is known in advance. Only if the organizers
+# hand them out, pass them as controllerArgs, e.g. "--dest=-4.94,-7.33" and "--count=2".
+DEST = tuple(float(v) for v in _arg("dest").split(",")) if _arg("dest") else None
+TARGET_COUNT = int(_arg("count")) if _arg("count") else None   # None: search everywhere, rescue every target
+TARGET_NAME = "red apple"           # found by colour detection (detect_target)
 LOOK_SPACING = 1.5                  # do a 360 deg camera look-around every time we reach a new area this far away
 VERIFY_DIST = 2.0                   # a target only counts if it was confirmed (round, right size) closer than this
 REACH_DIST = 0.35                   # target reached when this close
@@ -40,7 +49,7 @@ GOAL_TOL = 0.25                     # dest/home reached when this close
 SHOW_DEBUG = True                   # camera / map / local costmap views
 SAVE_DEBUG_FILES = False            # True: also save debug snapshots here (rej_*.jpg, spotted.jpg, *_live.jpg, sem_objects.json)
 SHOW_ALL_OBJECTS = False            # False: camera shows boxes on the target only (YOLO still feeds the semantic map)
-YOLO_EVERY = 1 if TARGET["kind"] == "yolo" else 5  # YOLO-based targets need detections every frame
+YOLO_EVERY = 5                      # YOLO only feeds the semantic map: every 5th frame is enough
 YOLO_WEIGHTS = "yolo_world_apartment.pt"  # open-vocabulary YOLO-World (make_world_model.py); fallback yolo11n.pt
 SEMANTIC = True                     # semantic frontier exploration (YOLO objects bias where to search)
 YOLO_CONF = 0.2                     # sim renders score low; lecture used 0.1
@@ -53,15 +62,17 @@ MAX_WHEEL = 6.67
 V_MAX = 0.22                         # m/s (TB3 Burger max)
 W_MAX = 2.5                          # rad/s
 CAM_HEIGHT = 0.073                   # camera height above floor
-APPLE_D = TARGET["diameter"]         # target diameter (m), used for size-vs-distance checks
+APPLE_D = 0.10                       # apple diameter (m), used for size-vs-distance checks
 CAM_X = 0.02                        # camera forward offset from base
 
 # ---------------- map ----------------
 RES = 0.05
-X0, Y0 = -15.0, -15.0
-N = int(18.0 / RES)                  # covers [-15, 3] x [-15, 3]
+MAP_HALF = 20.0                      # no prior map: grid reaches this far from the start pose in every direction
+X0, Y0 = START[0] - MAP_HALF, START[1] - MAP_HALF
+N = int(2 * MAP_HALF / RES)
 INFLATE = ROBOT_RADIUS + 0.09        # obstacle inflation radius
 SAFE_FRONT = 0.20                    # emergency stop distance (from lidar centre)
+SAFE_REAR = 0.25                     # only back off when nothing is closer than this behind the robot
 
 robot = Robot()
 dt_ms = int(robot.getBasicTimeStep())
@@ -374,7 +385,6 @@ if SHOW_DEBUG or SEMANTIC:
         if not os.path.exists(os.path.join(_wdir, YOLO_WEIGHTS)):
             print(f"[sar] {YOLO_WEIGHTS} missing (run models/YOLO/make_world_model.py) -> using yolo11n.pt (COCO)")
             YOLO_WEIGHTS = "yolo11n.pt"
-            TARGETS["football"]["yolo_class"] = "sports ball"
         yolo = YOLO(os.path.join(_wdir, YOLO_WEIGHTS))
         yolo.to(YOLO_DEV)
         print(f"[sar] YOLO loaded on {YOLO_DEV}: {YOLO_WEIGHTS} ({len(yolo.names)} classes)")
@@ -410,51 +420,13 @@ def draw_yolo(frame):
         cv2.putText(frame, label, (x1 + 3, ty), font, 0.45, (0, 0, 0), 1, cv2.LINE_AA)
 
 
-sem = semantic.SemanticMap(semantic.PRIORS.get(TARGET_NAME))
+sem = semantic.SemanticMap()
 jev = semantic.JevChooser()
 if SEMANTIC:
     print(f"[sar] semantic exploration ON (chooser: {'Jev' if jev.enabled else 'local prior'})")
 
 rejects = []
 _last_rej = [-1e9]
-
-
-def detect_yolo_target(frame):
-    """Target from YOLO boxes (e.g. football = COCO 'sports ball'), with the same floor/size checks."""
-    best = None
-    rejects.clear()
-    for x1, y1, x2, y2, name, conf in yolo_boxes:
-        if name != TARGET["yolo_class"]:
-            continue
-        bw, bh = x2 - x1, y2 - y1
-        why = None
-        if conf < TARGET["min_conf"]:
-            why = f"conf {conf:.2f}"
-        elif y2 < CH / 2 + 3:
-            why = "above floor"
-        elif x1 <= 2 or x2 >= CW - 2:
-            why = "edge"
-        else:
-            # two independent distance estimates must roughly agree: from box size and from floor contact
-            d_size = FOCAL * APPLE_D / max(bw, bh)
-            d_floor = CAM_HEIGHT / math.tan(math.atan2(y2 - CH / 2, FOCAL)) + CAM_X
-            roi = cv2.cvtColor(frame[max(0, y1):y2, max(0, x1):x2], cv2.COLOR_BGR2HSV)
-            sat = float((roi[..., 1] > 120).mean()) if roi.size else 0.0
-            if not (0.35 < d_size / d_floor < 3.0):
-                why = f"dist size {d_size:.1f} vs floor {d_floor:.1f}"
-            elif sat > TARGET.get("max_colorful", 1.0):
-                why = f"too colourful ({sat:.2f})"               # a red apple labelled "sports ball"
-        if why:
-            rejects.append((why, (x1, y1, bw, bh), bw * bh))
-            continue
-        if best is None or conf > best[0]:
-            best = (conf, x1, y1, bw, bh)
-    if best is None:
-        return None
-    conf, bx, by, bw, bh = best
-    bearing = math.atan2(CW / 2 - (bx + bw / 2), FOCAL)
-    dist = FOCAL * APPLE_D / max(bw, bh) + CAM_X + APPLE_D / 2    # size-based: robust for big objects
-    return bearing, dist, (bx, by, bw, bh), conf
 
 
 def detect_target(frame):
@@ -609,6 +581,13 @@ def front_clearance(ranges, half_deg=35):
     return float(seg.min()) if seg.size else LMAX
 
 
+def rear_clearance(ranges, half_deg=40):
+    k = int(half_deg * NBEAM / 360)
+    seg = np.concatenate((ranges[:k + 1], ranges[NBEAM - k:]))   # idx 0 = straight back
+    seg = seg[np.isfinite(seg) & (seg > 0.11)]
+    return float(seg.min()) if seg.size else LMAX
+
+
 def follow(path, ranges):
     """Pure pursuit with look-ahead; returns True when the path end is reached."""
     if not path:
@@ -648,7 +627,7 @@ def draw_bbox(frame, det):
     x1, y1, x2, y2 = bx - pad, by - pad, bx + bw + pad, by + bh + pad
     blue = (255, 110, 30)
     cv2.rectangle(frame, (x1, y1), (x2, y2), blue, 2)
-    lines = [f"id: {len(found_targets) + 1}/{TARGET_COUNT}", f"class: {TARGET_NAME}", f"confidence: {conf:.2f}",
+    lines = [f"id: {len(found_targets) + 1}{count_suffix()}", f"class: {TARGET_NAME}", f"confidence: {conf:.2f}",
              f"dist: {dist:.2f} m  bearing: {math.degrees(b):+.0f} deg"]
     font, fs = cv2.FONT_HERSHEY_SIMPLEX, 0.45
     lw = max(cv2.getTextSize(l, font, fs, 1)[0][0] for l in lines) + 12
@@ -800,7 +779,7 @@ def render_map(path, size=480):
     cv2.fillPoly(view, [tri], UI_ROBOT, cv2.LINE_AA)
     cv2.polylines(view, [tri], True, (30, 22, 18), 1, cv2.LINE_AA)
 
-    _badge(view, f"{TARGET_NAME}  {len(found_targets)}/{TARGET_COUNT}")
+    _badge(view, f"{TARGET_NAME}  {len(found_targets)}{count_suffix()}")
     cv2.rectangle(view, (0, 0), (size - 1, size - 1), UI_FRAME, 2)
     return view
 
@@ -865,6 +844,15 @@ def show(frame, path, det):
 
 
 # ---------------- main loop ----------------
+def count_suffix():
+    return f"/{TARGET_COUNT}" if TARGET_COUNT else ""
+
+
+def after_search():
+    """State to switch to once the search is over: deliver if a destination was given, else go home."""
+    return "TO_DEST" if DEST else "HOME"
+
+
 state = "SCAN"
 path = None
 goal = None
@@ -882,8 +870,10 @@ found_targets = []                    # apples already reached
 verified = 0                          # close-range confirmations of the current target
 arrived = False
 look_spots = [(x, y)]                 # where 360 deg look-arounds were done
+no_frontier_rounds = 0                # times in a row nothing was left to search
 
-print(f"[sar] mission: find {TARGET_COUNT}x {TARGET_NAME} -> destination {DEST} -> home {START[:2]}")
+print(f"[sar] mission: find {f'{TARGET_COUNT}x' if TARGET_COUNT else 'every'} {TARGET_NAME}"
+      f"{f' -> destination {DEST}' if DEST else ''} -> home {START[:2]}")
 
 while robot.step(dt_ms) != -1:
     t = robot.getTime()
@@ -901,7 +891,7 @@ while robot.step(dt_ms) != -1:
         yolo_boxes = run_yolo(frame)
         if SEMANTIC and state in ("SCAN", "EXPLORE"):
             sem.add(yolo_boxes, ranges, (x, y, th), CW, FOCAL, None, NBEAM)
-    det = detect_target(frame) if TARGET["kind"] == "color" else detect_yolo_target(frame)
+    det = detect_target(frame)
     if rejects and t - _last_rej[0] > 3 and max(r[2] for r in rejects) > 80:
         _last_rej[0] = t
         print(f"[rej] t={t:.1f} {rejects[:3]}")
@@ -935,7 +925,11 @@ while robot.step(dt_ms) != -1:
 
     # ---- safety layer / recovery ----
     if t < backoff_until:
-        drive(-0.08, 0.0)
+        # never reverse blind: back off only while the LiDAR shows nothing close behind
+        if rear_clearance(ranges) > SAFE_REAR:
+            drive(-0.08, 0.0)
+        else:
+            drive(0, 0)
         show(frame, path, det); continue
 
     if state == "SCAN":
@@ -965,9 +959,9 @@ while robot.step(dt_ms) != -1:
             found_targets.append(target_xy)
             target_xy = None
             n = len(found_targets)
-            if n >= TARGET_COUNT:
-                print(f"[sar] reached {TARGET_NAME} #{n} at t={t:.1f}s -> all {TARGET_COUNT} found, heading to destination")
-                state = "TO_DEST"
+            if TARGET_COUNT and n >= TARGET_COUNT:
+                print(f"[sar] reached {TARGET_NAME} #{n} at t={t:.1f}s -> all {TARGET_COUNT} found, search over")
+                state = after_search()
             else:
                 print(f"[sar] reached {TARGET_NAME} #{n} at t={t:.1f}s -> searching for the next one")
                 state = "EXPLORE"; goal = None; target_xy = None; seen_count = 0; approach_fails = 0
@@ -992,6 +986,11 @@ while robot.step(dt_ms) != -1:
             if goal is None or path is None or cam_seen[to_cell(*goal)] or math.hypot(goal[0] - x, goal[1] - y) < 0.4 or t - last_plan > 6:
                 goal = nearest_frontier(blocked, banned)
                 if goal is None:
+                    no_frontier_rounds += 1
+                    if no_frontier_rounds >= 2:
+                        # nothing reachable is left unseen, even after retrying skipped goals: search is over
+                        print(f"[sar] search complete at t={t:.1f}s: {len(found_targets)} {TARGET_NAME}(s) found")
+                        state = after_search(); goal = None; path = None; last_plan = -1e9; drive(0, 0); continue
                     print("[sar] no frontier left; clearing banned list and spinning")
                     banned.clear(); state = "SCAN"; scan_turned = 0.0; continue
         new = astar(goal, blocked, penalty)
@@ -1047,6 +1046,8 @@ while robot.step(dt_ms) != -1:
             blocked_since = None
         if done:
             if state == "EXPLORE":
+                if goal is not None:
+                    no_frontier_rounds = 0        # reached a frontier: the search is still making progress
                 goal = None; path = None
                 # new area reached: 360 deg camera look-around (camera sees only 60 deg ahead,
                 # objects tucked beside furniture are otherwise missed)

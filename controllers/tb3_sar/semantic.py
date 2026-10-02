@@ -17,14 +17,10 @@ APPLE_PRIOR = {   # how strongly each object suggests "an apple is nearby" (kitc
     "sink": 0.5, "wine glass": 0.4, "bottle": 0.4, "chair": 0.5, "orange": 0.9, "green apple": 0.9,
     "red apple": 1.0, "apple": 1.0, "sofa": 0.2, "couch": 0.2, "potted plant": 0.2, "cabinet": 0.3,
 }
-BALL_PRIOR = {    # where a football is likely: living room / play areas
-    "sofa": 1.0, "couch": 1.0, "armchair": 0.8, "television": 0.9, "tv": 0.9, "potted plant": 0.4,
-    "bed": 0.5, "soccer ball": 1.0, "sports ball": 1.0, "cat": 0.3, "rubber duck": 0.5, "table": 0.2,
-}
-PRIORS = {"red apple": APPLE_PRIOR, "football": BALL_PRIOR}
 SKIP = {"person"}                     # dynamic: never anchor semantics on the pedestrian
-INDOOR = set(APPLE_PRIOR) | set(BALL_PRIOR) | {   # classes allowed on the map
-    "bed", "toilet", "bathtub", "washing machine", "fire extinguisher", "computer monitor", "laptop",
+INDOOR = set(APPLE_PRIOR) | {   # classes allowed on the map
+    "armchair", "television", "tv", "soccer ball", "sports ball", "cat", "rubber duck", "bed", "toilet",
+    "bathtub", "washing machine", "fire extinguisher", "computer monitor", "laptop",
     "flowers", "book", "clock", "painting", "radiator", "door", "stairs", "cardboard box",
     "vase", "cup", "keyboard", "mouse", "teddy bear"}
 W_SEM = 3.0                           # metres of detour one fully-likely object is worth
