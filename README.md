@@ -182,7 +182,7 @@ Runtime options (add them to the robot's `controllerArgs` in the world file, onl
 | Argument | Example | Effect |
 | --- | --- | --- |
 | `--dest=x,y` | `--dest=-4.94,-7.33` | after the search, drive to this destination before going home |
-| `--count=N` | `--count=2` | as soon as N apples are confirmed, stop searching and go straight back to the start |
+| `--count=N` | `--count=3` | as soon as N apples are confirmed, stop searching and go straight back to the start (default: `TARGET_COUNT = 2` in `tb3_sar.py`) |
 
 Optional: set `TYPESAFE_API_KEY` (and install `typesafe_sdk`) to let Jev choose frontiers.
 

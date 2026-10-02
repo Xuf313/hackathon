@@ -40,7 +40,7 @@ START = (-0.3, -7.5, math.pi)       # known start pose of the robot (given by th
 # Neither the destination nor the number of targets is known in advance. Only if the organizers
 # hand them out, pass them as controllerArgs, e.g. "--dest=-4.94,-7.33" and "--count=2".
 DEST = tuple(float(v) for v in _arg("dest").split(",")) if _arg("dest") else None
-TARGET_COUNT = int(_arg("count")) if _arg("count") else None   # None: search everywhere, rescue every target
+TARGET_COUNT = int(_arg("count")) if _arg("count") else 2      # go home once this many are found (None: search everywhere)
 TARGET_NAME = "red apple"           # found by colour detection (detect_target)
 LOOK_SPACING = 1.5                  # do a 360 deg camera look-around every time we reach a new area this far away
 VERIFY_DIST = 2.0                   # a target only counts if it was confirmed (round, right size) closer than this
