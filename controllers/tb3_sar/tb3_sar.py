@@ -1,18 +1,19 @@
-"""TB3 Autonomous Search & Rescue (sensors only: encoders + compass + LiDAR + camera).
+"""TurtleBot3 autonomous search & rescue controller for Webots.
 
-Mission (FSM):
-  SCAN      spin 360 deg at start to build the first map and look around
-  EXPLORE   frontier exploration (BFS to nearest unknown border, A* + pure pursuit); the search is over
-            when no reachable area is left unseen (or when --count targets were found)
-  APPROACH  target (red apple) seen -> plan to it until within REACH_DIST
-  TO_DEST   deliver: plan to the destination, only if one is given with --dest
-  HOME      plan back to the start pose
-  DONE
+The robot starts at a known pose in an unknown apartment, searches for red apples lying on the floor,
+confirms each one from close range and drives back to the start once enough apples are found.
+It only uses its own sensors: wheel encoders, compass, accelerometer, 2D LiDAR and camera.
 
-Only the start pose is known in advance: no map, no target positions, no destination, no target count.
+Mission state machine:
+  SCAN      spin 360 deg to map the surroundings and look around with the camera
+  EXPLORE   drive to the most promising unexplored spot (frontier) on the map
+  APPROACH  an apple was spotted: drive to it and confirm it up close
+  TO_DEST   optional: visit a destination given with --dest=x,y
+  HOME      drive back to the start pose
+  DONE      mission complete, stand still
 
-Safety layer runs every step: stop if anything is too close in the driving direction
-(walls, furniture, the moving pedestrian); wait, then back off and replan.
+On every step a safety layer stops the robot when something is too close in front; recovery
+(backing off, or turning toward open space) gets it out when it is stuck.
 """
 import heapq
 import math
@@ -36,26 +37,25 @@ def _arg(name):
 
 
 # ---------------- mission config (world frame, metres) ----------------
-START = (-0.3, -7.5, math.pi)       # known start pose of the robot (given by the rules)
-# Neither the destination nor the number of targets is known in advance. Only if the organizers
-# hand them out, pass them as controllerArgs, e.g. "--dest=-4.94,-7.33" and "--count=2".
+START = (-0.3, -7.5, math.pi)       # start pose (x, y, heading), given by the organizers
+# optional run-time settings from the world's controllerArgs: "--dest=x,y" and "--count=N"
 DEST = tuple(float(v) for v in _arg("dest").split(",")) if _arg("dest") else None
-TARGET_COUNT = int(_arg("count")) if _arg("count") else 2      # go home once this many are found (None: search everywhere)
-TARGET_NAME = "red apple"           # found by colour detection (detect_target)
+TARGET_COUNT = int(_arg("count")) if _arg("count") else 2      # go home after this many apples (None: search everywhere)
+TARGET_NAME = "red apple"
 LOOK_SPACING = 1.5                  # do a 360 deg camera look-around every time we reach a new area this far away
-VERIFY_DIST = 2.0                   # a target only counts if it was confirmed (round, right size) closer than this
+VERIFY_DIST = 2.0                   # an apple only counts once it was seen clearly (round, right size) from this close
 REACH_DIST = 0.35                   # target reached when this close
 GOAL_TOL = 0.25                     # dest/home reached when this close
 NEAR_GOAL = 0.6                     # ... or this close when walls / obstacles stop the robot getting closer
 SHOW_DEBUG = True                   # camera / map / local costmap views
-SAVE_DEBUG_FILES = False            # True: also save debug snapshots here (rej_*.jpg, spotted.jpg, *_live.jpg, sem_objects.json)
-SHOW_ALL_OBJECTS = False            # False: camera shows boxes on the target only (YOLO still feeds the semantic map)
-YOLO_EVERY = 5                      # YOLO only feeds the semantic map: every 5th frame is enough
-YOLO_WEIGHTS = "yolo11n.pt"         # provided COCO model (80 classes); feeds the semantic map only
-SEMANTIC = True                     # semantic frontier exploration (YOLO objects bias where to search)
-YOLO_CONF = 0.2                     # sim renders score low; lecture used 0.1
+SAVE_DEBUG_FILES = False            # also save snapshots (rej_*.jpg, spotted.jpg, *_live.jpg, sem_objects.json)
+SHOW_ALL_OBJECTS = False            # also draw every YOLO box and rejected red blob on the camera view
+YOLO_EVERY = 5                      # run YOLO on every 5th frame (it only feeds the semantic map)
+YOLO_WEIGHTS = "yolo11n.pt"         # COCO model, 80 classes
+SEMANTIC = True                     # let recognised objects (table, fridge, ...) guide where to search
+YOLO_CONF = 0.2                     # low threshold: simulated images get low confidence scores
 
-# ---------------- robot constants (from lecture notebook) ----------------
+# ---------------- TurtleBot3 Burger ----------------
 WHEEL_RADIUS = 0.033
 WHEEL_SEPARATION = 0.160
 ROBOT_RADIUS = 0.105
@@ -68,14 +68,14 @@ CAM_X = 0.02                        # camera forward offset from base
 
 # ---------------- map ----------------
 RES = 0.05
-MAP_HALF = 20.0                      # no prior map: grid reaches this far from the start pose in every direction
+MAP_HALF = 20.0                      # the building size is unknown: map 20 m around the start in every direction
 X0, Y0 = START[0] - MAP_HALF, START[1] - MAP_HALF
 N = int(2 * MAP_HALF / RES)
-INFLATE = ROBOT_RADIUS + 0.09        # obstacle inflation radius
-SAFE_FRONT = 0.20                    # emergency stop distance (from lidar centre)
-SAFE_REAR = 0.25                     # only back off when nothing is closer than this behind the robot
-TILT_MAX = math.radians(6.0)         # tipping more than this while driving = something too low for the LiDAR
-                                     # (carpet edge, first stair, a fallen object): stop and mark it
+INFLATE = ROBOT_RADIUS + 0.09        # planned paths keep the robot centre this far from obstacles
+SAFE_FRONT = 0.20                    # emergency stop when something is this close in front (from the LiDAR)
+SAFE_REAR = 0.25                     # reverse only when nothing is this close behind
+TILT_MAX = math.radians(6.0)         # tilting more than this while driving means the wheels are on something
+                                     # too low for the LiDAR to see (carpet edge, step): back off and avoid it
 
 robot = Robot()
 dt_ms = int(robot.getBasicTimeStep())
@@ -107,6 +107,7 @@ _print = print
 
 
 def print(*a):
+    """print() that also writes every line to sar.log."""
     _print(*a)
     _LOG.write(" ".join(map(str, a)) + "\n"); _LOG.flush()
 
@@ -120,8 +121,8 @@ x, y, th = START
 logodds = np.zeros((N, N), np.float32)
 known = np.zeros((N, N), bool)
 cam_seen = np.zeros((N, N), bool)     # floor cells the camera has actually looked at
-hazard = np.zeros((N, N), bool)       # low obstacles found by tipping (invisible to the LiDAR)
-_grav = {"ref": None, "f": None, "n": 0}  # gravity when standing flat / filtered reading / steps over TILT_MAX
+hazard = np.zeros((N, N), bool)       # low obstacles found by tilting (the LiDAR can't see them)
+_grav = {"ref": None, "f": None, "n": 0}  # gravity on flat floor, filtered reading, tilted steps in a row
 last_cmd = [0.0, 0.0]                # last (v, w) sent to the wheels
 CAM_RANGE = 3.0                       # floor counts as "searched" only this close (detection itself works to 6 m)
 NEAR_OBST = 0.30                      # floor this close to walls/furniture (where objects get tucked away) ...
@@ -148,6 +149,7 @@ def to_world(r, c):
 
 
 def update_odometry():
+    """Dead reckoning: distance from the wheel encoders, heading from the compass."""
     global x, y, th, prev_l, prev_r, compass_off, compass_sign, spin_acc, raw_prev
     l, r = le.getValue(), re_.getValue()
     if prev_l is None:
@@ -159,7 +161,7 @@ def update_odometry():
     ds, dth_enc = (dl + dr) / 2, (dr - dl) / WHEEL_SEPARATION
     raw = compass_raw()
     if compass_sign is None:
-        # auto-calibrate compass direction against encoders during the first spin
+        # the compass sign and offset are unknown: calibrate them against the encoders during the first spin
         spin_acc += dth_enc
         if abs(spin_acc) > 0.3:
             d = wrap(raw - raw_prev)
@@ -179,6 +181,7 @@ def update_odometry():
 
 
 def update_map(ranges):
+    """Occupancy grid update: cells along each LiDAR beam become freer, the cell the beam hits more occupied."""
     idx = np.arange(0, NBEAM, 2)
     r = ranges[idx]
     hit = np.isfinite(r) & (r < LMAX - 0.05) & (r > 0.12)
@@ -278,11 +281,13 @@ def update_cam_coverage(ranges):
 
 
 def mark_seen_around(px, py, rad=0.4):
+    """Treat the area around a spot as searched, so it isn't picked as a goal again."""
     r0, c0 = to_cell(px, py); k = int(rad / RES)
     cam_seen[max(0, r0 - k):r0 + k + 1, max(0, c0 - k):c0 + k + 1] = True
 
 
 def cost_maps():
+    """Planning costs: cells too close to walls or hazards are blocked, cells near them cost extra."""
     occ = ((logodds > 0.6) | hazard).astype(np.uint8)
     dist = cv2.distanceTransform(1 - occ, cv2.DIST_L2, 5) * RES
     blocked = dist < INFLATE
@@ -311,6 +316,7 @@ def free_start(blocked, s):
 
 
 def astar(goal_xy, blocked, penalty):
+    """A* on the grid from the robot to goal_xy; returns a list of world points, or None if unreachable."""
     s = free_start(blocked, to_cell(x, y))
     g = to_cell(*goal_xy)
     if not (0 <= g[0] < N and 0 <= g[1] < N):
@@ -327,7 +333,7 @@ def astar(goal_xy, blocked, penalty):
             n = (c[0] + dr, c[1] + dc)
             if not (0 <= n[0] < N and 0 <= n[1] < N) or blocked[n]:
                 continue
-            ng = gs[c] + w * (1 + penalty[n]) + (0.3 if not known[n] else 0)
+            ng = gs[c] + w * (1 + penalty[n]) + (0.3 if not known[n] else 0)   # prefer known floor
             if ng < gs.get(n, 1e18):
                 gs[n] = ng; parent[n] = c
                 h = math.hypot(n[0] - g[0], n[1] - g[1])
@@ -342,10 +348,11 @@ def astar(goal_xy, blocked, penalty):
 
 
 def nearest_frontier(blocked, banned):
+    """Next place to search. Candidates are the edge of the known map plus free floor the camera hasn't
+    looked at yet, found by BFS so their path distance is known; the semantic score (or Jev) picks one."""
     free = known & (logodds < -0.5)
     unk = (~known).astype(np.uint8)
     front = free & (cv2.dilate(unk, np.ones((3, 3), np.uint8)) > 0)
-    # search goal = LiDAR frontier OR free floor the camera has not looked at yet (specks removed)
     unseen = cv2.erode((free & ~cam_seen).astype(np.uint8), np.ones((3, 3), np.uint8)) > 0
     front = front | unseen
     s = free_start(blocked, to_cell(x, y))
@@ -380,7 +387,7 @@ def nearest_frontier(blocked, banned):
               f" likelihood={sem.likelihood(*g):.2f}")
     return g
 
-# ---------------- YOLO (display only: labels every object the camera sees) ----------------
+# ---------------- YOLO object detector (feeds the semantic map) ----------------
 yolo = None
 yolo_boxes = []                      # cached [(x1, y1, x2, y2, name, conf)]
 if SHOW_DEBUG or SEMANTIC:
@@ -434,7 +441,9 @@ _last_rej = [-1e9]
 
 
 def detect_target(frame):
-    """Red apple on the floor -> (bearing, distance, bbox) or None."""
+    """Find a red apple on the floor -> (bearing, distance, bbox, confidence) or None.
+    Red blobs must look round, sit on the floor, have the right size for their distance and not be part
+    of a taller red object; rejected blobs are kept in `rejects` for the log."""
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     m = cv2.inRange(hsv, (0, 130, 50), (8, 255, 255)) | cv2.inRange(hsv, (172, 130, 50), (180, 255, 255))
     m = cv2.morphologyEx(m, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
@@ -480,11 +489,12 @@ def detect_target(frame):
     cx, bottom = bx + bw / 2, by + bh
     bearing = math.atan2(CW / 2 - cx, FOCAL)
     depress = math.atan2(bottom - CH / 2, FOCAL)
-    dist = CAM_HEIGHT / math.tan(depress) + CAM_X + 0.03
+    dist = CAM_HEIGHT / math.tan(depress) + CAM_X + 0.03     # from where the apple touches the floor
     return bearing, dist, (bx, by, bw, bh), conf
 
 
 def drive(v, w):
+    """Send (v, w) as wheel speeds; both wheels are scaled down together if one would exceed its limit."""
     v = max(-V_MAX, min(V_MAX, v)); w = max(-W_MAX, min(W_MAX, w))
     wl = (v - w * WHEEL_SEPARATION / 2) / WHEEL_RADIUS
     wr = (v + w * WHEEL_SEPARATION / 2) / WHEEL_RADIUS
@@ -521,14 +531,14 @@ for k in range(_steps):
 
 
 def update_local_costmap(ranges):
-    """Rebuild the local costmap from the CURRENT scan only (moving people leave no ghosts)."""
+    """Local costmap around the robot, rebuilt from the current scan only (so a walking person leaves no
+    ghost obstacles), plus the remembered low-obstacle hazards."""
     local_occ[:] = 0
     ok = np.isfinite(ranges) & (ranges > 0.12) & (ranges < LOCAL_SIZE)
     px = ranges[ok] * np.cos(BEAM_ANG[ok]); py = ranges[ok] * np.sin(BEAM_ANG[ok])
     c = ((px + LOCAL_SIZE / 2) / RES).astype(int); r = ((py + LOCAL_SIZE / 2) / RES).astype(int)
     m = (r >= 0) & (r < LN) & (c >= 0) & (c < LN)
     local_occ[r[m], c[m]] = 1
-    # low obstacles the LiDAR can't see, remembered in the global hazard layer
     k = int(LOCAL_SIZE / RES); r0, c0 = to_cell(x, y)
     ra, ca = max(0, r0 - k), max(0, c0 - k)
     hr, hc = np.nonzero(hazard[ra:r0 + k + 1, ca:c0 + k + 1])
@@ -551,6 +561,7 @@ def dwa(lx, ly):
     ok = clear > COLLIDE
     end = TRAJ[:, -1, :]
     goal_cost = np.hypot(end[:, 0] - lx, end[:, 1] - ly)
+    # end close to the look-ahead point, stay away from obstacles, prefer driving faster
     cost = 1.0 * goal_cost + 0.8 * (1 - np.minimum(clear, 0.5) / 0.5) - 0.25 * _V / V_MAX
     cost[~ok] = np.inf
     dwa_viz["cands"], dwa_viz["ok"] = TRAJ, ok
@@ -589,6 +600,7 @@ def local_view(size=300):
 
 
 def front_clearance(ranges, half_deg=35):
+    """Closest LiDAR range within +-half_deg of straight ahead."""
     i0 = NBEAM // 2
     k = int(half_deg * NBEAM / 360)
     seg = ranges[i0 - k:i0 + k + 1]
@@ -619,7 +631,7 @@ def tipping():
 
 
 def mark_hazard(forward):
-    """Mark a small patch just ahead of (or behind) the robot as an obstacle, not the robot's own spot."""
+    """Mark a small patch just ahead of (or behind) the robot as an obstacle for both planners."""
     d = 0.20 if forward else -0.20
     r0, c0 = to_cell(x + d * math.cos(th), y + d * math.sin(th))
     k = int(0.08 / RES)
@@ -627,6 +639,7 @@ def mark_hazard(forward):
 
 
 def rear_clearance(ranges, half_deg=40):
+    """Closest LiDAR range within +-half_deg of straight behind."""
     k = int(half_deg * NBEAM / 360)
     seg = np.concatenate((ranges[:k + 1], ranges[NBEAM - k:]))   # idx 0 = straight back
     seg = seg[np.isfinite(seg) & (seg > 0.11)]
@@ -888,15 +901,14 @@ def show(frame, path, det):
             SHOW_COSTMAP[0] = not SHOW_COSTMAP[0]
 
 
-# ---------------- main loop ----------------
+# ---------------- mission helpers ----------------
 def count_suffix():
     return f"/{TARGET_COUNT}" if TARGET_COUNT else ""
 
 
 def at_goal(goal, ranges):
-    """Destination / home reached: within GOAL_TOL, or within NEAR_GOAL when the robot can't get any closer
-    (goal inside a wall's safety margin, or something right in front). Without this the robot keeps
-    hitting the safety stop next to the goal and backing off again and again."""
+    """Destination / home reached: within GOAL_TOL, or within NEAR_GOAL when a wall or obstacle stops the
+    robot getting any closer (e.g. the start pose right next to a wall)."""
     d = math.hypot(goal[0] - x, goal[1] - y)
     if d < GOAL_TOL:
         return True
@@ -921,6 +933,7 @@ def start_backoff(t, dur, reason):
 
 
 def start_escape(t, why):
+    """Turn toward open space for up to 3 s and drop the current exploration goal."""
     global backoff_until, escape_until, goal, path
     print(f"[sar] {why} -> turning toward open space and dropping the current goal")
     backoff_until = 0.0; escape_until = t + 3.0; path = None
@@ -943,10 +956,11 @@ def dup_tol(d):
 
 
 def after_search():
-    """State to switch to once the search is over: deliver if a destination was given, else go home."""
+    """State after the search: visit the destination if one was given, otherwise go home."""
     return "TO_DEST" if DEST else "HOME"
 
 
+# ---------------- main loop ----------------
 state = "SCAN"
 path = None
 goal = None
@@ -989,7 +1003,7 @@ while robot.step(dt_ms) != -1:
         if state == "EXPLORE":
             goal = None
         drive(0, 0)
-        start_backoff(t, 3.0, "tilt")                  # ended early once level again (see below)
+        start_backoff(t, 3.0, "tilt")                  # ends early once the robot is level again
     ranges = np.array(lidar.getRangeImage(), dtype=np.float32)
     if int(t / DT) % MATCH_EVERY == 0 and t > 8.0:
         scan_match(ranges)
@@ -1130,7 +1144,7 @@ while robot.step(dt_ms) != -1:
         else:
             path = new
 
-    # progress watchdog: no real motion for 5 s -> back off, forget this goal, replan
+    # progress watchdog: no real motion for 3.5 s -> back off, forget this goal, replan
     if t - wd_t > 3.5:
         if math.hypot(x - wd_xy[0], y - wd_xy[1]) < 0.08 and path:
             print(f"[sar] stuck at ({x:.2f},{y:.2f}) -> recovery")

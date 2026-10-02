@@ -1,8 +1,9 @@
-"""Semantic exploration: COCO objects seen by YOLO -> object map -> "where is the apple likely?" prior.
+"""Semantic exploration: decide where to search next using the objects YOLO recognises.
 
-Frontier choice = trade-off between travel cost and semantic likelihood:
+Objects are placed on a map (YOLO bearing + LiDAR range). Each frontier is scored by travel cost
+minus a bonus for being near objects where fruit is usually kept:
     score = path_distance - W_SEM * sum_obj prior[class] * exp(-d(frontier, obj) / SIGMA)
-Optionally a Jev (TypeSafe AI System One model) call picks among the top candidates.
+The lowest score wins. Optionally Jev (TypeSafe AI) chooses among the best candidates instead.
 """
 import math
 import os
@@ -10,15 +11,14 @@ import threading
 
 import numpy as np
 
-# Every class name below is a COCO class, i.e. something the provided yolo11n.pt model can output.
-# Nothing is taken from the competition world: the priors are general "where is fruit kept" knowledge.
-APPLE_PRIOR = {   # how strongly each object suggests "an apple is nearby" (kitchen / dining context)
+# Class names are COCO classes (what yolo11n.pt detects).
+APPLE_PRIOR = {   # how strongly each object suggests that fruit is nearby (kitchen / dining context)
     "dining table": 1.0, "bowl": 0.9, "refrigerator": 0.8, "oven": 0.7, "microwave": 0.5, "sink": 0.5,
     "chair": 0.5, "wine glass": 0.4, "bottle": 0.4, "apple": 1.0, "orange": 0.9, "banana": 0.8,
     "couch": 0.2, "potted plant": 0.2,
 }
-SKIP = {"person"}                     # dynamic: never anchor semantics on the pedestrian
-INDOOR = {                            # classes allowed on the map: COCO's indoor super-categories
+SKIP = {"person"}                     # people move: never use them as landmarks
+INDOOR = {                            # objects kept on the map: COCO's indoor categories
     # furniture
     "chair", "couch", "potted plant", "bed", "dining table", "toilet",
     # electronic
@@ -48,10 +48,10 @@ class SemanticMap:
     def __init__(self, prior=None):
         self.objects = []             # dicts: x, y, n (sightings), votes {cls: conf_sum}
         self.prior = prior if prior is not None else APPLE_PRIOR
-        self.ignore = []              # (x, y, r) zones around rescued targets: no objects mapped there
+        self.ignore = []              # (x, y, r) zones around rescued apples: nothing is mapped there
 
     def forget_near(self, wx, wy, rad):
-        """Drop objects near (wx, wy) and ignore new ones there (e.g. a rescued apple YOLO keeps seeing)."""
+        """Forget objects near (wx, wy) and ignore new ones there, so a rescued apple stops attracting the search."""
         self.objects = [o for o in self.objects if math.hypot(o["x"] - wx, o["y"] - wy) >= rad]
         self.ignore.append((wx, wy, rad))
 
@@ -102,6 +102,7 @@ class SemanticMap:
         return out
 
     def likelihood(self, wx, wy):
+        """How likely an apple is near (wx, wy), judging by the trusted objects around it."""
         s = 0.0
         for cls, ox, oy, n, share in self.reliable():
             s += self.prior.get(cls, 0.0) * share * math.exp(-math.hypot(wx - ox, wy - oy) / SIGMA)
@@ -125,8 +126,8 @@ def pick(cands, sem):
 
 # ---------------- optional: Jev (TypeSafe AI) as the high-level chooser ----------------
 class JevChooser:
-    """Asks Jev to choose among the top-K frontier candidates. Runs in a background thread
-    (70-500 ms latency) so the control loop never blocks; falls back to `pick` when unavailable."""
+    """Asks Jev to choose among the top frontier candidates. The call runs in a background thread
+    (70-500 ms) so the control loop never waits; without an API key `pick` is used instead."""
 
     def __init__(self):
         self.client = None
